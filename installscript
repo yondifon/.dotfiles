@@ -20,170 +20,115 @@ git config --global push.autoSetupRemote true
 rm $HOME/.zshrc
 ln -s $HOME/.dotfiles/shell/.zshrc $HOME/.zshrc
 
-# Symlink vim prefs
-rm $HOME/.vimrc
-ln -s $HOME/.dotfiles/shell/.vimrc $HOME/.vimrc
-rm $HOME/.vim
-ln -s $HOME/.dotfiles/shell/.vim $HOME/.vim
+# Symlink nvim prefs
+mkdir -p $HOME/.config
+rm -rf $HOME/.config/nvim
+ln -s $HOME/.dotfiles/nvim $HOME/.config/nvim
+
+# Symlink kitty prefs
+mkdir -p $HOME/.config/kitty
+ln -s $HOME/.dotfiles/kitty/kitty.conf $HOME/.config/kitty/kitty.conf
+
+# Symlink GitHub CLI prefs
+mkdir -p $HOME/.config
+rm -rf $HOME/.config/gh
+ln -s $HOME/.dotfiles/gh $HOME/.config/gh
 
 # Symlink the Mackup config
 ln -s $HOME/.dotfiles/macos/.mackup.cfg $HOME/.mackup.cfg
 
-# Fix missing font characters (see https://github.com/robbyrussell/oh-my-zsh/issues/1906)
-cd ~/.oh-my-zsh/themes/
-git checkout d6a36b1 agnoster.zsh-theme
 
 # Activate z
 cd ~/.dotfiles/shell
 chmod +x z.sh
 
-echo 'Configure npm'
-echo '-------------'
-# Create a directory for global packages and tell npm where to store globally installed packages
-mkdir "${HOME}/.npm-packages"
-npm config set prefix "${HOME}/.npm-packages"
+echo 'Install Bun'
+curl -fsSL https://bun.sh/install | bash
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+echo 'Install Laravel Herd'
+HERD_LATEST=$(curl -s https://api.github.com/repos/laravel/herd-community/releases/latest | grep -o '"tag_name": "[^"]*' | cut -d'"' -f4)
+curl -L "https://github.com/laravel/herd-community/releases/download/${HERD_LATEST}/Herd.dmg" -o /tmp/Herd.dmg
+hdiutil attach /tmp/Herd.dmg -quiet
+cp -R /Volumes/Herd/Herd.app /Applications/
+hdiutil detach /Volumes/Herd -quiet
+rm /tmp/Herd.dmg
 
 echo 'Install homebrew'
 echo '----------------'
-echo install homebrew
-sudo rm -rf /usr/local/Cellar /usr/local/.git && brew cleanup
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-echo 'Install node'
-echo '------------'
-brew install node
+echo 'Install Neovim and GitHub CLI'
+echo '------------------------------'
+brew install neovim gh
 
-echo 'Install pkg-config'
+
+
+echo 'Install Kitty'
+echo '--------------'
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+# Create local bin directory and required icon directories
+mkdir -p ~/.local/bin
+mkdir -p ~/.local/share/icons/hicolor/256x256/apps
+# Create Applications alias
+ln -sf ~/.local/kitty.app/Contents/MacOS/kitty ~/.local/bin/
+ln -sf ~/.local/kitty.app/Contents/MacOS/kitten ~/.local/bin/
+cp ~/.local/kitty.app/Contents/Resources/kitty.icns ~/.local/share/icons/hicolor/256x256/apps/kitty.png
+mkdir -p /Applications
+ln -sf ~/.local/kitty.app /Applications/kitty.app
+
+echo 'Install essential tools'
+echo '----------------------'
+# Create local bin directory for user binaries
+mkdir -p ~/.local/bin
+
+# Install global packages with bun (after bun is available)
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+echo 'Installing global packages with Bun...'
+bun install -g httpie typescript @vue/cli vite prettier eslint nodemon serve concurrently rimraf aicommits
+
+# Composer is included with Laravel Herd
+echo 'Composer installation skipped (included with Laravel Herd)'
+echo '--------------------------------------------------------'
+
+echo 'Install Laravel tools with Herd composer'
+echo '----------------------------------------'
+~/.config/herd-lite/bin/composer global require "laravel/envoy"
+~/.config/herd-lite/bin/composer global require spatie/phpunit-watcher
+
+
+# Install zsh plugins manually
+echo 'Install zsh plugins'
 echo '------------------'
-brew install pkg-config
-
-echo 'Install wget'
-echo '------------'
-brew install wget
-
-echo 'Install httpie'
-echo '--------------'
-brew install httpie
-
-echo 'Install ncdu'
-echo '------------'
-brew install ncdu
-
-echo 'Install hub'
-echo '-----------'
-brew install hub
-
-echo 'Install ack'
-echo '-----------'
-brew install ack
-
-echo 'Install doctl'
-echo '-------------'
-brew install doctl
-
-echo 'Install git secret'
-echo '------------------'
-brew install git-secret
-
-echo 'Install some nice quicklook plugins'
-echo '-----------------------------------'
-brew install --cask qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzip  suspicious-package
-
-echo 'Install php'
-echo '-----------'
-brew tap shivammathur/php
-brew install shivammathur/php/php@8.1
-brew link --overwrite --force php@8.1
-
-echo 'Install composer'
-echo '----------------'
-EXPECTED_COMPOSER_CHECKSUM="$(curl https://composer.github.io/installer.sig)"
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-ACTUAL_COMPOSER_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
-if [ "$EXPECTED_COMPOSER_CHECKSUM" != "$ACTUAL_COMPOSER_CHECKSUM" ]
-then
-    >&2 echo 'ERROR: Invalid installer checksum'
-    rm composer-setup.php
-    exit 1
-fi
-php composer-setup.php
-rm composer-setup.php
-sudo mkdir /usr/local/bin/
-sudo mv composer.phar /usr/local/bin/composer
-
-echo 'Install aicommits'
-echo '-----------------'
-npm install -g aicommits
-
-echo 'Install imagemagick'
-echo '-------------------'
-brew install imagemagick
-
-echo 'Install imagick'
-echo '---------------'
-pecl install imagick
-
-echo 'Install memcached'
-echo '-----------------'
-pecl install memcached
-
-echo 'Install xdebug'
-echo '--------------'
-pecl install xdebug
-
-echo 'Install redis'
-echo '-------------'
-pecl install redis
-
-echo 'Install laravel envoy'
-echo '---------------------'
-composer global require "laravel/envoy=~2.0"
-
-echo 'Install phpunit-watcher'
-echo '-----------------------'
-composer global require spatie/phpunit-watcher
-
-echo 'Install laravel valet'
-echo '---------------------'
-composer global require laravel/valet
-valet install
-
-echo 'Install mysql'
-echo '-------------'
-brew install mysql
-brew services start mysql
-
-echo 'Install yarn'
-echo '------------'
-brew install yarn
-
-echo 'Install ghostscript'
-echo '-------------------'
-brew install ghostscript
-
-echo 'Install mackup'
-echo '--------------'
-brew install mackup
-
-echo 'Install zsh-autosuggestions'
-echo '---------------------------'
-brew install zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+brew install zsh-autosuggestions zsh-syntax-highlighting
 
 echo '++++++++++++++++++++++++++++++'
 echo '++++++++++++++++++++++++++++++'
 echo 'All done!'
-echo 'Things to do to make the agnoster terminal theme work:'
-echo '1. Install menlo patched font included in ~/.dotfiles/misc https://gist.github.com/qrush/1595572/raw/Menlo-Powerline.otf'
-echo '2. Install patched solarized theme included in ~/.dotfiles/misc'
+echo 'Your system is now configured with:'
+echo '- Laravel Herd (PHP development environment)'
+echo '- Neovim (nvim) text editor'
+echo '- Kitty terminal emulator'
+echo '- Bun JavaScript runtime and package manager'
+echo ''
+echo 'Next steps:'
+echo '1. Install fonts for terminal theme: ~/.dotfiles/misc'
+echo '2. Configure Laravel Herd by opening the application'
+echo '3. Set macOS defaults: ~/.dotfiles/macos/set-defaults.sh'
+echo '4. Create custom aliases: ~/.dotfiles-custom/shell/.aliases'
+echo '5. Restart your terminal or run: source ~/.zshrc'
 
 echo '++++++++++++++++++++++++++++++'
-echo 'Some optional tidbits'
+echo 'Additional Notes:'
 
-echo '1. Make sure dropbox is running first. If you have not backed up via Mackup yet, then run `mackup backup` to symlink preferences for a wide collection of apps to your dropbox. If you already had a backup via mackup run `mackup restore` You'\''ll find more info on Mackup here: https://github.com/lra/mackup.'
-echo '2. Set some sensible os x defaults by running: $HOME/.dotfiles/macos/set-defaults.sh'
-echo '3. Make a .dotfiles-custom/shell/.aliases for your personal commands'
+echo '1. Neovim config is located at ~/.config/nvim/init.lua'
+echo '2. Kitty config is located at ~/.config/kitty/kitty.conf'
+echo '3. Laravel Herd replaces Valet and includes PHP/MySQL'
 
 echo '++++++++++++++++++++++++++++++'
 echo '++++++++++++++++++++++++++++++'

@@ -20,10 +20,13 @@ alias d="php artisan dusk"
 alias sshconfig="vi ~/.ssh/config"
 alias copykey='command cat ~/.ssh/id_rsa.public | pbcopy'
 alias sail='./vendor/bin/sail'
-alias tunnel='valet share -subdomain=freekmurze -region=eu'
 
 # JavaScript
 alias jest="./node_modules/.bin/jest"
+
+# Editor
+alias vim="nvim"
+alias vi="nvim"
 
 # Git
 alias gc="git checkout"
@@ -41,9 +44,8 @@ alias l="ls -laF"
 # PhpStorm
 alias phpstorm='open -a /Applications/PhpStorm.app "`pwd`"'
 
-# PHP
-alias switch-php80="brew unlink php@7.4 && brew link --overwrite --force php"
-alias switch-php74="brew unlink php && brew link --overwrite --force php@7.4"
+# PHP (using Herd)
+alias switch-php="herd php"
 
 # Redis
 alias flush-redis="redis-cli FLUSHALL"
@@ -72,14 +74,47 @@ alias sudo='sudo '
 # Scape webpage
 alias scrape="scrapeUrl"
 
-# Switch NPM
-alias npmnpm="npm config set registry https://registry.npmjs.org"
-alias npmspatie="npm config set registry https://npm.spatie.be"
+# Bun package management
+alias bunup="bun install -g @anthropic-ai/claude-code @google/gemini-cli @qodo/command @tailwindcss/language-server @vue/language-server blade-formatter eslint_d intelephense mintlify typescript typescript-language-server vscode-json-languageserver vscode-langservers-extracted"
+alias bunlist="bun pm ls -g"
+alias bunclean="bun pm cache rm"
+alias updateall="composer global update && bunup && echo 'All packages updated!'"
 
 # Restart touch bar
 alias touchbar="killall ControlStrip"
 
-alias php-log="open ~/.config/valet/Log/php-fpm.log"
-alias nginx-log="open ~/.config/valet/Log/nginx-error.log"
-alias proxy="ssh -D 1337 -f -C -q -N forge@freek.dev"
-alias claude-usage='npx ccusage blocks --live'
+alias php-log="open ~/Library/Application\ Support/Herd/logs/php.log"
+alias nginx-log="open ~/Library/Application\ Support/Herd/logs/nginx.log"
+
+# Your personal Git aliases
+alias checkout='git checkout'
+alias push='git push'
+alias pull='git pull'
+alias merge='git merge'
+alias gs='git status'
+alias gb='git branch'
+alias gl='git log --oneline --graph --decorate --all'
+alias stash='git stash'
+alias stashpop='git stash pop'
+alias rebasei='git rebase -i'
+alias reset-soft='git reset --soft HEAD~1'
+alias reset-mixed='git reset --mixed HEAD~1'
+alias reset-hard='git reset --hard HEAD~1'
+
+# Your PHP/Laravel aliases
+alias pint='./vendor/bin/pint'
+alias phpstan='./vendor/bin/phpstan'
+alias testbench='./vendor/bin/testbench'
+alias pail='vendor/bin/pail'
+alias phpunit='./vendor/bin/phpunit'
+alias paratest='./vendor/bin/paratest'
+alias pest='./vendor/bin/pest'
+alias envoy='./vendor/bin/envoy'
+
+# GitHub aliases
+alias repo="gh repo view -w"
+alias gpr="gh pr view -w"
+
+# Dotfiles management
+alias dotfiles-update="cd ~/.dotfiles && git pull && git submodule update --remote --merge && cd -"
+alias claude-update="cd ~/.dotfiles && git submodule update --remote --merge claude && cd -"

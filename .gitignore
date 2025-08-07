@@ -1,3 +1,14 @@
 shell/.yarnrc
 misc/oh-my-zsh-custom/plugins/
-.claude
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Personal customizations (don't commit these)
+shell/.dotfiles-custom/

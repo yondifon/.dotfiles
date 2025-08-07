@@ -1,3 +1,72 @@
+# Your custom artisan/testbench function
+art() {
+    # Check if vendor/bin/testbench exists and is executable
+    if [ -x "vendor/bin/testbench" ]; then
+        echo "Running vendor/bin/testbench with supplied parameters..."
+        ./vendor/bin/testbench "$@"
+    # Check if artisan exists and is executable
+    elif [ -x "artisan" ]; then
+        echo "Running artisan with supplied parameters..."
+        artisan "$@"
+    else
+        echo "Error: Neither vendor/bin/testbench nor artisan could be found or they are not executable."
+        return 1 # Exit the function with an error status
+    fi
+}
+
+# Your custom commit function
+commit() {
+  local args=()
+  local msg=""
+  local author=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --amend|-n|-S|--signoff)
+        args+=("$1")
+        ;;
+      --author)
+        shift
+        author="$1"
+        ;;
+      -m|--message)
+        shift
+        msg="$1"
+        ;;
+      *)
+        # Build message from remaining words
+        if [[ -z "$msg" ]]; then
+          msg="$1"
+        else
+          msg="$msg $1"
+        fi
+        ;;
+    esac
+    shift
+  done
+
+  if [[ -z "$msg" ]]; then
+    echo "No commit message provided."
+    return 1
+  fi
+
+  if [[ -n "$author" ]]; then
+    args+=("--author=$author")
+  fi
+
+  git commit "${args[@]}" -m "$msg"
+}
+
+# Rename branch
+renamebranch() {
+  git branch -m "$1" "$2"
+}
+
+# Stage all and commit quickly
+quickcommit() {
+  git add . && commit "$@"
+}
+
 # Run tests
 function p() {
    if [ -f vendor/bin/pest ]; then
@@ -87,19 +156,7 @@ function rector() {
    docker run -v $(pwd):/project rector/rector:latest process /project/$1 --set php80 --autoload-file /project/vendor/autoload.php 
 }
 
-#  Commit everything
-function commit() {
-  commitMessage="$*"
 
-  git add .
-
-  if [ "$commitMessage" = "" ]; then
-     aicommits
-     return
-  fi
-    
-  eval "git commit -a -m '${commitMessage}'"
-}
 
 xdebug() {
    iniFileLocation="/usr/local/etc/php/7.4/php.ini";

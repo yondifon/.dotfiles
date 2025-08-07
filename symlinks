@@ -38,4 +38,9 @@ echo 'Linking Mackup configuration...'
 rm -f $HOME/.mackup.cfg
 ln -s $HOME/.dotfiles/macos/.mackup.cfg $HOME/.mackup.cfg
 
+# Claude configuration
+echo 'Linking Claude configuration...'
+rm -rf $HOME/.claude
+ln -s $HOME/.dotfiles/claude $HOME/.claude
+
 echo 'All symlinks created successfully!'

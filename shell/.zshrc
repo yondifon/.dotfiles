@@ -51,7 +51,6 @@ export XDEBUG_CONFIG="idekey=VSCODE"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
-export PATH=$HOME/.dotfiles/bin:$PATH
 
 # Laravel Herd configuration
 export PATH="$HOME/Library/Application Support/Herd/bin:$PATH"

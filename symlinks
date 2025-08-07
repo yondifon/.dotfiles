@@ -33,11 +33,6 @@ mkdir -p $HOME/.config
 rm -rf $HOME/.config/gh
 ln -s $HOME/.dotfiles/gh $HOME/.config/gh
 
-# Mackup configuration
-echo 'Linking Mackup configuration...'
-rm -f $HOME/.mackup.cfg
-ln -s $HOME/.dotfiles/macos/.mackup.cfg $HOME/.mackup.cfg
-
 # Claude configuration
 echo 'Linking Claude configuration...'
 rm -rf $HOME/.claude

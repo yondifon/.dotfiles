@@ -2,7 +2,7 @@
 
 Personal macOS development environment setup and configuration files.
 
-Contains installation scripts for development tools, shell aliases, functions, and application settings. Configuration backups are managed via [Mackup](https://github.com/lra/mackup).
+Contains installation scripts for development tools, shell aliases, functions, and application settings.
 
 ## Installation
 
@@ -24,10 +24,11 @@ Run the bootstrap script to install or update:
 
 ## Structure
 
-- `aliases/` - Shell aliases and shortcuts
-- `functions/` - Custom shell functions
-- `install/` - Installation scripts for various tools
-- `mackup/` - Mackup configuration and backup settings
+- `shell/` - Shell configuration, aliases, and functions
+- `nvim/` - Neovim configuration
+- `kitty/` - Kitty terminal configuration  
+- `gh/` - GitHub CLI configuration
+- `macos/` - macOS system defaults
 
 ---
 

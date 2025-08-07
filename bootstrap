@@ -1,5 +1,4 @@
 #!/bin/bash
-#
 # bootstrap installs things.
 
 function bootstrapTerminal() {	

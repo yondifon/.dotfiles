@@ -9,33 +9,12 @@ echo '-----------------'
 rm -rf $HOME/.oh-my-zsh
 curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 
-# Add global gitignore
-ln -s $HOME/.dotfiles/shell/.global-gitignore $HOME/.global-gitignore
+# Create dotfiles symlinks
+source $HOME/.dotfiles/symlinks
+
+# Configure git settings
 git config --global core.excludesfile $HOME/.global-gitignore
-
-# Automatically set up remote branches
 git config --global push.autoSetupRemote true
-
-# Symlink zsh prefs
-rm $HOME/.zshrc
-ln -s $HOME/.dotfiles/shell/.zshrc $HOME/.zshrc
-
-# Symlink nvim prefs
-mkdir -p $HOME/.config
-rm -rf $HOME/.config/nvim
-ln -s $HOME/.dotfiles/nvim $HOME/.config/nvim
-
-# Symlink kitty prefs
-mkdir -p $HOME/.config/kitty
-ln -s $HOME/.dotfiles/kitty/kitty.conf $HOME/.config/kitty/kitty.conf
-
-# Symlink GitHub CLI prefs
-mkdir -p $HOME/.config
-rm -rf $HOME/.config/gh
-ln -s $HOME/.dotfiles/gh $HOME/.config/gh
-
-# Symlink the Mackup config
-ln -s $HOME/.dotfiles/macos/.mackup.cfg $HOME/.mackup.cfg
 
 
 # Activate z

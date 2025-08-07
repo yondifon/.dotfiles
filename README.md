@@ -1,23 +1,34 @@
 # My personal dotfiles
 
-My personal dotfiles. Also used by nearly all other geeks at [spatie.be](http://spatie.be) and [the amazing Frederick Vanbrabant](https://twitter.com/maybeFrederick/status/912620087538016257).
+Personal macOS development environment setup and configuration files.
 
-It contains the installation of some basic tools, some handy aliases and functions. Backups of settings are done via [Mackup](https://github.com/lra/mackup).
+Contains installation scripts for development tools, shell aliases, functions, and application settings. Configuration backups are managed via [Mackup](https://github.com/lra/mackup).
 
-You can install them by cloning the repository as `.dotfiles` in your home directory and running the bootstrap script.
+## Installation
 
-```
-git clone git@github.com:freekmurze/dotfiles.git .dotfiles
+Clone this repository as `.dotfiles` in your home directory and run the bootstrap script:
+
+```bash
+git clone <your-repo-url> .dotfiles
 cd .dotfiles
 ./bootstrap
 ```
 
-The bootstrap script can be run by cd-ing into the `.dotfiles` directory and performing this command:
+## Usage
+
+Run the bootstrap script to install or update:
 
 ```bash
 ./bootstrap
 ```
 
-Feel free to create an issue on this repo if you have any questions about them.
+## Structure
 
-![screenshot](https://freekmurze.github.io/dotfiles/screenshot.png)
+- `aliases/` - Shell aliases and shortcuts
+- `functions/` - Custom shell functions
+- `install/` - Installation scripts for various tools
+- `mackup/` - Mackup configuration and backup settings
+
+---
+
+*Thanks to [Freek Van der Herten](https://github.com/freekmurze/dotfiles) for the original structure and inspiration.*

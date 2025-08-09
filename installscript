@@ -80,10 +80,9 @@ echo '----------------------------------------'
 ~/.config/herd-lite/bin/composer global require spatie/phpunit-watcher
 
 
-# Install zsh plugins manually
+# Install zsh plugins
 echo 'Install zsh plugins'
 echo '------------------'
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 brew install zsh-autosuggestions zsh-syntax-highlighting
 
 echo '++++++++++++++++++++++++++++++'

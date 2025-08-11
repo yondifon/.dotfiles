@@ -7,7 +7,7 @@ art() {
     # Check if artisan exists and is executable
     elif [ -x "artisan" ]; then
         echo "Running artisan with supplied parameters..."
-        artisan "$@"
+        php artisan "$@"
     else
         echo "Error: Neither vendor/bin/testbench nor artisan could be found or they are not executable."
         return 1 # Exit the function with an error status

@@ -12,9 +12,6 @@ if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
   unfunction kitty-integration
 fi
 
-# Custom theme directory
-ZSH_CUSTOM=$HOME/.dotfiles/misc/oh-my-zsh-custom
-
 # Use Pure prompt instead of agnoster
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
 autoload -U promptinit; promptinit

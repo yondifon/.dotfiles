@@ -19,3 +19,10 @@ vim.keymap.set("n", "<leader>q", ":q<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("n", "<leader>\\", ":split<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>/", ":vsplit<CR>", { noremap = true, silent = true })
+
+for _, mode in ipairs({ "n", "i", "v", "t" }) do
+    vim.keymap.set(mode, "<C-h>", "<C-w>h", { noremap = true })
+    vim.keymap.set(mode, "<C-j>", "<C-w>j", { noremap = true })
+    vim.keymap.set(mode, "<C-k>", "<C-w>k", { noremap = true })
+    vim.keymap.set(mode, "<C-l>", "<C-w>l", { noremap = true })
+end

@@ -29,6 +29,7 @@ Run the bootstrap script to install or update:
 - `kitty/` - Kitty terminal configuration  
 - `gh/` - GitHub CLI configuration
 - `macos/` - macOS system defaults
+- `.tmux.conf` - Tmux terminal multiplexer configuration
 
 ---
 

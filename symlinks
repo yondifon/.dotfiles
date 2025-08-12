@@ -38,4 +38,9 @@ echo 'Linking Claude configuration...'
 rm -rf $HOME/.claude
 ln -s $HOME/.dotfiles/claude $HOME/.claude
 
+# Tmux configuration
+echo 'Linking tmux configuration...'
+rm -f $HOME/.tmux.conf
+ln -s $HOME/.dotfiles/.tmux.conf $HOME/.tmux.conf
+
 echo 'All symlinks created successfully!'

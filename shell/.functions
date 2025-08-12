@@ -262,3 +262,8 @@ function git-prune-local() {
     echo "Operation cancelled."
   fi
 }
+
+function symlinks() {
+  echo 'Re-creating dotfiles symlinks...'
+  source ~/.dotfiles/symlinks
+}

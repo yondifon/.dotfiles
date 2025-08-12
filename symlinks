@@ -36,6 +36,11 @@ echo 'Linking zsh configuration...'
 rm -f $HOME/.zshrc
 ln -s $HOME/.dotfiles/shell/.zshrc $HOME/.zshrc
 
+# Vim configuration
+echo 'Linking vim configuration...'
+rm -f $HOME/.vimrc
+ln -s $HOME/.dotfiles/vim/.vimrc $HOME/.vimrc
+
 # Neovim configuration
 echo 'Linking neovim configuration...'
 mkdir -p $HOME/.config

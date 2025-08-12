@@ -5,6 +5,27 @@
 echo 'Creating symlinks for dotfiles...'
 echo '================================='
 
+# Function to generate gitconfig from template
+generate_gitconfig() {
+    echo 'Generating git configuration from template...'
+    
+    # Load environment variables if .env exists
+    if [ -f $HOME/.dotfiles/.env ]; then
+        set -a
+        source $HOME/.dotfiles/.env
+        set +a
+    fi
+    
+    # Use envsubst to replace environment variables in template
+    envsubst < $HOME/.dotfiles/.gitconfig.template > $HOME/.dotfiles/.gitconfig.local
+}
+
+# Generate and link git configuration
+generate_gitconfig
+echo 'Linking git configuration...'
+rm -f $HOME/.gitconfig
+ln -s $HOME/.dotfiles/.gitconfig.local $HOME/.gitconfig
+
 # Global gitignore
 echo 'Linking global gitignore...'
 rm -f $HOME/.global-gitignore

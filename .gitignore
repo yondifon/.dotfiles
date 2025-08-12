@@ -1,5 +1,11 @@
 shell/.yarnrc
 
+# Environment variables (sensitive data)
+.env
+
+# Generated git configuration (contains sensitive data)
+.gitconfig.local
+
 # OS generated files
 .DS_Store
 .DS_Store?

@@ -1,6 +1,13 @@
 # Set editor
 export EDITOR="nvim"
 
+# Load environment variables from .env file
+if [ -f ~/.dotfiles/.env ]; then
+    set -a  # automatically export all variables
+    source ~/.dotfiles/.env
+    set +a  # disable automatic export
+fi
+
 # Path to your oh-my-zsh configuration
 export ZSH=$HOME/.oh-my-zsh
 

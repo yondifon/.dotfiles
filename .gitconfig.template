@@ -1,0 +1,35 @@
+[http]
+	postBuffer = 1048576000
+
+[https]
+	postBuffer = 1048576000
+
+[user]
+	name = Malico
+	email = yong@malico.me
+    signingkey = $GIT_SIGNING_KEY
+
+[core]
+	hooksPath = ~/.dotfiles/git-hooks
+	editor = vim
+
+[push]
+	autoSetupRemote = true
+
+[pull]
+	rebase = false
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+  gpgsign = true

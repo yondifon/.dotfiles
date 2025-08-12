@@ -3,6 +3,13 @@
 # Hide "last login" line when starting a new terminal session
 touch $HOME/.hushlogin
 
+# Create .env file from template if it doesn't exist
+if [ ! -f $HOME/.dotfiles/.env ]; then
+    echo 'Creating .env file from template...'
+    cp $HOME/.dotfiles/.env.example $HOME/.dotfiles/.env
+    echo 'Please edit ~/.dotfiles/.env with your actual values'
+fi
+
 # Install zsh
 echo 'Install oh-my-zsh'
 echo '-----------------'

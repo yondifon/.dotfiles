@@ -267,3 +267,33 @@ function symlinks() {
   echo 'Re-creating dotfiles symlinks...'
   source ~/.dotfiles/symlinks
 }
+
+# Tmux session management (beta)
+function sesh() {
+  local session_name=$(basename "$PWD")
+  
+  if ! command -v tmux >/dev/null 2>&1; then
+    echo "tmux is not installed"
+    return 1
+  fi
+  
+  if tmux has-session -t "$session_name" 2>/dev/null; then
+    echo "Attaching to existing session: $session_name"
+    tmux attach-session -t "$session_name"
+  else
+    echo "Creating new session: $session_name"
+    tmux new-session -s "$session_name"
+  fi
+}
+
+# Close current tmux session (beta)
+function bye() {
+  if [ -z "$TMUX" ]; then
+    echo "Not in a tmux session"
+    return 1
+  fi
+  
+  local current_session=$(tmux display-message -p '#S')
+  echo "Closing session: $current_session"
+  tmux kill-session
+}

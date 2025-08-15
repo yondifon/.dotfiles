@@ -8,8 +8,6 @@ if [ -f ~/.dotfiles/.env ]; then
     set +a  # disable automatic export
 fi
 
-# Path to your oh-my-zsh configuration
-export ZSH=$HOME/.oh-my-zsh
 
 # Kitty integration
 if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
@@ -28,9 +26,7 @@ prompt pure
 DEFAULT_USER=`whoami`
 
 # Plugins
-plugins=(git composer macos)
-
-source $ZSH/oh-my-zsh.sh
+plugins=(git docker composer macos)
 
 # Load the shell dotfiles, and then some:
 # * ~/.dotfiles-custom can be used for other settings you don’t want to commit.

@@ -69,4 +69,10 @@ echo 'Linking tmux configuration...'
 rm -f $HOME/.tmux.conf
 ln -s $HOME/.dotfiles/.tmux.conf $HOME/.tmux.conf
 
+# Lazygit configuration
+echo 'Linking lazygit configuration...'
+LAZYGIT_CONFIG_DIR=$(lazygit -cd)
+rm -f "$LAZYGIT_CONFIG_DIR/config.yml"
+ln -s $HOME/.dotfiles/lazygit/config.yml "$LAZYGIT_CONFIG_DIR/config.yml"
+
 echo 'All symlinks created successfully!'

@@ -90,6 +90,12 @@ return {
                 require("telescope.builtin").lsp_document_symbols()
             end,
         },
+        {
+            "gl",
+            function()
+                require("telescope.builtin").lsp_references()
+            end,
+        },
     },
     config = function()
         local actions = require("telescope.actions")
@@ -134,8 +140,8 @@ return {
                     initial_mode = "normal",
                 },
                 lsp_references = {
-                    previewer = false,
                     sort_lastused = true,
+                    initial_mode = "normal",
                 },
                 lsp_definitions = {
                     previewer = false,

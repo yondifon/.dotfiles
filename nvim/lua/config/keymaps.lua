@@ -14,7 +14,7 @@ vim.keymap.set("i", ",,", "<Esc>A,<Esc>")
 
 vim.keymap.set({ "n", "v" }, "<leader>rr", vim.lsp.buf.rename)
 
-vim.keymap.set("n", "<leader>w", ":w<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>w", ":silent! w<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>q", ":q<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("n", "<leader>\\", ":split<CR>", { noremap = true, silent = true })

@@ -1,2 +1,7 @@
 os:
   editPreset: "nvim"
+gui:
+  showCommandLog: false
+  showFileTree: false
+  showBottomLine: false
+  showRandomTip: false

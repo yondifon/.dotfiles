@@ -94,7 +94,7 @@ return {
 		"dmtrKovalenko/fold-imports.nvim",
 		opts = {
 			custom_fold_text = true,
-			fold_text_format = "-/ (%d lines)",
+			fold_text_format = "> (%d lines)",
 			languages = {
 				php = {
 					enabled = true,

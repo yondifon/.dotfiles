@@ -145,18 +145,10 @@ function weather() {
    curl http://wttr.in/${city// /+}\?F
 }
 
-alias mysqladm='mysql -u root'
-
 # Scrape a single webpage with all assets
 function scrapeUrl() {
     wget --adjust-extension --convert-links --page-requisites --span-hosts --no-host-directories "$1"
 }
-
-function rector() {
-   docker run -v $(pwd):/project rector/rector:latest process /project/$1 --set php80 --autoload-file /project/vendor/autoload.php 
-}
-
-
 
 xdebug() {
    iniFileLocation="/usr/local/etc/php/7.4/php.ini";
@@ -272,6 +264,9 @@ function symlinks() {
 function sesh() {
   local session_name=$(basename "$PWD")
   
+  # Parse session name: convert .dotfiles to _dotfiles
+  session_name=${session_name//./_}
+  
   if ! command -v tmux >/dev/null 2>&1; then
     echo "tmux is not installed"
     return 1
@@ -294,6 +289,8 @@ function bye() {
   fi
   
   local current_session=$(tmux display-message -p '#S')
-  echo "Closing session: $current_session"
+  # Parse session name: convert _dotfiles back to .dotfiles for display
+  local display_session=${current_session//_/.}
+  echo "Closing session: $display_session"
   tmux kill-session
 }

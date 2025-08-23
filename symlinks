@@ -49,9 +49,9 @@ ln -s $HOME/.dotfiles/nvim $HOME/.config/nvim
 
 # Kitty terminal configuration
 echo 'Linking kitty configuration...'
-mkdir -p $HOME/.config/kitty
-rm -f $HOME/.config/kitty/kitty.conf
-ln -s $HOME/.dotfiles/kitty/kitty.conf $HOME/.config/kitty/kitty.conf
+mkdir -p $HOME/.config
+rm -rf $HOME/.config/kitty
+ln -s $HOME/.dotfiles/kitty $HOME/.config/kitty
 
 # GitHub CLI configuration
 echo 'Linking GitHub CLI configuration...'

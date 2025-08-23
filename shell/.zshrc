@@ -89,3 +89,39 @@ export ACT_CACHE_AUTH_KEY=foo
 # Sources for zsh enhancements
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Dynamic tmux theme - detect if we're in Kitty
+if [ -n "$KITTY_WINDOW_ID" ]; then
+  # Detect system theme and set appropriate colors
+  if [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]]; then
+    # Dark theme colors (Catppuccin Mocha)
+    BG_COLOR="#001"
+    FG_COLOR="#cdd6f4" 
+    SUBTLE_COLOR="#585b70"
+    ACTIVE_TAB_BG="#181825"  # Lighter for contrast in dark mode
+  else
+    # Light theme colors (Catppuccin Latte)  
+    BG_COLOR="#eff1f5"
+    FG_COLOR="#4c4f69"
+    SUBTLE_COLOR="#6c6f85"
+    ACTIVE_TAB_BG="#dce0e8"  # Darker for contrast in light mode
+  fi
+  
+  # Set status bar colors using theme colors
+  tmux set-option -g status-style "bg=$BG_COLOR,fg=$FG_COLOR"
+  tmux set-option -g status-bg "$BG_COLOR"
+  tmux set-option -g status-fg "$FG_COLOR"
+  
+  # Set window status colors to be subtle
+  tmux set-window-option -g window-status-style "bg=$BG_COLOR,fg=$SUBTLE_COLOR"
+  tmux set-window-option -g window-status-current-style "bg=$ACTIVE_TAB_BG,fg=$FG_COLOR"
+  
+  # Minimal window format
+  tmux set-window-option -g window-status-format " #I:#W "
+  tmux set-window-option -g window-status-current-format " #I:#W "
+  tmux set-window-option -g window-status-separator ""
+  
+  # Set message colors
+  tmux set-option -g message-style "bg=$BG_COLOR,fg=$FG_COLOR"
+fi
+

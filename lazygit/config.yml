@@ -5,3 +5,11 @@ gui:
   showFileTree: false
   showBottomLine: false
   showRandomTip: false
+
+keybinding:
+  universal:
+    select: "a" # Stage/select (was <space>)
+  files:
+    toggleStagedAll: "A" # Stage all files
+    stashAllChanges: "s" # Stash changes
+    amendLastCommit: "m" # Amend last commit (suggested: 'm' for "modify")

@@ -1,10 +1,16 @@
 os:
   editPreset: "nvim"
 gui:
-  showCommandLog: false
-  showFileTree: false
-  showBottomLine: false
-  showRandomTip: false
+  showCommandLog: false # remove lower-left command log
+  showBottomLine: false # hide key-hint/status line at the very bottom
+  showRandomTip: false # no tips on startup
+  showListFooter: false # no “5 of 20” footer in list views
+  showPanelJumps: false # don’t print “1-5” window-jump hints
+  commitLength:
+    show: false # turn off commit-length ruler
+  expandFocusedSidePanel: true
+  showFileTree: true
+  showRootItemInFileTree: false
 
 keybinding:
   universal:

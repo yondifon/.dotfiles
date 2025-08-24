@@ -42,6 +42,7 @@ vim.opt.titlestring = "%f // nvim"
 vim.opt.inccommand = "split"
 vim.opt.shell = vim.env.SHELL
 vim.opt.shellcmdflag = "-ic"
+vim.opt.shortmess:append("F")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()

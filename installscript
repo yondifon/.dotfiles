@@ -75,7 +75,7 @@ mkdir -p ~/.local/bin
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 echo 'Installing global packages with Bun...'
-bun install -g httpie typescript @vue/cli vite prettier eslint nodemon serve concurrently rimraf aicommits
+bun install -g typescript @vue/cli vite prettier eslint concurrently rimraf 
 
 # Composer is included with Laravel Herd
 echo 'Composer installation skipped (included with Laravel Herd)'
@@ -83,8 +83,9 @@ echo '--------------------------------------------------------'
 
 echo 'Install Laravel tools with Herd composer'
 echo '----------------------------------------'
-~/.config/herd-lite/bin/composer global require "laravel/envoy"
-~/.config/herd-lite/bin/composer global require spatie/phpunit-watcher
+COMPOSER_PATH=$(which composer)
+$COMPOSER_PATH global require "laravel/envoy"
+$COMPOSER_PATH global require "rector/rector"
 
 
 # Install zsh plugins

@@ -1,23 +1,17 @@
 #!/bin/sh
 
-# Find all staged PHP files
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.php$')
 
-# Exit if no PHP files are staged
 if [ -z "$STAGED_FILES" ]; then
   exit 0
 fi
 
-# Run Rector on staged PHP files
 echo "Running Rector on staged PHP files..."
-for FILE in $STAGED_FILES; do
-  # Assuming Rector is globally installed or you have a wrapper script to handle it
-  rector process "$FILE" --dry-run
-  if [ $? -ne 0 ]; then
-    echo "Rector found issues in $FILE."
-    exit 1
-  fi
-done
+echo "$STAGED_FILES" | xargs -L1 -P$(sysctl -n hw.ncpu) rector process --dry-run --quiet
+
+if [ $? -ne 0 ]; then
+  echo "Rector found issues in staged files."
+  exit 1
+fi
 
 echo "All PHP files processed successfully."
-

@@ -8,14 +8,14 @@ echo '================================='
 # Function to generate gitconfig from template
 generate_gitconfig() {
     echo 'Generating git configuration from template...'
-    
+
     # Load environment variables if .env exists
     if [ -f $HOME/.dotfiles/.env ]; then
         set -a
         source $HOME/.dotfiles/.env
         set +a
     fi
-    
+
     # Use envsubst to replace environment variables in template
     envsubst < $HOME/.dotfiles/git/.gitconfig.template > $HOME/.dotfiles/.gitconfig.local
 }
@@ -28,10 +28,10 @@ ln -s $HOME/.dotfiles/.gitconfig.local $HOME/.gitconfig
 
 # Global gitignore
 echo 'Linking global gitignore...'
-rm -f $HOME/.global-gitignore
+rm -f $HOME/.gitignore_global
 ln -s $HOME/.dotfiles/git/.gitignore_global $HOME/.gitignore_global
 
-# Zsh configuration  
+# Zsh configuration
 echo 'Linking zsh configuration...'
 rm -f $HOME/.zshrc
 ln -s $HOME/.dotfiles/shell/.zshrc $HOME/.zshrc

@@ -10,7 +10,7 @@
     signingkey = $GIT_SIGNING_KEY
 
 [core]
-	hooksPath = ~/.dotfiles/git-hooks
+	hooksPath = ~/.dotfiles/git/hooks
 	editor = vim
 	excludesfile = ~/.gitignore_global
 

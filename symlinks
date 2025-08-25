@@ -17,7 +17,7 @@ generate_gitconfig() {
     fi
     
     # Use envsubst to replace environment variables in template
-    envsubst < $HOME/.dotfiles/.gitconfig.template > $HOME/.dotfiles/.gitconfig.local
+    envsubst < $HOME/.dotfiles/git/.gitconfig.template > $HOME/.dotfiles/.gitconfig.local
 }
 
 # Generate and link git configuration
@@ -29,7 +29,7 @@ ln -s $HOME/.dotfiles/.gitconfig.local $HOME/.gitconfig
 # Global gitignore
 echo 'Linking global gitignore...'
 rm -f $HOME/.global-gitignore
-ln -s $HOME/.dotfiles/shell/.global-gitignore $HOME/.global-gitignore
+ln -s $HOME/.dotfiles/git/.gitignore_global $HOME/.gitignore_global
 
 # Zsh configuration  
 echo 'Linking zsh configuration...'

@@ -7,7 +7,7 @@ if [ -z "$STAGED_FILES" ]; then
 fi
 
 echo "Running Rector on staged PHP files..."
-echo "$STAGED_FILES" | xargs -L1 -P$(sysctl -n hw.ncpu) rector process --dry-run --quiet
+echo "$STAGED_FILES" | xargs -L1 -P$(sysctl -n hw.ncpu) rector process --dry-run
 
 if [ $? -ne 0 ]; then
   echo "Rector found issues in staged files."

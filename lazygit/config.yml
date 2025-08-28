@@ -11,6 +11,31 @@ gui:
   expandFocusedSidePanel: true
   showFileTree: true
   showRootItemInFileTree: false
+  theme:
+    activeBorderColor:
+      - "#04a5e5"
+      - bold
+    inactiveBorderColor:
+      - "#6c6f85"
+    optionsTextColor:
+      - "#1e66f5"
+    selectedLineBgColor:
+      - "#cdd0da"
+    selectedRangeBgColor:
+      - "#e8e8e8"
+    cherryPickedCommitBgColor:
+      - "#bcc0cc"
+    cherryPickedCommitFgColor:
+      - "#04a5e5"
+    unstagedChangesColor:
+      - "#d20f39"
+    defaultFgColor:
+      - "#4c4f69"
+    searchingActiveBorderColor:
+      - "#df8e1d"
+
+  authorColors:
+    "*": "#7287fd"
 
 keybinding:
   universal:

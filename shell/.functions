@@ -294,3 +294,89 @@ function bye() {
   echo "Closing session: $display_session"
   tmux kill-session
 }
+
+# Rector wrapper function
+rec() {
+  if [ ! -f "./rector.php" ]; then
+    echo "Generating rector.php..."
+    
+    # Array of folders to ignore
+    local ignore_dirs=("vendor" "node_modules" ".git")
+    
+    # Get all directories
+    local all_dirs=()
+    while IFS= read -r -d '' dir; do
+      all_dirs+=("$dir")
+    done < <(find . -type d | tr '\n' '\0')
+    
+    # Find base directories that contain PHP files
+    local php_dirs=()
+    local added_paths=()
+    
+    for dir in "${all_dirs[@]}"; do
+      # Check if dir should be ignored
+      local should_ignore=false
+      for ignore_dir in "${ignore_dirs[@]}"; do
+        if [[ "$dir" == *"/$ignore_dir"* ]] || [[ "$dir" == "./$ignore_dir"* ]]; then
+          should_ignore=true
+          break
+        fi
+      done
+      
+      if [[ "$should_ignore" == false ]]; then
+        # Check for PHP files in this directory (not subdirectories)
+        if find "$dir" -maxdepth 1 -name "*.php" -type f | grep -q .; then
+          # Check if this directory is a subdirectory of an already added path
+          local is_nested=false
+          for added_path in "${added_paths[@]}"; do
+            if [[ "$dir" == "$added_path"/* ]]; then
+              is_nested=true
+              break
+            fi
+          done
+          
+          if [[ "$is_nested" == false ]]; then
+            if [ "$dir" = "." ]; then
+              php_dirs+=("__DIR__")
+              added_paths+=(".")
+            else
+              php_dirs+=("__DIR__ . '/${dir#./}'")
+              added_paths+=("$dir")
+            fi
+          fi
+        fi
+      fi
+    done
+    
+    # Generate rector.php
+    cat > rector.php << 'EOF'
+<?php
+
+use Rector\Config\RectorConfig;
+
+return RectorConfig::configure()
+    ->withPaths([
+EOF
+    
+    # Add paths
+    for dir in "${php_dirs[@]}"; do
+      echo "        $dir," >> rector.php
+    done
+    
+    cat >> rector.php << 'EOF'
+    ])
+    ->withSkip([
+        __DIR__ . '/vendor/*',
+    ])
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: true,
+        earlyReturn: true,
+    );
+EOF
+    
+    echo "Created rector.php with paths for PHP directories"
+  fi
+  
+  rector --config "./rector.php" "$@"
+}

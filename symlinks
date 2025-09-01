@@ -75,4 +75,10 @@ LAZYGIT_CONFIG_DIR=$(lazygit -cd)
 rm -f "$LAZYGIT_CONFIG_DIR/config.yml"
 ln -s $HOME/.dotfiles/lazygit/config.yml "$LAZYGIT_CONFIG_DIR/config.yml"
 
+# Rector configuration
+echo 'Linking rector configuration...'
+rm -f $HOME/.rector/rector.php
+mkdir -p $HOME/.rector
+ln -s $HOME/.dotfiles/rector.php $HOME/.rector/rector.php
+
 echo 'All symlinks created successfully!'

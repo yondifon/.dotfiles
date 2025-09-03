@@ -298,84 +298,55 @@ function bye() {
 # Rector wrapper function
 rec() {
   if [ ! -f "./rector.php" ]; then
-    echo "Generating rector.php..."
+    echo "Copying rector.php from dotfiles..."
+    cp ~/.dotfiles/rector.php ./rector.php
     
-    # Array of folders to ignore
-    local ignore_dirs=("vendor" "node_modules" ".git")
-    
-    # Get all directories
-    local all_dirs=()
-    while IFS= read -r -d '' dir; do
-      all_dirs+=("$dir")
-    done < <(find . -type d | tr '\n' '\0')
-    
-    # Find base directories that contain PHP files
+    # Find PHP directories and files
     local php_dirs=()
-    local added_paths=()
     
-    for dir in "${all_dirs[@]}"; do
-      # Check if dir should be ignored
-      local should_ignore=false
-      for ignore_dir in "${ignore_dirs[@]}"; do
-        if [[ "$dir" == *"/$ignore_dir"* ]] || [[ "$dir" == "./$ignore_dir"* ]]; then
-          should_ignore=true
-          break
-        fi
-      done
-      
-      if [[ "$should_ignore" == false ]]; then
-        # Check for PHP files in this directory (not subdirectories)
-        if find "$dir" -maxdepth 1 -name "*.php" -type f | grep -q .; then
-          # Check if this directory is a subdirectory of an already added path
-          local is_nested=false
-          for added_path in "${added_paths[@]}"; do
-            if [[ "$dir" == "$added_path"/* ]]; then
-              is_nested=true
-              break
-            fi
-          done
-          
-          if [[ "$is_nested" == false ]]; then
-            if [ "$dir" = "." ]; then
-              php_dirs+=("__DIR__")
-              added_paths+=(".")
-            else
-              php_dirs+=("__DIR__ . '/${dir#./}'")
-              added_paths+=("$dir")
-            fi
-          fi
-        fi
+    # Check for PHP files in root directory and add their full paths
+    while IFS= read -r -d '' file; do
+      if [[ "$file" == "./vendor/"* ]] || [[ "$file" == "./node_modules/"* ]]; then
+        continue
+      fi
+      php_dirs+=("__DIR__ . '/${file#./}'")
+    done < <(find . -maxdepth 1 -name "*.php" -type f -print0)
+    
+    # Check common directories that might contain PHP files
+    local common_dirs=("src" "app" "lib" "tests" "test")
+    for dir in "${common_dirs[@]}"; do
+      if [ -d "$dir" ] && find "$dir" -name "*.php" -type f | grep -q .; then
+        php_dirs+=("__DIR__ . '/$dir'")
       fi
     done
     
-    # Generate rector.php
-    cat > rector.php << 'EOF'
-<?php
-
-use Rector\Config\RectorConfig;
-
-return RectorConfig::configure()
-    ->withPaths([
-EOF
+    # Replace placeholder with detected paths
+    if [ ${#php_dirs[@]} -gt 0 ]; then
+      # Create temporary file with the paths
+      local temp_file=$(mktemp)
+      for dir in "${php_dirs[@]}"; do
+        echo "        $dir," >> "$temp_file"
+      done
+      
+      # Remove trailing comma from last line
+      sed -i '' '$ s/,$//' "$temp_file"
+      
+      # Replace placeholder using awk
+      awk '
+        /\/\/ Add your paths here/ {
+          while ((getline line < "'$temp_file'") > 0) {
+            print line
+          }
+          close("'$temp_file'")
+          next
+        }
+        { print }
+      ' rector.php > rector.php.tmp && mv rector.php.tmp rector.php
+      
+      rm -f "$temp_file"
+    fi
     
-    # Add paths
-    for dir in "${php_dirs[@]}"; do
-      echo "        $dir," >> rector.php
-    done
-    
-    cat >> rector.php << 'EOF'
-    ])
-    ->withSkip([
-        __DIR__ . '/vendor/*',
-    ])
-    ->withPreparedSets(
-        deadCode: true,
-        codeQuality: true,
-        earlyReturn: true,
-    );
-EOF
-    
-    echo "Created rector.php with paths for PHP directories"
+    echo "Created rector.php with detected PHP paths"
   fi
   
   rector --config "./rector.php" "$@"

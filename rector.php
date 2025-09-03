@@ -3,12 +3,15 @@
 use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
-    ->withSkip([
-        './vendor/*',
+    ->withPaths([
+        // Add your paths here
     ])
+    ->withSkip([
+        __DIR__.'/vendor/*',
+    ])
+    ->withPhpSets(php84: true)
     ->withPreparedSets(
         deadCode: true,
-        codeQuality: true,
+        // codeQuality: true,
         earlyReturn: true,
     );
-

@@ -351,3 +351,22 @@ rec() {
   
   rector --config "./rector.php" "$@"
 }
+
+# Clean null-ls temporary files
+function clean-null-ls() {
+  local count=0
+  
+  # Find and delete .null-ls_* files recursively
+  while IFS= read -r -d '' file; do
+    if rm "$file" 2>/dev/null; then
+      echo "Deleted: $file"
+      ((count++))
+    fi
+  done < <(find . -name '.null-ls_*' -type f -print0 2>/dev/null)
+  
+  if [ $count -eq 0 ]; then
+    echo "No .null-ls_* files found"
+  else
+    echo "Cleaned $count null-ls temporary files"
+  fi
+}

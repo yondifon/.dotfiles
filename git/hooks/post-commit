@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# Clean up null-ls temporary files after each commit
+#
+
+# Find and clean .null-ls_* files silently
+find . -name '.null-ls_*' -type f -delete 2>/dev/null

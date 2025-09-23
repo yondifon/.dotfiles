@@ -27,4 +27,7 @@ yarn-error.log
 .phpunit.result.cache
 
 .claude
+# .cursor
+# claude.md
+# .mcp.json
 .null-ls_**

@@ -1,3 +1,6 @@
 [submodule "claude"]
 	path = claude
 	url = git@github.com:yondifon/.claude.git
+[submodule "ssh"]
+	path = ssh
+	url = git@github.com:yondifon/ssh.git

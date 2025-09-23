@@ -95,7 +95,7 @@ if [ -n "$KITTY_WINDOW_ID" ]; then
   # Detect system theme and set appropriate colors
   if [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]]; then
     # Dark theme colors (Catppuccin Mocha)
-    BG_COLOR="#001"
+    BG_COLOR="#000011"
     FG_COLOR="#cdd6f4" 
     SUBTLE_COLOR="#585b70"
     ACTIVE_TAB_BG="#181825"  # Lighter for contrast in dark mode

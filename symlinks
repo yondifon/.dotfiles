@@ -81,4 +81,10 @@ rm -f $HOME/.rector/rector.php
 mkdir -p $HOME/.rector
 ln -s $HOME/.dotfiles/rector.php $HOME/.rector/rector.php
 
+# SSH configuration
+echo 'Linking SSH configuration...'
+mkdir -p $HOME/.ssh
+rm -f $HOME/.ssh/config
+ln -s $HOME/.dotfiles/ssh/config $HOME/.ssh/config
+
 echo 'All symlinks created successfully!'

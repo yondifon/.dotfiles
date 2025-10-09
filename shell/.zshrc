@@ -125,3 +125,6 @@ if [ -n "$KITTY_WINDOW_ID" ]; then
   tmux set-option -g message-style "bg=$BG_COLOR,fg=$FG_COLOR"
 fi
 
+
+# opencode
+export PATH=/Users/malico/.opencode/bin:$PATH

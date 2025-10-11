@@ -1,5 +1,5 @@
-require('config.keymaps')
-require('config.options')
-require('config.lazy')
+require("config.keymaps")
+require("config.options")
+require("config.lazy")
 
-vim.cmd.colorscheme "onedark"
+vim.cmd.colorscheme("onedark")

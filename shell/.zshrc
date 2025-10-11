@@ -8,7 +8,6 @@ if [ -f ~/.dotfiles/.env ]; then
     set +a  # disable automatic export
 fi
 
-
 # Kitty integration
 if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
   export KITTY_SHELL_INTEGRATION="enabled"
@@ -124,7 +123,6 @@ if [ -n "$KITTY_WINDOW_ID" ]; then
   # Set message colors
   tmux set-option -g message-style "bg=$BG_COLOR,fg=$FG_COLOR"
 fi
-
 
 # opencode
 export PATH=/Users/malico/.opencode/bin:$PATH

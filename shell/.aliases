@@ -109,7 +109,6 @@ alias pail='vendor/bin/pail'
 alias phpunit='./vendor/bin/phpunit'
 alias paratest='./vendor/bin/paratest'
 alias pest='./vendor/bin/pest'
-alias envoy='./vendor/bin/envoy'
 
 # GitHub aliases
 alias repo="gh repo view -w"

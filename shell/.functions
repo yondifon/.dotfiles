@@ -355,7 +355,7 @@ rec() {
 # Clean null-ls temporary files
 function clean-null-ls() {
   local count=0
-  
+
   # Find and delete .null-ls_* files recursively
   while IFS= read -r -d '' file; do
     if rm "$file" 2>/dev/null; then
@@ -363,10 +363,24 @@ function clean-null-ls() {
       ((count++))
     fi
   done < <(find . -name '.null-ls_*' -type f -print0 2>/dev/null)
-  
+
   if [ $count -eq 0 ]; then
     echo "No .null-ls_* files found"
   else
     echo "Cleaned $count null-ls temporary files"
+  fi
+}
+
+# Envoy wrapper function
+function envoy() {
+  # Check if vendor/bin/envoy exists and is executable
+  if [ -x "vendor/bin/envoy" ]; then
+    ./vendor/bin/envoy "$@"
+  # Check if global envoy is available
+  elif command -v envoy >/dev/null 2>&1; then
+    command envoy "$@"
+  else
+    echo "Error: envoy could not be found in vendor/bin or globally."
+    return 1
   fi
 }

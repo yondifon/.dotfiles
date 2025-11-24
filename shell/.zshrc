@@ -126,3 +126,6 @@ fi
 
 # opencode
 export PATH=/Users/malico/.opencode/bin:$PATH
+
+# Added by Antigravity
+export PATH="/Users/malico/.antigravity/antigravity/bin:$PATH"

@@ -49,7 +49,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo 'Install Neovim and GitHub CLI'
 echo '------------------------------'
-brew install neovim gh lazygit cloudflared
+brew install neovim gh lazygit cloudflared ansible postgis
 
 
 echo 'Install Kitty'

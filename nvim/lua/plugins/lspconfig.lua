@@ -22,7 +22,7 @@ return {
         local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
         -- PHP
-        require("lspconfig").intelephense.setup({
+        vim.lsp.config('intelephense', {
             commands = {
                 IntelephenseIndex = {
                     function()
@@ -45,7 +45,7 @@ return {
         })
 
         -- Vue, JavaScript, TypeScript
-        require("lspconfig").volar.setup({
+        vim.lsp.config('volar', {
             on_attach = function(client, bufnr)
                 client.server_capabilities.documentFormattingProvider = false
                 client.server_capabilities.documentRangeFormattingProvider = false
@@ -56,7 +56,7 @@ return {
             capabilities = capabilities,
         })
 
-        require("lspconfig").ts_ls.setup({
+        vim.lsp.config('ts_ls', {
             init_options = {
                 plugins = {
                     {
@@ -78,10 +78,10 @@ return {
         })
 
         -- Tailwind CSS
-        require("lspconfig").tailwindcss.setup({ capabilities = capabilities })
+        vim.lsp.config('tailwindcss', { capabilities = capabilities })
 
         -- JSON
-        require("lspconfig").jsonls.setup({
+        vim.lsp.config('jsonls', {
             capabilities = capabilities,
             settings = {
                 json = {
@@ -91,7 +91,7 @@ return {
         })
 
         -- Lua
-        require("lspconfig").lua_ls.setup({
+        vim.lsp.config('lua_ls', {
             settings = {
                 Lua = {
                     runtime = { version = "LuaJIT" },
@@ -154,8 +154,6 @@ return {
                 end
             end,
         })
-
-        require("mason-null-ls").setup({ automatic_installation = true })
 
         -- Keymaps
         vim.keymap.set("n", "<Leader>d", "<cmd>lua vim.diagnostic.open_float()<CR>")

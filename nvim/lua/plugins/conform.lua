@@ -1,10 +1,11 @@
 return {
-    'stevearc/conform.nvim',
+    "stevearc/conform.nvim",
     opts = {
         formatters_by_ft = {
             php = { "pint" },
             javascript = { "prettier", stop_after_first = true },
             typescript = { "prettier", stop_after_first = true },
+            vue = { "prettier", stop_after_first = true },
             json = { "prettier", stop_after_first = true },
             lua = { "lua-format", stop_after_first = true },
             typescriptreact = { "prettier", stop_after_first = true },

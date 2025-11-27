@@ -1,179 +1,153 @@
 -- Language Server Protocol
 
 return {
-    "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-    dependencies = {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-        "b0o/schemastore.nvim",
-        { "jose-elias-alvarez/null-ls.nvim", dependencies = "nvim-lua/plenary.nvim" },
-        "jayp0521/mason-null-ls.nvim",
-    },
-    config = function()
-        -- Setup Mason to automatically install LSP servers
-        require("mason").setup({
-            ui = {
-                height = 0.8,
-            },
-        })
-        require("mason-lspconfig").setup({ automatic_installation = true })
+	"neovim/nvim-lspconfig",
+	event = "VeryLazy",
+	dependencies = {
+		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
+		"b0o/schemastore.nvim",
+	},
+	config = function()
+		-- Setup Mason to automatically install LSP servers
+		require("mason").setup({
+			ui = {
+				height = 0.8,
+			},
+		})
+		require("mason-lspconfig").setup({ automatic_installation = true })
 
-        local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+		local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-        -- PHP
-        vim.lsp.config('intelephense', {
-            commands = {
-                IntelephenseIndex = {
-                    function()
-                        vim.lsp.buf.execute_command({ command = "intelephense.index.workspace" })
-                    end,
-                },
-            },
-            on_attach = function(client, bufnr)
-                client.server_capabilities.documentFormattingProvider = false
-                client.server_capabilities.documentRangeFormattingProvider = false
-                client.server_capabilities.implementationProvider = false
-                client.server_capabilities.renameProvider.prepareProvider = false
-                client.server_capabilities.typeDefinitionProvider = true
-                client.server_capabilities.selectionRangeProvider = true
-                if client.server_capabilities.inlayHintProvider then
-                    vim.lsp.buf.inlay_hint(bufnr, true)
-                end
-            end,
-            capabilities = capabilities,
-        })
+		-- PHP
+		vim.lsp.enable("intelephense")
+		vim.lsp.config("intelephense", {
+			capabilities = capabilities,
+		})
 
-        -- Vue, JavaScript, TypeScript
-        vim.lsp.config('volar', {
-            on_attach = function(client, bufnr)
-                client.server_capabilities.documentFormattingProvider = false
-                client.server_capabilities.documentRangeFormattingProvider = false
-                if client.server_capabilities.inlayHintProvider then
-                    vim.lsp.buf.inlay_hint(bufnr, true)
-                end
-            end,
-            capabilities = capabilities,
-        })
+		-- Vue, JavaScript, TypeScript
+		local vue_language_server_path = vim.fn.expand("$MASON/packages")
+			.. "/vue-language-server"
+			.. "/node_modules/@vue/language-server"
+		local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
+		local vue_plugin = {
+			name = "@vue/typescript-plugin",
+			location = vue_language_server_path,
+			languages = { "vue" },
+			configNamespace = "typescript",
+		}
+		local vtsls_config = {
+			capabilities = capabilities,
+			settings = {
+				vtsls = {
+					tsserver = {
+						globalPlugins = {
+							vue_plugin,
+						},
+					},
+				},
+			},
+			filetypes = tsserver_filetypes,
+		}
+		local ts_ls_config = {
+			capabilities = capabilities,
+			init_options = {
+				plugins = {
+					vue_plugin,
+				},
+			},
+			filetypes = tsserver_filetypes,
+		}
+		local vue_ls_config = {
+			capabilities = capabilities,
+		}
 
-        vim.lsp.config('ts_ls', {
-            init_options = {
-                plugins = {
-                    {
-                        name = "@vue/typescript-plugin",
-                        location = "/usr/local/lib/node_modules/@vue/typescript-plugin",
-                        languages = { "javascript", "typescript", "vue" },
-                    },
-                },
-            },
-            filetypes = {
-                "javascript",
-                "javascriptreact",
-                "javascript.jsx",
-                "typescript",
-                "typescriptreact",
-                "typescript.tsx",
-                "vue",
-            },
-        })
+		vim.lsp.config("vtsls", vtsls_config)
+		-- vim.lsp.config('vue_ls', vue_ls_config)
+		-- vim.lsp.config('ts_ls', ts_ls_config)
+		-- vim.lsp.enable({'ts_ls', 'vue_ls'})
+		-- vim.lsp.enable({'vtsls', 'vue_ls'})
+		vim.lsp.enable("vtsls")
+		-- vim.lsp.enable({'vue_ls'})
 
-        -- Tailwind CSS
-        vim.lsp.config('tailwindcss', { capabilities = capabilities })
+		-- Tailwind CSS
+		vim.lsp.enable("tailwindcss")
+		vim.lsp.config("tailwindcss", {
+			capabilities = capabilities,
+		})
 
-        -- JSON
-        vim.lsp.config('jsonls', {
-            capabilities = capabilities,
-            settings = {
-                json = {
-                    schemas = require("schemastore").json.schemas(),
-                },
-            },
-        })
+		-- JSON
+		vim.lsp.enable("jsonls")
+		vim.lsp.config("jsonls", {
+			capabilities = capabilities,
+			settings = {
+				json = {
+					schemas = require("schemastore").json.schemas(),
+					validate = { enable = true },
+				},
+			},
+		})
 
-        -- Lua
-        vim.lsp.config('lua_ls', {
-            settings = {
-                Lua = {
-                    runtime = { version = "LuaJIT" },
-                    workspace = {
-                        checkThirdParty = false,
-                        library = {
-                            "${3rd}/luv/library",
-                            unpack(vim.api.nvim_get_runtime_file("", true)),
-                        },
-                    },
-                },
-            },
-        })
+		-- Lua
+		vim.lsp.enable("lua_ls")
+		vim.lsp.config("lua_ls", {
+			capabilities = capabilities,
+			on_init = function(client)
+				if client.workspace_folders then
+					local path = client.workspace_folders[1].name
+					if
+						path ~= vim.fn.stdpath("config")
+						and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+					then
+						return
+					end
+				end
 
-        -- null-ls
-        local null_ls = require("null-ls")
-        local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-        null_ls.setup({
-            temp_dir = "/tmp",
-            sources = {
-                null_ls.builtins.diagnostics.eslint_d.with({
-                    condition = function(utils)
-                        return utils.root_has_file({ ".eslintrc.js" })
-                    end,
-                }),
-                -- null_ls.builtins.diagnostics.phpstan, -- TODO: Only if config file
-                null_ls.builtins.diagnostics.trail_space.with({ disabled_filetypes = { "NvimTree" } }),
-                null_ls.builtins.formatting.eslint_d.with({
-                    condition = function(utils)
-                        return utils.root_has_file({ ".eslintrc.js", ".eslintrc.json" })
-                    end,
-                }),
-                null_ls.builtins.formatting.pint.with({
-                    condition = function(utils)
-                        return utils.root_has_file({ "vendor/bin/pint" })
-                    end,
-                }),
-                null_ls.builtins.formatting.prettier.with({
-                    condition = function(utils)
-                        return utils.root_has_file({
-                            ".prettierrc",
-                            ".prettierrc.json",
-                            ".prettierrc.yml",
-                            ".prettierrc.js",
-                            "prettier.config.js",
-                        })
-                    end,
-                }),
-            },
-            on_attach = function(client, bufnr)
-                if client.supports_method("textDocument/formatting") then
-                    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-                    vim.api.nvim_create_autocmd("BufWritePre", {
-                        group = augroup,
-                        buffer = bufnr,
-                        callback = function()
-                            vim.lsp.buf.format({ bufnr = bufnr, timeout_ms = 5000 })
-                        end,
-                    })
-                end
-            end,
-        })
+				client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+					runtime = {
+						version = "LuaJIT",
+						path = {
+							"lua/?.lua",
+							"lua/?/init.lua",
+						},
+					},
+					workspace = {
+						checkThirdParty = false,
+						library = {
+							vim.env.VIMRUNTIME,
+						},
+					},
+				})
+			end,
+			settings = {
+				Lua = {},
+			},
+		})
 
-        -- Keymaps
-        vim.keymap.set("n", "<Leader>d", "<cmd>lua vim.diagnostic.open_float()<CR>")
-        vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>")
-        vim.keymap.set("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-        vim.keymap.set("n", "gi", ":Telescope lsp_implementations<CR>")
-        vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>")
-        vim.keymap.set("n", "<Leader>lr", ":LspRestart<CR>", { silent = true })
-        vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-        vim.keymap.set("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
+		-- Keymaps
+		vim.keymap.set("n", "<Leader>d", "<cmd>lua vim.diagnostic.open_float()<CR>")
+		vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>")
+		vim.keymap.set("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+		vim.keymap.set("n", "gi", ":Telescope lsp_implementations<CR>")
+		vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>")
+		vim.keymap.set("n", "<Leader>lr", ":LspRestart<CR>", { silent = true })
+		vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+		vim.keymap.set("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
 
-        -- Commands
-        vim.api.nvim_create_user_command("Format", function()
-            vim.lsp.buf.format({ timeout_ms = 5000 })
-        end, {})
-
-        -- Sign configuration
-        vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
-        vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
-        vim.fn.sign_define("DiagnosticSignInfo", { text = "", texthl = "DiagnosticSignInfo" })
-        vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
-    end,
+		-- Diagnostic configuration
+		vim.diagnostic.config({
+			virtual_text = false,
+			float = {
+				source = true,
+			},
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = "",
+					[vim.diagnostic.severity.WARN] = "",
+					[vim.diagnostic.severity.INFO] = "",
+					[vim.diagnostic.severity.HINT] = "",
+				},
+			},
+		})
+	end,
 }

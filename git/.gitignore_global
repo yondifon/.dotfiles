@@ -31,4 +31,4 @@ yarn-error.log
 # .cursor
 # claude.md
 # .mcp.json
-.null-ls_**
+*.null-ls_**

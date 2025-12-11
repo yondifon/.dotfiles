@@ -91,6 +91,37 @@ return {
             })
         end,
     },
+    { 
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                textobjects = {
+                    select = {
+                        enable = true,
+                        lookahead = true, -- jump forward to the nearest textobject
+                        keymaps = {
+                            -- Function
+                            ["af"] = "@function.outer", -- around function
+                            ["if"] = "@function.inner", -- inner function
+                            -- Parameter (for vai/vai with parameters, you might use ap/ip; here’s parameter)
+                            ["aa"] = "@parameter.outer",
+                            ["ia"] = "@parameter.inner",
+                            -- Class
+                            ["ac"] = "@class.outer",
+                            ["ic"] = "@class.inner",
+                        },
+                        selection_modes = {
+                            ["@parameter.outer"] = "v",  -- charwise
+                            ["@function.outer"] = "V",   -- linewise (so vaf selects full function lines)
+                            ["@class.outer"] = "<c-v>",  -- blockwise
+                        },
+                        include_surrounding_whitespace = true,
+                    },
+                },
+            })
+        end,
+    },
     {
         "dmtrKovalenko/fold-imports.nvim",
         opts = {

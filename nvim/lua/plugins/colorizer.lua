@@ -3,7 +3,8 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     opts = {
         user_default_options = {
+            names = false,
             tailwind = true,
-        }
-    }
+        },
+    },
 }

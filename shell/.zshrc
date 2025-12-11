@@ -129,3 +129,15 @@ export PATH=/Users/malico/.opencode/bin:$PATH
 
 # Added by Antigravity
 export PATH="/Users/malico/.antigravity/antigravity/bin:$PATH"
+
+
+
+# # Only run in interactive shells
+# if [[ -o interactive ]]; then
+#   if command -v bun >/dev/null 2>&1; then
+#     # Run Bun update in background; log output so it doesn't clutter the prompt
+#     nohup bun update --global >"${XDG_CACHE_HOME:-$HOME/.cache}/bun-update.log" 2>&1 &
+#     disown
+#   fi
+# fi
+

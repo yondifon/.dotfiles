@@ -27,14 +27,6 @@ return {
         },
     },
     opts = {
-        setup = function()
-            vim.api.nvim_create_autocmd("BufWritePost", {
-                callback = function()
-                    vim.cmd("Neotree refresh")
-                end,
-                pattern = "*",
-            })
-        end,
         default_component_configs = {
             name = {
                 use_git_status_colors = false,

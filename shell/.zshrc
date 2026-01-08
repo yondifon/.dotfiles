@@ -1,5 +1,6 @@
 # Set editor
 export EDITOR="nvim"
+export VISUAL="nvim"
 
 # Load environment variables from .env file
 if [ -f ~/.dotfiles/.env ]; then
@@ -129,6 +130,16 @@ export PATH=/Users/malico/.opencode/bin:$PATH
 
 # Added by Antigravity
 export PATH="/Users/malico/.antigravity/antigravity/bin:$PATH"
+
+export FLUTTER_HOME="/Users/malico/flutter"
+export PATH="$FLUTTER_HOME/bin:$PATH"
+
+export ANDROID_HOME="/Users/malico/Library/Android/sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export PATH="$ANDROID_HOME/platform-tools:$PATH"
+export PATH="$ANDROID_HOME/emulator:$PATH"
+export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+
 
 
 

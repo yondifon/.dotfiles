@@ -26,3 +26,5 @@ for _, mode in ipairs({ "n", "i", "v", "t" }) do
     vim.keymap.set(mode, "<C-k>", "<C-w>k", { noremap = true })
     vim.keymap.set(mode, "<C-l>", "<C-w>l", { noremap = true })
 end
+
+

@@ -128,6 +128,7 @@ return {
 		vim.keymap.set("n", "<Leader>d", "<cmd>lua vim.diagnostic.open_float()<CR>")
 		vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>")
 		vim.keymap.set("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+		vim.keymap.set("n", "<Leader>.", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 		vim.keymap.set("n", "gi", ":Telescope lsp_implementations<CR>")
 		vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>")
 		vim.keymap.set("n", "<Leader>lr", ":LspRestart<CR>", { silent = true })

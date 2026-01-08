@@ -384,3 +384,8 @@ function envoy() {
     return 1
   fi
 }
+
+# Calculator
+function _calc() {
+    python3 -c "from math import *; print($*)"
+}

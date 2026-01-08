@@ -118,3 +118,6 @@ alias gpr="gh pr view -w"
 alias dotfiles-update="cd ~/.dotfiles && git pull && git submodule update --remote --merge && cd -"
 alias claude-update="cd ~/.dotfiles && git submodule update --remote --merge claude && cd -"
 alias resync="source ~/.dotfiles/symlinks"
+
+# Calculator
+alias _='noglob _calc'

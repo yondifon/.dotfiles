@@ -1,40 +1,48 @@
 return {
-    {
-  'mfussenegger/nvim-lint',
+-- LINTING
+{
+  "mfussenegger/nvim-lint",
+  event = { "BufReadPre", "BufNewFile" },
   config = function()
-    require('lint').linters_by_ft = {
-      javascript = { 'eslint_d' },
-      javascriptreact = { 'eslint_d' },
-      typescript = { 'eslint_d' },
-      typescriptreact = { 'eslint_d' },
-      php = { 'phpstan' },
+    local lint = require("lint")
+    
+    -- Define linters
+    lint.linters_by_ft = {
+      javascript = { "eslint_d" },
+      typescript = { "eslint_d" },
+      javascriptreact = { "eslint_d" },
+      typescriptreact = { "eslint_d" },
+      php = { "phpstan" },
     }
 
+    -- Simple autocmd to lint on save
     vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-      callback = function()
-        require("lint").try_lint()
-      end,
+      callback = function() lint.try_lint() end,
     })
   end,
 },
-    {
-    "stevearc/conform.nvim",
-    opts = {
-        formatters_by_ft = {
-            php = { "pint" },
-            javascript = { "prettierd", stop_after_first = true },
-            typescript = { "prettierd", stop_after_first = true },
-            vue = { "prettierd", stop_after_first = true },
-            json = { "prettierd", stop_after_first = true },
-            lua = { "lua-format", stop_after_first = true },
-            typescriptreact = { "prettierd", stop_after_first = true },
-            blade = { "blade-formatter", stop_after_first = true },
-        },
-    format_on_save = {
-            -- These options will be passed to conform.format()
-            timeout_ms = 1000,
-            -- lsp_format = "fallback",
-        },
+
+-- FORMATTING
+{
+  "stevearc/conform.nvim",
+  event = { "BufWritePre" },
+  cmd = { "ConformInfo" },
+  opts = {
+    formatters_by_ft = {
+      php = { "pint" },
+      lua = { "stylua" },
+      blade = { "blade-formatter" },
+      -- Use a sub-table to apply Prettier to all web types at once
+      javascript = { "prettierd", "prettier", stop_after_first = true },
+      typescript = { "prettierd", "prettier", stop_after_first = true },
+      vue = { "prettierd", "prettier", stop_after_first = true },
+      json = { "prettierd", "prettier", stop_after_first = true },
+      typescriptreact = { "prettierd", "prettier", stop_after_first = true },
     },
+    format_on_save = {
+      timeout_ms = 1000,
+      lsp_format = "fallback",
+    },
+  },
+},
 }
-} 

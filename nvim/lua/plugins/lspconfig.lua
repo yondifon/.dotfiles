@@ -1,154 +1,121 @@
--- Language Server Protocol
-
+-- lua/plugins/lspconfig.lua
 return {
-	"neovim/nvim-lspconfig",
-	event = "VeryLazy",
-	dependencies = {
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
-		"b0o/schemastore.nvim",
-	},
-	config = function()
-		-- Setup Mason to automatically install LSP servers
-		require("mason").setup({
+	{
+		"mason-org/mason-lspconfig.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			{ "mason-org/mason.nvim", opts = { ui = { height = 0.8 } } },
+			"neovim/nvim-lspconfig",
+			"hrsh7th/cmp-nvim-lsp",
+			"nvim-telescope/telescope.nvim",
+		},
+		opts = {
+			ensure_installed = {
+				"gopls",
+				"vtsls",
+				"vue_ls",
+				"tailwindcss",
+				"jsonls",
+				"pint",
+				"pyright",
+				"lua_ls",
+				"docker-compose-language-service",
+				"phpactor",
+				"stylua",
+			},
+			automatic_enable = true,
 			ui = {
-				height = 0.8,
+				check_outdated_packages_on_open = false,
 			},
-		})
-		require("mason-lspconfig").setup({ automatic_installation = true })
-
-		local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-		-- PHP
-		vim.lsp.enable("intelephense")
-		vim.lsp.config("intelephense", {
-			capabilities = capabilities,
-		})
-
-		-- Vue, JavaScript, TypeScript
-		local vue_language_server_path = vim.fn.expand("$MASON/packages")
-			.. "/vue-language-server"
-			.. "/node_modules/@vue/language-server"
-		local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
-		local vue_plugin = {
-			name = "@vue/typescript-plugin",
-			location = vue_language_server_path,
-			languages = { "vue" },
-			configNamespace = "typescript",
-		}
-		local vtsls_config = {
-			capabilities = capabilities,
-			settings = {
-				vtsls = {
-					tsserver = {
-						globalPlugins = {
-							vue_plugin,
-						},
+		},
+		config = function()
+			-- 2. Global Diagnostics Config
+			vim.diagnostic.config({
+				virtual_text = false,
+				float = { source = true },
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = "",
+						[vim.diagnostic.severity.WARN] = "",
+						[vim.diagnostic.severity.INFO] = "",
+						[vim.diagnostic.severity.HINT] = "",
 					},
 				},
-			},
-			filetypes = tsserver_filetypes,
-		}
-		local ts_ls_config = {
-			capabilities = capabilities,
-			init_options = {
-				plugins = {
-					vue_plugin,
-				},
-			},
-			filetypes = tsserver_filetypes,
-		}
-		local vue_ls_config = {
-			capabilities = capabilities,
-		}
+			})
 
-		vim.lsp.config("vtsls", vtsls_config)
-		-- vim.lsp.config('vue_ls', vue_ls_config)
-		-- vim.lsp.config('ts_ls', ts_ls_config)
-		-- vim.lsp.enable({'ts_ls', 'vue_ls'})
-		-- vim.lsp.enable({'vtsls', 'vue_ls'})
-		vim.lsp.enable("vtsls")
-		-- vim.lsp.enable({'vue_ls'})
-
-		-- Tailwind CSS
-		vim.lsp.enable("tailwindcss")
-		vim.lsp.config("tailwindcss", {
-			capabilities = capabilities,
-		})
-
-		-- JSON
-		vim.lsp.enable("jsonls")
-		vim.lsp.config("jsonls", {
-			capabilities = capabilities,
-			settings = {
-				json = {
-					schemas = require("schemastore").json.schemas(),
-					validate = { enable = true },
-				},
-			},
-		})
-
-		-- Lua
-		vim.lsp.enable("lua_ls")
-		vim.lsp.config("lua_ls", {
-			capabilities = capabilities,
-			on_init = function(client)
-				if client.workspace_folders then
-					local path = client.workspace_folders[1].name
-					if
-						path ~= vim.fn.stdpath("config")
-						and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
-					then
-						return
+			-- 3. Keymaps (Applied globally via Autocmd for cleaner code)
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					local bufnr = args.buf
+					local map = function(m, lhs, rhs)
+						vim.keymap.set(m, lhs, rhs, { buffer = bufnr, silent = true })
 					end
-				end
 
-				client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-					runtime = {
-						version = "LuaJIT",
-						path = {
-							"lua/?.lua",
-							"lua/?/init.lua",
-						},
-					},
-					workspace = {
-						checkThirdParty = false,
-						library = {
-							vim.env.VIMRUNTIME,
+					map("n", "K", vim.lsp.buf.hover)
+					map("n", "gd", ":Telescope lsp_definitions<CR>")
+					map("n", "gi", ":Telescope lsp_implementations<CR>")
+					map("n", "gr", ":Telescope lsp_references<CR>")
+					map("n", "<Leader>rn", vim.lsp.buf.rename)
+					map("n", "ga", vim.lsp.buf.code_action)
+					map("n", "<Leader>.", vim.lsp.buf.code_action)
+					map("n", "<Leader>d", function()
+						vim.diagnostic.open_float(nil, { source = true })
+					end)
+				end,
+			})
+
+			-- 4. Custom Server Settings (ONLY for gopls, others handle themselves)
+			-- With Neovim 0.11+, we use vim.lsp.config to "pre-configure"
+			if vim.lsp.config then
+				vim.lsp.config("gopls", {
+					settings = {
+						gopls = {
+							analyses = { unusedparams = true },
+							staticcheck = true,
 						},
 					},
 				})
-			end,
-			settings = {
-				Lua = {},
-			},
-		})
+			end
 
-		-- Keymaps
-		vim.keymap.set("n", "<Leader>d", "<cmd>lua vim.diagnostic.open_float()<CR>")
-		vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>")
-		vim.keymap.set("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-		vim.keymap.set("n", "<Leader>.", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-		vim.keymap.set("n", "gi", ":Telescope lsp_implementations<CR>")
-		vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>")
-		vim.keymap.set("n", "<Leader>lr", ":LspRestart<CR>", { silent = true })
-		vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-		vim.keymap.set("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
-
-		-- Diagnostic configuration
-		vim.diagnostic.config({
-			virtual_text = false,
-			float = {
-				source = true,
-			},
-			signs = {
-				text = {
-					[vim.diagnostic.severity.ERROR] = "",
-					[vim.diagnostic.severity.WARN] = "",
-					[vim.diagnostic.severity.INFO] = "",
-					[vim.diagnostic.severity.HINT] = "",
+			-- Global restart keymap
+			vim.keymap.set("n", "<Leader>lr", ":LspRestart<CR>", { silent = true })
+		end,
+	},
+	{
+		"ricardoramirezr/lali-components.nvim",
+		ft = "blade",
+	},
+	{
+		"nvimtools/none-ls.nvim",
+		config = function()
+			local null_ls = require("null-ls")
+			null_ls.setup({
+				temp_dir = vim.fn.stdpath("cache") .. "/null-ls",
+				sources = {
+					null_ls.builtins.formatting.stylua,
+					null_ls.builtins.formatting.prettierd,
+					null_ls.builtins.formatting.blade_formatter,
+					null_ls.builtins.diagnostics.phpstan,
+					null_ls.builtins.formatting.pint,
 				},
-			},
-		})
-	end,
+			})
+			vim.keymap.set("n", "<Leader>gf", vim.lsp.buf.format, {})
+		end,
+	},
+	{
+		"adibhanna/laravel.nvim",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+		keys = {
+			{ "<leader>la", ":Artisan<cr>", desc = "Laravel Artisan" },
+			{ "<leader>lc", ":Composer<cr>", desc = "Composer" },
+			{ "<leader>lr", ":LaravelRoute<cr>", desc = "Laravel Routes" },
+			{ "<leader>lm", ":LaravelMake<cr>", desc = "Laravel Make" },
+		},
+		config = function()
+			require("laravel").setup()
+		end,
+	},
 }

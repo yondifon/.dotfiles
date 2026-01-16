@@ -20,7 +20,7 @@ return {
 				"pyright",
 				"lua_ls",
 				"docker-compose-language-service",
-				"phpactor",
+				"intelephense",
 				"stylua",
 			},
 			automatic_enable = true,

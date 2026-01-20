@@ -4,3 +4,6 @@
 [submodule "ssh"]
 	path = ssh
 	url = git@github.com:yondifon/ssh.git
+[submodule "opencode"]
+	path = opencode
+	url = git@github.com:yondifon/opencode.git

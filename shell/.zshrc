@@ -48,6 +48,7 @@ ssh-add -A 2>/dev/null;
 export XDEBUG_CONFIG="idekey=VSCODE"
 
 # Path exports
+export PATH="$HOME/.dotfiles/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
@@ -151,4 +152,9 @@ export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 #     disown
 #   fi
 # fi
+
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/malico/.lmstudio/bin"
+# End of LM Studio CLI section
 

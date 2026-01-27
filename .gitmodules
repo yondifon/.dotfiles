@@ -7,3 +7,6 @@
 [submodule "opencode"]
 	path = opencode
 	url = git@github.com:yondifon/opencode.git
+[submodule "skills"]
+	path = skills
+	url = git@github.com:yondifon/skills.git

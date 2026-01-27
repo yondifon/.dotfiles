@@ -16,7 +16,6 @@ return {
 				"vue_ls",
 				"tailwindcss",
 				"jsonls",
-				"pint",
 				"pyright",
 				"lua_ls",
 				"docker-compose-language-service",
@@ -29,7 +28,6 @@ return {
 			},
 		},
 		config = function()
-			-- 2. Global Diagnostics Config
 			vim.diagnostic.config({
 				virtual_text = false,
 				float = { source = true },
@@ -64,18 +62,30 @@ return {
 				end,
 			})
 
-			-- 4. Custom Server Settings (ONLY for gopls, others handle themselves)
-			-- With Neovim 0.11+, we use vim.lsp.config to "pre-configure"
-			if vim.lsp.config then
-				vim.lsp.config("gopls", {
-					settings = {
-						gopls = {
-							analyses = { unusedparams = true },
-							staticcheck = true,
-						},
+			vim.lsp.config("gopls", {
+				settings = {
+					gopls = {
+						analyses = { unusedparams = true },
+						staticcheck = true,
 					},
-				})
+				},
+			})
+			local get_license = function()
+				local f = assert(io.open(os.getenv("HOME") .. "/intelephense/license.txt", "rb"))
+				local content = f:read("*a")
+				f:close()
+				return string.gsub(content, "%s+", "")
 			end
+
+			vim.lsp.config("intelephense", {
+				filetypes = { "php", "blade" },
+				init_options = { licenceKey = get_license() },
+			})
+
+			vim.lsp.enable("intelephense")
+
+			-- vim.lsp.enable("phpactor")
+			-- vim.lsp.enable("phpactor")
 
 			-- Global restart keymap
 			vim.keymap.set("n", "<Leader>lr", ":LspRestart<CR>", { silent = true })
@@ -90,7 +100,7 @@ return {
 		config = function()
 			local null_ls = require("null-ls")
 			null_ls.setup({
-				temp_dir = vim.fn.stdpath("cache") .. "/null-ls",
+				temp_dir = "/tmp",
 				sources = {
 					null_ls.builtins.formatting.stylua,
 					null_ls.builtins.formatting.prettierd,

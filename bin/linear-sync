@@ -1,0 +1,284 @@
+#!/bin/bash
+#
+# linear-sync - Sync Linear issues to local markdown files
+#
+# Config file: ~/.linearrc
+# Format:
+#   api_key=lin_api_xxxxxxxxxxxx
+#
+#   [teams]
+#   code/app-1=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+#   code-2/app-2=yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy
+
+set -e
+
+CONFIG_FILE="$HOME/.linearrc"
+TASKS_DIR="./tasks"
+
+list_teams() {
+    load_config
+
+    local query='{"query":"{ teams { nodes { id name } } }"}'
+
+    local response=$(curl -s -X POST \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $LINEAR_API_KEY" \
+        -d "$query" \
+        https://api.linear.app/graphql)
+
+    echo "Teams:"
+    echo "======"
+    echo "$response" | jq -r '.data.teams.nodes[] | "\(.name): \(.id)"'
+}
+
+load_config() {
+    if [ ! -f "$CONFIG_FILE" ]; then
+        echo "Error: Config file not found at $CONFIG_FILE"
+        echo ""
+        echo "Create it with:"
+        echo "  api_key=lin_api_xxxxxxxxxxxx"
+        echo ""
+        echo "  [teams]"
+        echo "  myapp=team-id-here"
+        exit 1
+    fi
+
+    LINEAR_API_KEY=$(grep -E "^api_key=" "$CONFIG_FILE" | cut -d'=' -f2-)
+
+    if [ -z "$LINEAR_API_KEY" ]; then
+        echo "Error: api_key not found in $CONFIG_FILE"
+        exit 1
+    fi
+}
+
+get_project_path() {
+    echo "${PWD#$HOME/}"
+}
+
+get_team_id() {
+    local project_path=$(get_project_path)
+    local in_teams=false
+    local team_id=""
+
+    while IFS= read -r line || [ -n "$line" ]; do
+        line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+        [ -z "$line" ] && continue
+        [[ "$line" =~ ^# ]] && continue
+
+        if [ "$line" = "[teams]" ]; then
+            in_teams=true
+            continue
+        fi
+
+        if [[ "$line" =~ ^\[.*\] ]]; then
+            in_teams=false
+            continue
+        fi
+
+        if $in_teams; then
+            local key=$(echo "$line" | cut -d'=' -f1)
+            local value=$(echo "$line" | cut -d'=' -f2-)
+
+            if [ "$key" = "$project_path" ]; then
+                team_id="$value"
+                break
+            fi
+        fi
+    done < "$CONFIG_FILE"
+
+    if [ -z "$team_id" ]; then
+        echo "Error: No team mapping found for '$project_path' in $CONFIG_FILE"
+        echo ""
+        echo "Add it under [teams]:"
+        echo "  $project_path=your-team-id-here"
+        exit 1
+    fi
+
+    echo "$team_id"
+}
+
+slugify() {
+    echo "$1" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed 's/-$//'
+}
+
+get_status_folder() {
+    local state="$1"
+
+    case "$state" in
+        "Todo"|"Backlog")
+            echo "todo"
+            ;;
+        "In Progress"|"Started")
+            echo "inprogress"
+            ;;
+        "In Review"|"Review")
+            echo "review"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+get_user_email() {
+    local query='{"query":"{ viewer { email } }"}'
+
+    local response=$(curl -s -X POST \
+        -H "Content-Type: application/json" \
+        -H "Authorization: $LINEAR_API_KEY" \
+        -d "$query" \
+        https://api.linear.app/graphql)
+
+    echo "$response" | jq -r '.data.viewer.email'
+}
+
+fetch_issues() {
+    local team_id="$1"
+    local email="$2"
+    local all_issues="[]"
+    local has_next=true
+    local cursor=""
+
+    while $has_next; do
+        local after_clause=""
+        if [ -n "$cursor" ]; then
+            after_clause=", after: \\\"$cursor\\\""
+        fi
+
+        local query='{"query":"{ issues(first: 100'"$after_clause"', filter: { team: { id: { eq: \"'"$team_id"'\" } }, assignee: { email: { eq: \"'"$email"'\" } }, state: { name: { in: [\"Todo\", \"Backlog\", \"In Progress\", \"Started\", \"In Review\", \"Review\"] } } }) { pageInfo { hasNextPage endCursor } nodes { identifier title description state { name } priority labels { nodes { name } } dueDate url } } }"}'
+
+        local response=$(curl -s -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: $LINEAR_API_KEY" \
+            -d "$query" \
+            https://api.linear.app/graphql)
+
+        local error=$(echo "$response" | jq -r '.errors[0].message // empty')
+        if [ -n "$error" ]; then
+            echo "$response"
+            return
+        fi
+
+        local page_issues=$(echo "$response" | jq '.data.issues.nodes')
+        all_issues=$(echo "$all_issues $page_issues" | jq -s 'add')
+
+        has_next=$(echo "$response" | jq -r '.data.issues.pageInfo.hasNextPage')
+        cursor=$(echo "$response" | jq -r '.data.issues.pageInfo.endCursor')
+
+        if [ "$has_next" != "true" ]; then
+            has_next=false
+        fi
+    done
+
+    echo "$all_issues" | jq '{data: {issues: {nodes: .}}}'
+}
+
+create_markdown() {
+    local identifier="$1"
+    local title="$2"
+    local description="$3"
+    local state="$4"
+    local priority="$5"
+    local labels="$6"
+    local due_date="$7"
+    local url="$8"
+
+    local folder=$(get_status_folder "$state")
+
+    if [ -z "$folder" ]; then
+        return
+    fi
+
+    local slug=$(slugify "$title")
+    local filename="${identifier}-${slug}.md"
+    local filepath="${TASKS_DIR}/${folder}/${filename}"
+
+    local priority_text=""
+    case $priority in
+        0) priority_text="No priority" ;;
+        1) priority_text="Urgent" ;;
+        2) priority_text="High" ;;
+        3) priority_text="Medium" ;;
+        4) priority_text="Low" ;;
+        *) priority_text="Unknown" ;;
+    esac
+
+    cat > "$filepath" << EOF
+# ${title}
+
+- **ID:** ${identifier}
+- **Status:** ${state}
+- **Priority:** ${priority_text}
+- **Labels:** ${labels:-None}
+- **Due:** ${due_date:-Not set}
+- **URL:** ${url}
+
+## Description
+
+${description:-No description provided.}
+EOF
+
+    echo "  ${folder}/${filename}"
+}
+
+main() {
+    if [ "$1" = "teams" ]; then
+        list_teams
+        exit 0
+    fi
+
+    local project_path=$(get_project_path)
+
+    echo "Linear Sync"
+    echo "==========="
+    echo "Project: $project_path"
+    echo ""
+
+    load_config
+
+    local team_id=$(get_team_id)
+    local email=$(get_user_email)
+
+    rm -rf "$TASKS_DIR"
+    mkdir -p "$TASKS_DIR/todo"
+    mkdir -p "$TASKS_DIR/inprogress"
+    mkdir -p "$TASKS_DIR/review"
+
+    echo "Fetching issues..."
+    local response=$(fetch_issues "$team_id" "$email")
+
+    local error=$(echo "$response" | jq -r '.errors[0].message // empty')
+    if [ -n "$error" ]; then
+        echo "Error from Linear API: $error"
+        exit 1
+    fi
+
+    local count=$(echo "$response" | jq '.data.issues.nodes | length')
+
+    if [ "$count" -eq 0 ]; then
+        echo "No assigned issues found."
+        exit 0
+    fi
+
+    echo "Found $count issues:"
+    echo ""
+
+    echo "$response" | jq -c '.data.issues.nodes[]' | while read -r issue; do
+        local identifier=$(echo "$issue" | jq -r '.identifier')
+        local title=$(echo "$issue" | jq -r '.title')
+        local description=$(echo "$issue" | jq -r '.description // ""')
+        local state=$(echo "$issue" | jq -r '.state.name')
+        local priority=$(echo "$issue" | jq -r '.priority // 0')
+        local labels=$(echo "$issue" | jq -r '[.labels.nodes[].name] | join(", ")')
+        local due_date=$(echo "$issue" | jq -r '.dueDate // ""')
+        local url=$(echo "$issue" | jq -r '.url')
+
+        create_markdown "$identifier" "$title" "$description" "$state" "$priority" "$labels" "$due_date" "$url"
+    done
+
+    echo ""
+    echo "Synced to $TASKS_DIR/"
+}
+
+main "$@"

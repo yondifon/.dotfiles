@@ -64,11 +64,17 @@ echo 'Linking Claude configuration...'
 rm -rf $HOME/.claude
 ln -s $HOME/.dotfiles/claude $HOME/.claude
 
-
 # Opencode configuration
 echo 'Linking Opencode configuration...'
 rm -rf $HOME/.config/opencode
 ln -s $HOME/.dotfiles/opencode $HOME/.config/opencode
+
+# Shared skills (for Claude and Opencode)
+echo 'Linking shared skills...'
+rm -rf $HOME/.dotfiles/claude/skills
+ln -s $HOME/.dotfiles/skills $HOME/.dotfiles/claude/skills
+rm -rf $HOME/.dotfiles/opencode/skills
+ln -s $HOME/.dotfiles/skills $HOME/.dotfiles/opencode/skills
 
 # Tmux configuration
 echo 'Linking tmux configuration...'

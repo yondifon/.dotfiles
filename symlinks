@@ -99,6 +99,5 @@ mkdir -p $HOME/.ssh
 rm -f $HOME/.ssh/config
 ln -s $HOME/.dotfiles/ssh/config $HOME/.ssh/config
 
-ansible-galaxy collection install onepassword.connect
 
 echo 'All symlinks created successfully!'

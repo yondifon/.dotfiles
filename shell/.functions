@@ -385,6 +385,89 @@ function envoy() {
   fi
 }
 
+# URL-encode a path for TablePlus (slashes become %2F)
+function _tp_encode_path() {
+  python3 -c "import urllib.parse; print(urllib.parse.quote('$1', safe=''))"
+}
+
+# Open database in TablePlus
+function tp() {
+  local db_file=""
+  local table_name=""
+
+  if [[ -n "$1" && ( "$1" == *.sqlite || "$1" == *.sqlite3 || "$1" == *.db ) ]]; then
+    db_file="$1"
+    shift
+  fi
+
+  [[ -n "$1" ]] && table_name="$1"
+
+  local url=""
+
+  if [[ -n "$db_file" ]]; then
+    [[ "$db_file" != /* ]] && db_file="$(pwd)/$db_file"
+    local encoded=$(_tp_encode_path "$db_file")
+    local db_name=$(basename "$db_file")
+    url="sqlite://@${encoded}/${db_name}"
+  elif [[ -f .env ]]; then
+    url=$(_tp_url_from_env)
+    [[ -z "$url" ]] && return 1
+  else
+    echo "No .env file found and no database file specified."
+    return 1
+  fi
+
+  local query=""
+  [[ -n "$table_name" ]] && query="?table=${table_name}"
+
+  echo "Opening in TablePlus: ${url}${query}"
+  open -a TablePlus "${url}${query}"
+}
+
+function _tp_url_from_env() {
+  local connection host port database username password
+  eval "$(bash -c 'set -a; source .env 2>/dev/null; echo "connection=$DB_CONNECTION"; echo "host=$DB_HOST"; echo "port=$DB_PORT"; echo "database=$DB_DATABASE"; echo "username=$DB_USERNAME"; echo "password=$DB_PASSWORD"')"
+
+  local auth="${username}"
+  [[ -n "$password" ]] && auth="${username}:${password}"
+
+  case "$connection" in
+    sqlite)
+      local db_path="$database"
+      [[ "$db_path" != /* ]] && db_path="$(pwd)/$db_path"
+      local encoded=$(_tp_encode_path "$db_path")
+      local db_name=$(basename "$db_path")
+      echo "sqlite://@${encoded}/${db_name}"
+      ;;
+    mysql)
+      echo "mysql://${auth}@${host}:${port}/${database}"
+      ;;
+    pgsql|postgres|postgresql)
+      echo "postgresql://${auth}@${host}:${port}/${database}"
+      ;;
+    mariadb)
+      echo "mariadb://${auth}@${host}:${port}/${database}"
+      ;;
+    *)
+      echo "Unsupported connection type: $connection" >&2
+      return 1
+      ;;
+  esac
+}
+
+function nah() {
+  if [[ $# -eq 0 ]]; then
+    git reset --hard
+    git clean -df
+    return
+  fi
+
+  for path in "$@"; do
+    git checkout -- "$path" 2>/dev/null
+    git clean -df -- "$path" 2>/dev/null
+  done
+}
+
 # Calculator
 function _calc() {
     python3 -c "from math import *; print($*)"

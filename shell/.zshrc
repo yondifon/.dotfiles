@@ -52,6 +52,7 @@ export PATH="$HOME/.dotfiles/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Laravel Herd configuration
 export PATH="$HOME/Library/Application Support/Herd/bin:$PATH"
@@ -158,3 +159,9 @@ export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 export PATH="$PATH:/Users/malico/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+. "$HOME/.turso/env"
+
+
+# Herd injected PHP 7.4 configuration.
+export HERD_PHP_74_INI_SCAN_DIR="/Users/malico/Library/Application Support/Herd/config/php/74/"

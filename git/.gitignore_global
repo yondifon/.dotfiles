@@ -28,6 +28,7 @@ yarn-error.log
 
 # .claude
 .claude/settings.local.json
+.continues-handoff.md
 # .cursor
 # claude.md
 # .mcp.json

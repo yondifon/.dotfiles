@@ -64,6 +64,38 @@ echo 'Linking Claude configuration...'
 rm -rf $HOME/.claude
 ln -s $HOME/.dotfiles/claude $HOME/.claude
 
+# Claude work profile (separate state; shared skills/guidelines)
+echo 'Setting up Claude work profile...'
+mkdir -p "$HOME/.claude-work"
+
+if [ -e "$HOME/.claude-work/skills" ] && [ ! -L "$HOME/.claude-work/skills" ]; then
+    echo "Skipping $HOME/.claude-work/skills (exists, not a symlink)"
+else
+    ln -sfn "$HOME/.dotfiles/skills" "$HOME/.claude-work/skills"
+fi
+
+if [ -e "$HOME/.claude-work/CLAUDE.md" ] && [ ! -L "$HOME/.claude-work/CLAUDE.md" ]; then
+    echo "Skipping $HOME/.claude-work/CLAUDE.md (exists, not a symlink)"
+else
+    ln -sfn "$HOME/.dotfiles/claude/CLAUDE.md" "$HOME/.claude-work/CLAUDE.md"
+fi
+
+if [ -e "$HOME/.claude-work/git-commit-guidelines.md" ] && [ ! -L "$HOME/.claude-work/git-commit-guidelines.md" ]; then
+    echo "Skipping $HOME/.claude-work/git-commit-guidelines.md (exists, not a symlink)"
+else
+    ln -sfn "$HOME/.dotfiles/claude/git-commit-guidelines.md" "$HOME/.claude-work/git-commit-guidelines.md"
+fi
+
+if [ -e "$HOME/.claude-work/laravel-php-guidelines.md" ] && [ ! -L "$HOME/.claude-work/laravel-php-guidelines.md" ]; then
+    echo "Skipping $HOME/.claude-work/laravel-php-guidelines.md (exists, not a symlink)"
+else
+    ln -sfn "$HOME/.dotfiles/claude/laravel-php-guidelines.md" "$HOME/.claude-work/laravel-php-guidelines.md"
+fi
+
+if [ ! -e "$HOME/.claude-work/settings.json" ]; then
+    cp "$HOME/.dotfiles/claude/settings.json" "$HOME/.claude-work/settings.json"
+fi
+
 # Opencode configuration
 echo 'Linking Opencode configuration...'
 rm -rf $HOME/.config/opencode
@@ -75,6 +107,12 @@ rm -rf $HOME/.dotfiles/claude/skills
 ln -s $HOME/.dotfiles/skills $HOME/.dotfiles/claude/skills
 rm -rf $HOME/.dotfiles/opencode/skills
 ln -s $HOME/.dotfiles/skills $HOME/.dotfiles/opencode/skills
+
+# Codex skills
+echo 'Linking Codex skills...'
+mkdir -p $HOME/.agents
+rm -rf $HOME/.agents/skills
+ln -s $HOME/.dotfiles/skills $HOME/.agents/skills
 
 # Tmux configuration
 echo 'Linking tmux configuration...'

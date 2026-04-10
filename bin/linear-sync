@@ -13,7 +13,7 @@
 set -e
 
 CONFIG_FILE="$HOME/.linearrc"
-TASKS_DIR="./tasks"
+TASKS_DIR="./.tasks"
 
 list_teams() {
     load_config

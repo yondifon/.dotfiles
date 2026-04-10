@@ -33,3 +33,6 @@ yarn-error.log
 # claude.md
 # .mcp.json
 *.null-ls_**
+
+.plans
+.tasks

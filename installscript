@@ -49,8 +49,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo 'Install Neovim and GitHub CLI'
 echo '------------------------------'
-brew install neovim gh lazygit cloudflared ansible postgis mediainfo
+brew install neovim gh lazygit cloudflared ansible mediainfo libpq
 
+# Link libpq so it's available in PATH
+brew link --force libpq
 
 echo 'Install Kitty'
 echo '--------------'

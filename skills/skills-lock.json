@@ -1,10 +1,727 @@
 {
-  "version": 1,
+  "version": 3,
   "skills": {
-    "skill-development": {
-      "source": "yondifon/skills",
+    "find-skills": {
+      "source": "vercel-labs/skills",
       "sourceType": "github",
-      "computedHash": "5f30c8717078c18ae0be71dcd3309a27730432e38b9d958b22ebb6ea33e5941a"
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-04-19T16:16:47.960Z",
+      "updatedAt": "2026-04-19T16:16:47.960Z"
+    },
+    "golang-benchmark": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-benchmark/SKILL.md",
+      "skillFolderHash": "592ca2cb3f674c5c2f9e380b2f0a916bea460544",
+      "installedAt": "2026-04-19T16:21:28.030Z",
+      "updatedAt": "2026-04-19T16:21:28.030Z"
+    },
+    "golang-cli": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-cli/SKILL.md",
+      "skillFolderHash": "cc746edda83e7975345f180cb38963e1acb75840",
+      "installedAt": "2026-04-19T16:21:29.064Z",
+      "updatedAt": "2026-04-19T16:21:29.064Z"
+    },
+    "golang-code-style": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-code-style/SKILL.md",
+      "skillFolderHash": "bae931ed9c6296219a27bf8497efd42e280b082f",
+      "installedAt": "2026-04-19T16:21:29.947Z",
+      "updatedAt": "2026-04-19T16:21:29.947Z"
+    },
+    "golang-concurrency": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-concurrency/SKILL.md",
+      "skillFolderHash": "d437fb870e4d8f9faebefb4a090fe4260d130151",
+      "installedAt": "2026-04-19T16:21:30.852Z",
+      "updatedAt": "2026-04-19T16:21:30.852Z"
+    },
+    "golang-context": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-context/SKILL.md",
+      "skillFolderHash": "62d957beb4fdfdf9f8770dbca1a76ab613f61889",
+      "installedAt": "2026-04-19T16:21:31.386Z",
+      "updatedAt": "2026-04-19T16:21:31.386Z"
+    },
+    "golang-continuous-integration": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-continuous-integration/SKILL.md",
+      "skillFolderHash": "9f390a02b82657d795e801867f65c83ed66fc3a6",
+      "installedAt": "2026-04-19T16:21:31.988Z",
+      "updatedAt": "2026-04-19T16:21:31.988Z"
+    },
+    "golang-data-structures": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-data-structures/SKILL.md",
+      "skillFolderHash": "f9ccfbb62024da76ea045bcea9b93097a24ef1ea",
+      "installedAt": "2026-04-19T16:21:32.993Z",
+      "updatedAt": "2026-04-19T16:21:32.993Z"
+    },
+    "golang-database": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-database/SKILL.md",
+      "skillFolderHash": "b74ab751c81c30622d36b225bc008bb4862e7998",
+      "installedAt": "2026-04-19T16:21:33.908Z",
+      "updatedAt": "2026-04-19T16:21:33.908Z"
+    },
+    "golang-dependency-injection": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-dependency-injection/SKILL.md",
+      "skillFolderHash": "fcd7448f355a37b2ba83ef5099d97633dd270266",
+      "installedAt": "2026-04-19T16:21:34.936Z",
+      "updatedAt": "2026-04-19T16:21:34.936Z"
+    },
+    "golang-dependency-management": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-dependency-management/SKILL.md",
+      "skillFolderHash": "bbbb1bc30fa41e22adcbdc27043435afc129584d",
+      "installedAt": "2026-04-19T16:21:35.923Z",
+      "updatedAt": "2026-04-19T16:21:35.923Z"
+    },
+    "golang-design-patterns": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-design-patterns/SKILL.md",
+      "skillFolderHash": "d9003946a68d848991c3735a01968ed6db4c65aa",
+      "installedAt": "2026-04-19T16:21:36.454Z",
+      "updatedAt": "2026-04-19T16:21:36.454Z"
+    },
+    "golang-documentation": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-documentation/SKILL.md",
+      "skillFolderHash": "e24ba7571952ef2959f188cd09f6331752302aa9",
+      "installedAt": "2026-04-19T16:21:37.376Z",
+      "updatedAt": "2026-04-19T16:21:37.376Z"
+    },
+    "golang-error-handling": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-error-handling/SKILL.md",
+      "skillFolderHash": "3e3c47b0bdd96cbf1350f7ed7c30061549ea0953",
+      "installedAt": "2026-04-19T16:21:38.007Z",
+      "updatedAt": "2026-04-19T16:21:38.007Z"
+    },
+    "golang-grpc": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-grpc/SKILL.md",
+      "skillFolderHash": "24a8e1521f0f0704d21849246e32301cbae740d9",
+      "installedAt": "2026-04-19T16:21:39.356Z",
+      "updatedAt": "2026-04-19T16:21:39.356Z"
+    },
+    "golang-lint": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-linter/SKILL.md",
+      "skillFolderHash": "92e5d17850f28f95114b18b37a56ac839b88626b",
+      "installedAt": "2026-04-19T16:21:39.969Z",
+      "updatedAt": "2026-04-19T16:21:39.969Z"
+    },
+    "golang-modernize": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-modernize/SKILL.md",
+      "skillFolderHash": "60b0ed2a232f14ce30c154518a1bb399491e09b2",
+      "installedAt": "2026-04-19T16:21:40.833Z",
+      "updatedAt": "2026-04-19T16:21:40.833Z"
+    },
+    "golang-naming": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-naming/SKILL.md",
+      "skillFolderHash": "c28bcad729c220e9e01103a93c92522affc8f55f",
+      "installedAt": "2026-04-19T16:21:41.401Z",
+      "updatedAt": "2026-04-19T16:21:41.401Z"
+    },
+    "golang-observability": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-observability/SKILL.md",
+      "skillFolderHash": "726f37037695e07a5bace62b6339117220c37e00",
+      "installedAt": "2026-04-19T16:21:42.055Z",
+      "updatedAt": "2026-04-19T16:21:42.055Z"
+    },
+    "golang-performance": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-performance/SKILL.md",
+      "skillFolderHash": "e7fa6cbc068c85257eccd15be9e574c4b7d6fcbb",
+      "installedAt": "2026-04-19T16:21:42.601Z",
+      "updatedAt": "2026-04-19T16:21:42.601Z"
+    },
+    "golang-popular-libraries": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-popular-libraries/SKILL.md",
+      "skillFolderHash": "9b5bd6507625b6a24af428b7ef727bc795ecdebe",
+      "installedAt": "2026-04-19T16:21:43.203Z",
+      "updatedAt": "2026-04-19T16:21:43.203Z"
+    },
+    "golang-project-layout": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-project-layout/SKILL.md",
+      "skillFolderHash": "364e704d50b979466205d826ec61d2f967b8d24c",
+      "installedAt": "2026-04-19T16:21:43.861Z",
+      "updatedAt": "2026-04-19T16:21:43.861Z"
+    },
+    "golang-safety": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-safety/SKILL.md",
+      "skillFolderHash": "c1252e9ec261e66dcdbb9eb865467233509cdae4",
+      "installedAt": "2026-04-19T16:21:44.471Z",
+      "updatedAt": "2026-04-19T16:21:44.471Z"
+    },
+    "golang-samber-do": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-samber-do/SKILL.md",
+      "skillFolderHash": "71d926eaf6b808dcbe030a5a7be7f11b8be21406",
+      "installedAt": "2026-04-19T16:21:45.002Z",
+      "updatedAt": "2026-04-19T16:21:45.002Z"
+    },
+    "golang-samber-hot": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-samber-hot/SKILL.md",
+      "skillFolderHash": "26fe508605ba8390f43c7dea30eafb5eee43f7cf",
+      "installedAt": "2026-04-19T16:21:45.601Z",
+      "updatedAt": "2026-04-19T16:21:45.601Z"
+    },
+    "golang-samber-lo": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-samber-lo/SKILL.md",
+      "skillFolderHash": "f503ac5fc7af10329b627f72d20873f2a96392d0",
+      "installedAt": "2026-04-19T16:21:46.172Z",
+      "updatedAt": "2026-04-19T16:21:46.172Z"
+    },
+    "golang-samber-mo": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-samber-mo/SKILL.md",
+      "skillFolderHash": "ba95d904d91e47a3cda32b5a37b6f4b57b401a73",
+      "installedAt": "2026-04-19T16:21:46.709Z",
+      "updatedAt": "2026-04-19T16:21:46.709Z"
+    },
+    "golang-samber-oops": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-samber-oops/SKILL.md",
+      "skillFolderHash": "dfdd538754c1ef881cfd1e5c9d28b46d688fdf1c",
+      "installedAt": "2026-04-19T16:21:47.228Z",
+      "updatedAt": "2026-04-19T16:21:47.228Z"
+    },
+    "golang-samber-ro": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-samber-ro/SKILL.md",
+      "skillFolderHash": "d162ccd4cf4560251f2424bf6b47cc0e8ef6a844",
+      "installedAt": "2026-04-19T16:21:47.859Z",
+      "updatedAt": "2026-04-19T16:21:47.859Z"
+    },
+    "golang-samber-slog": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-samber-slog/SKILL.md",
+      "skillFolderHash": "cf10681616a83517aea9fc36c2f19406893002e0",
+      "installedAt": "2026-04-19T16:21:48.419Z",
+      "updatedAt": "2026-04-19T16:21:48.419Z"
+    },
+    "golang-security": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-security/SKILL.md",
+      "skillFolderHash": "501ecf0e98e376a86d1275f65f5da1a9bea5294b",
+      "installedAt": "2026-04-19T16:21:48.999Z",
+      "updatedAt": "2026-04-19T16:21:48.999Z"
+    },
+    "golang-stay-updated": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-stay-updated/SKILL.md",
+      "skillFolderHash": "8f9584ee840cf2a83293d0dd7c332b7413b9f2f9",
+      "installedAt": "2026-04-19T16:21:49.648Z",
+      "updatedAt": "2026-04-19T16:21:49.648Z"
+    },
+    "golang-stretchr-testify": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-stretchr-testify/SKILL.md",
+      "skillFolderHash": "db274b12c4f9a0e5cfa0c2cfeedb13fc385dd770",
+      "installedAt": "2026-04-19T16:21:51.416Z",
+      "updatedAt": "2026-04-19T16:21:51.416Z"
+    },
+    "golang-structs-interfaces": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-structs-interfaces/SKILL.md",
+      "skillFolderHash": "8e05196df43fbf3de27a6d9a3a2cbcc4f786d509",
+      "installedAt": "2026-04-19T16:21:51.957Z",
+      "updatedAt": "2026-04-19T16:21:51.957Z"
+    },
+    "golang-testing": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-testing/SKILL.md",
+      "skillFolderHash": "9f84a1300ab4595efaaf013d4b4702d05bf5ea73",
+      "installedAt": "2026-04-19T16:21:52.859Z",
+      "updatedAt": "2026-04-19T16:21:52.859Z"
+    },
+    "golang-troubleshooting": {
+      "source": "samber/cc-skills-golang",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/samber/cc-skills-golang.git",
+      "skillPath": "skills/golang-troubleshooting/SKILL.md",
+      "skillFolderHash": "572a0098378a156209d0e3e00e6814bbcdaa04e1",
+      "installedAt": "2026-04-19T16:21:53.368Z",
+      "updatedAt": "2026-04-19T16:21:53.368Z"
+    },
+    "coding-guidelines": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/coding-guidelines/SKILL.md",
+      "skillFolderHash": "f2f38082001e5dda0652c498458cf5030496ec4d",
+      "installedAt": "2026-04-19T18:15:18.176Z",
+      "updatedAt": "2026-04-19T18:15:18.176Z"
+    },
+    "domain-cli": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/domain-cli/SKILL.md",
+      "skillFolderHash": "a021a48d16804de5aa043454c4daecd8e28d758c",
+      "installedAt": "2026-04-19T18:15:20.489Z",
+      "updatedAt": "2026-04-19T18:15:20.489Z"
+    },
+    "domain-cloud-native": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/domain-cloud-native/SKILL.md",
+      "skillFolderHash": "c1840f8cce37d83551e920699dfb8418b3e4cb69",
+      "installedAt": "2026-04-19T18:15:23.921Z",
+      "updatedAt": "2026-04-19T18:15:23.921Z"
+    },
+    "domain-embedded": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/domain-embedded/SKILL.md",
+      "skillFolderHash": "b5d3b6feb10e5e0dced3e01ed49877b7cf20774e",
+      "installedAt": "2026-04-19T18:15:26.834Z",
+      "updatedAt": "2026-04-19T18:15:26.834Z"
+    },
+    "domain-fintech": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/domain-fintech/SKILL.md",
+      "skillFolderHash": "90dbf8de6fc50505da1946df66a7ce6c189fd7d1",
+      "installedAt": "2026-04-19T18:15:29.286Z",
+      "updatedAt": "2026-04-19T18:15:29.286Z"
+    },
+    "domain-iot": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/domain-iot/SKILL.md",
+      "skillFolderHash": "86f7a35f6dd6becd8a566cca4dec1e1f85bd017b",
+      "installedAt": "2026-04-19T18:15:31.844Z",
+      "updatedAt": "2026-04-19T18:15:31.844Z"
+    },
+    "domain-ml": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/domain-ml/SKILL.md",
+      "skillFolderHash": "fd4e853bd0c757d908aabbef753c65299acea211",
+      "installedAt": "2026-04-19T18:15:35.013Z",
+      "updatedAt": "2026-04-19T18:15:35.013Z"
+    },
+    "domain-web": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/domain-web/SKILL.md",
+      "skillFolderHash": "e9ef7691541e6e6b3e780051456f1fd1f5f141bd",
+      "installedAt": "2026-04-19T18:15:38.362Z",
+      "updatedAt": "2026-04-19T18:15:38.362Z"
+    },
+    "m01-ownership": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m01-ownership/SKILL.md",
+      "skillFolderHash": "d45f2f4c4a492d1783169f333488c85454805812",
+      "installedAt": "2026-04-19T18:15:42.045Z",
+      "updatedAt": "2026-04-19T18:15:42.045Z"
+    },
+    "m02-resource": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m02-resource/SKILL.md",
+      "skillFolderHash": "4927fae1ba07e37da5911eabe7b74a745cf0b2f5",
+      "installedAt": "2026-04-19T18:15:46.069Z",
+      "updatedAt": "2026-04-19T18:15:46.069Z"
+    },
+    "m03-mutability": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m03-mutability/SKILL.md",
+      "skillFolderHash": "a01b98aa9c81d194523e09dd840fe8233ef46d74",
+      "installedAt": "2026-04-19T18:15:50.472Z",
+      "updatedAt": "2026-04-19T18:15:50.472Z"
+    },
+    "m04-zero-cost": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m04-zero-cost/SKILL.md",
+      "skillFolderHash": "a3cc41f333d3dd7d41498d0c6442c4b5831b643b",
+      "installedAt": "2026-04-19T18:15:54.770Z",
+      "updatedAt": "2026-04-19T18:15:54.770Z"
+    },
+    "m05-type-driven": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m05-type-driven/SKILL.md",
+      "skillFolderHash": "6b040396b9e50f4e7ec320934483f54a3c870f31",
+      "installedAt": "2026-04-19T18:16:00.255Z",
+      "updatedAt": "2026-04-19T18:16:00.255Z"
+    },
+    "m06-error-handling": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m06-error-handling/SKILL.md",
+      "skillFolderHash": "47c04e309319fd97d6cef4f50778d4e497fff57d",
+      "installedAt": "2026-04-19T18:16:03.253Z",
+      "updatedAt": "2026-04-19T18:16:03.253Z"
+    },
+    "m07-concurrency": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m07-concurrency/SKILL.md",
+      "skillFolderHash": "2441813554275759779d05725e6219a94009116e",
+      "installedAt": "2026-04-19T18:16:06.067Z",
+      "updatedAt": "2026-04-19T18:16:06.067Z"
+    },
+    "m09-domain": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m09-domain/SKILL.md",
+      "skillFolderHash": "b1dc5897aa4b461bda241515d03ab340b46c102f",
+      "installedAt": "2026-04-19T18:16:08.313Z",
+      "updatedAt": "2026-04-19T18:16:08.313Z"
+    },
+    "m10-performance": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m10-performance/SKILL.md",
+      "skillFolderHash": "d6f7981c8c2bdb66a2542d65327547b680e27cf0",
+      "installedAt": "2026-04-19T18:16:10.518Z",
+      "updatedAt": "2026-04-19T18:16:10.518Z"
+    },
+    "m11-ecosystem": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m11-ecosystem/SKILL.md",
+      "skillFolderHash": "e46f6f84ebb46a088c932c9352dbc8a298dad332",
+      "installedAt": "2026-04-19T18:16:12.706Z",
+      "updatedAt": "2026-04-19T18:16:12.706Z"
+    },
+    "m12-lifecycle": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m12-lifecycle/SKILL.md",
+      "skillFolderHash": "d3763297b46ce8ada2ba1fe6e4c617583d7d77af",
+      "installedAt": "2026-04-19T18:16:14.872Z",
+      "updatedAt": "2026-04-19T18:16:14.872Z"
+    },
+    "m13-domain-error": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m13-domain-error/SKILL.md",
+      "skillFolderHash": "8e9d31c3cd9764b026c516540cfe0ced4bd068bb",
+      "installedAt": "2026-04-19T18:16:17.203Z",
+      "updatedAt": "2026-04-19T18:16:17.203Z"
+    },
+    "m14-mental-model": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m14-mental-model/SKILL.md",
+      "skillFolderHash": "773900346db456cc86c76c11d6c070cf4e9b9f40",
+      "installedAt": "2026-04-19T18:16:19.544Z",
+      "updatedAt": "2026-04-19T18:16:19.544Z"
+    },
+    "m15-anti-pattern": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/m15-anti-pattern/SKILL.md",
+      "skillFolderHash": "44d2b1226ec9a23afd6bc18f08f8d2623cfa94f4",
+      "installedAt": "2026-04-19T18:16:21.689Z",
+      "updatedAt": "2026-04-19T18:16:21.689Z"
+    },
+    "meta-cognition-parallel": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/meta-cognition-parallel/SKILL.md",
+      "skillFolderHash": "b1555b79129e0d311dcded2c712c52a432937b96",
+      "installedAt": "2026-04-19T18:16:23.853Z",
+      "updatedAt": "2026-04-19T18:16:23.853Z"
+    },
+    "rust-call-graph": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/rust-call-graph/SKILL.md",
+      "skillFolderHash": "e0213f95974750283cf06040c033d407edd41176",
+      "installedAt": "2026-04-19T18:16:26.749Z",
+      "updatedAt": "2026-04-19T18:16:26.749Z"
+    },
+    "rust-code-navigator": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/rust-code-navigator/SKILL.md",
+      "skillFolderHash": "abb823f1f39d5345694a8ba2980eb9b5e614a2a2",
+      "installedAt": "2026-04-19T18:16:29.138Z",
+      "updatedAt": "2026-04-19T18:16:29.138Z"
+    },
+    "rust-daily": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/rust-daily/SKILL.md",
+      "skillFolderHash": "5b8129920b4d13b18909fb6382da037e117e5259",
+      "installedAt": "2026-04-19T18:16:32.022Z",
+      "updatedAt": "2026-04-19T18:16:32.022Z"
+    },
+    "rust-deps-visualizer": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/rust-deps-visualizer/SKILL.md",
+      "skillFolderHash": "33827ddeef351eecfe5a9029c71fb7d6f65e1001",
+      "installedAt": "2026-04-19T18:16:34.230Z",
+      "updatedAt": "2026-04-19T18:16:34.230Z"
+    },
+    "rust-learner": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/rust-learner/SKILL.md",
+      "skillFolderHash": "9e34e3315f871e23cf3d063f1dea09d57da34e4b",
+      "installedAt": "2026-04-19T18:16:36.739Z",
+      "updatedAt": "2026-04-19T18:16:36.739Z"
+    },
+    "rust-refactor-helper": {
+      "source": "actionbook/rust-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/actionbook/rust-skills.git",
+      "skillPath": "skills/rust-refactor-helper/SKILL.md",
+      "skillFolderHash": "f66e42acb07e7077d5f021163770737090d75080",
+      "installedAt": "2026-04-19T18:16:39.021Z",
+      "updatedAt": "2026-04-19T18:16:39.021Z"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "skillFolderHash": "928950704df8a8b885c03de5da626331e6f29cf8",
+      "pluginName": "example-skills",
+      "installedAt": "2026-04-20T11:50:52.028Z",
+      "updatedAt": "2026-04-22T11:02:07.669Z"
+    },
+    "SVG Logo Designer": {
+      "source": "rknall/claude-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/rknall/claude-skills.git",
+      "skillPath": "svg-logo-designer/SKILL.md",
+      "skillFolderHash": "d32ceba96946d695a40d7be78cc144d8ee7a6ac5",
+      "installedAt": "2026-04-21T21:39:21.130Z",
+      "updatedAt": "2026-04-21T21:39:21.130Z"
+    },
+    "write-ux-copy": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "ux-write/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.116Z",
+      "updatedAt": "2026-04-22T10:41:48.116Z"
+    },
+    "solve-issue": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "solve-issue/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.124Z",
+      "updatedAt": "2026-04-22T11:11:08.647Z"
+    },
+    "run-plan": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "run-plan/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.126Z",
+      "updatedAt": "2026-04-22T11:11:08.645Z"
+    },
+    "refactor-file": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "refactor-file/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.127Z",
+      "updatedAt": "2026-04-22T11:11:08.644Z"
+    },
+    "optimize-docker": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "optimize-docker/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.128Z",
+      "updatedAt": "2026-04-22T11:11:08.643Z"
+    },
+    "engineer-prompt": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "engineer-prompt/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.130Z",
+      "updatedAt": "2026-04-22T11:11:08.642Z"
+    },
+    "define-product": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "define-product/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.130Z",
+      "updatedAt": "2026-04-22T11:11:08.641Z"
+    },
+    "create-worktree": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "create-worktree/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.131Z",
+      "updatedAt": "2026-04-22T11:11:08.639Z"
+    },
+    "build-ui": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "build-ui/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.132Z",
+      "updatedAt": "2026-04-22T11:11:08.637Z"
+    },
+    "architect-code": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "architect-code/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:41:48.133Z",
+      "updatedAt": "2026-04-22T11:11:08.633Z"
+    },
+    "ux-write": {
+      "source": "git@github.com:yondifon/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
+      "skillPath": "ux-write/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-22T10:49:58.269Z",
+      "updatedAt": "2026-04-22T11:11:08.647Z"
     }
-  }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp",
+    "claude-code",
+    "pi"
+  ]
 }

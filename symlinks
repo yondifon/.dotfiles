@@ -71,7 +71,8 @@ mkdir -p "$HOME/.claude-work"
 if [ -e "$HOME/.claude-work/skills" ] && [ ! -L "$HOME/.claude-work/skills" ]; then
     echo "Skipping $HOME/.claude-work/skills (exists, not a symlink)"
 else
-    ln -sfn "$HOME/.dotfiles/skills" "$HOME/.claude-work/skills"
+    mkdir -p "$HOME/.claude-work/skills"
+    ln -sfn "$HOME/.dotfiles/skills/skills-lock.json" "$HOME/.claude-work/skills/skills-lock.json"
 fi
 
 if [ -e "$HOME/.claude-work/CLAUDE.md" ] && [ ! -L "$HOME/.claude-work/CLAUDE.md" ]; then
@@ -101,18 +102,22 @@ echo 'Linking Opencode configuration...'
 rm -rf $HOME/.config/opencode
 ln -s $HOME/.dotfiles/opencode $HOME/.config/opencode
 
-# Shared skills (for Claude and Opencode)
-echo 'Linking shared skills...'
-rm -rf $HOME/.dotfiles/claude/skills
-ln -s $HOME/.dotfiles/skills $HOME/.dotfiles/claude/skills
-rm -rf $HOME/.dotfiles/opencode/skills
-ln -s $HOME/.dotfiles/skills $HOME/.dotfiles/opencode/skills
-
-# Codex skills
-echo 'Linking Codex skills...'
+# Skills lock file (managed by bunx skills)
+# Note: Run `bunx skills -g update` to sync skills from the lock file
+echo 'Linking skills lock file...'
 mkdir -p $HOME/.agents
-rm -rf $HOME/.agents/skills
-ln -s $HOME/.dotfiles/skills $HOME/.agents/skills
+if [ ! -e "$HOME/.agents/.skill-lock.json" ]; then
+    echo '{}' > "$HOME/.agents/.skill-lock.json"
+fi
+ln -sfn "$HOME/.dotfiles/skills/skills-lock.json" "$HOME/.agents/.skill-lock.json"
+
+# Claude skills symlink (points to work profile skills)
+echo 'Linking Claude skills...'
+if [ -e "$HOME/.dotfiles/claude/skills" ] && [ ! -L "$HOME/.dotfiles/claude/skills" ]; then
+    echo "Skipping $HOME/.dotfiles/claude/skills (exists, not a symlink)"
+else
+    ln -sfn "$HOME/.claude-work/skills" "$HOME/.dotfiles/claude/skills"
+fi
 
 # Tmux configuration
 echo 'Linking tmux configuration...'

@@ -49,7 +49,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo 'Install Neovim and GitHub CLI'
 echo '------------------------------'
-brew install neovim gh lazygit cloudflared ansible mediainfo libpq
+brew install neovim gh lazygit cloudflared ansible mediainfo libpq anomalyco/tap/opencode
 
 # Link libpq so it's available in PATH
 brew link --force libpq

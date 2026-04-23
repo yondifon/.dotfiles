@@ -38,4 +38,6 @@ yarn-error.log
 .tasks
 
 .plan.md
+.plans/*.md
 .feature.md
+.features/*.md

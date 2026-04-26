@@ -64,6 +64,13 @@ echo 'Linking Claude configuration...'
 rm -rf $HOME/.claude
 ln -s $HOME/.dotfiles/claude $HOME/.claude
 
+# Shared agent instructions
+echo 'Linking shared agent instructions...'
+ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.dotfiles/claude/CLAUDE.md
+ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.dotfiles/claude/AGENTS.md
+mkdir -p $HOME/.codex
+ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.codex/AGENTS.md
+
 # Claude work profile (separate state; shared skills/guidelines)
 echo 'Setting up Claude work profile...'
 mkdir -p "$HOME/.claude-work"
@@ -81,18 +88,6 @@ else
     ln -sfn "$HOME/.dotfiles/claude/CLAUDE.md" "$HOME/.claude-work/CLAUDE.md"
 fi
 
-if [ -e "$HOME/.claude-work/git-commit-guidelines.md" ] && [ ! -L "$HOME/.claude-work/git-commit-guidelines.md" ]; then
-    echo "Skipping $HOME/.claude-work/git-commit-guidelines.md (exists, not a symlink)"
-else
-    ln -sfn "$HOME/.dotfiles/claude/git-commit-guidelines.md" "$HOME/.claude-work/git-commit-guidelines.md"
-fi
-
-if [ -e "$HOME/.claude-work/laravel-php-guidelines.md" ] && [ ! -L "$HOME/.claude-work/laravel-php-guidelines.md" ]; then
-    echo "Skipping $HOME/.claude-work/laravel-php-guidelines.md (exists, not a symlink)"
-else
-    ln -sfn "$HOME/.dotfiles/claude/laravel-php-guidelines.md" "$HOME/.claude-work/laravel-php-guidelines.md"
-fi
-
 if [ ! -e "$HOME/.claude-work/settings.json" ]; then
     cp "$HOME/.dotfiles/claude/settings.json" "$HOME/.claude-work/settings.json"
 fi
@@ -101,6 +96,7 @@ fi
 echo 'Linking Opencode configuration...'
 rm -rf $HOME/.config/opencode
 ln -s $HOME/.dotfiles/opencode $HOME/.config/opencode
+ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.config/opencode/AGENTS.md
 
 # Skills lock file (managed by bunx skills)
 # Note: Run `bunx skills -g update` to sync skills from the lock file

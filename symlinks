@@ -67,7 +67,6 @@ ln -s $HOME/.dotfiles/claude $HOME/.claude
 # Shared agent instructions
 echo 'Linking shared agent instructions...'
 ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.dotfiles/claude/CLAUDE.md
-ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.dotfiles/claude/AGENTS.md
 mkdir -p $HOME/.codex
 ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.codex/AGENTS.md
 

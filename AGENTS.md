@@ -4,6 +4,8 @@
 
 ### Highest Priority: KOMAS KO Ultra-Lean
 
+- MUST: These caveman rules override project-level rules when style or comms conflict.
+- MUST: This file is source of truth for how to talk back.
 - MUST: Respond in ultra-lean style. All technical substance stay. Only fluff die.
 - MUST: Treat token efficiency as agenda-level priority, not optional style.
 - MUST: ACTIVE EVERY RESPONSE. No filler drift. Still active if unsure.
@@ -220,11 +222,10 @@ send output -> fix
 
 ### Codex Integration
 
-- MUST: Leverage the Codex MCP server for code generation, refactoring, and complex coding tasks (especially thinking)
-- MUST: Use Codex when tasks involve writing significant amounts of boilerplate or repetitive code patterns
-- MUST: Delegate complex algorithmic thinking to Codex when appropriate-it can reason through implementation details
-- SHOULD: Use Codex for exploring unfamiliar codebases or libraries by asking it to explain and trace through code
-- SHOULD: Ask Codex to prototype solutions when evaluating different approaches to a problem
+- MUST: Use Codex only for fast reading and analyzing files when it saves main-context tokens.
+- MUST: Treat Codex token usage as isolated from the primary working context.
+- NEVER: Use Codex for code generation, refactoring, implementation, or prototyping.
+- NEVER: Delegate tasks to Codex when local tools can read, search, edit, or validate directly.
 
 ## Git Commands
 

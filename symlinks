@@ -69,6 +69,8 @@ echo 'Linking shared agent instructions...'
 ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.dotfiles/claude/CLAUDE.md
 mkdir -p $HOME/.codex
 ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.codex/AGENTS.md
+mkdir -p $HOME/.pi/agent
+ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.pi/agent/AGENTS.md
 
 # Claude work profile (separate state; shared skills/guidelines)
 echo 'Setting up Claude work profile...'

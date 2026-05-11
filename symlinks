@@ -75,19 +75,9 @@ ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.pi/agent/AGENTS.md
 # Claude work profile (separate state; shared skills/guidelines)
 echo 'Setting up Claude work profile...'
 mkdir -p "$HOME/.claude-work"
-
-if [ -e "$HOME/.claude-work/skills" ] && [ ! -L "$HOME/.claude-work/skills" ]; then
-    echo "Skipping $HOME/.claude-work/skills (exists, not a symlink)"
-else
-    mkdir -p "$HOME/.claude-work/skills"
-    ln -sfn "$HOME/.dotfiles/skills/skills-lock.json" "$HOME/.claude-work/skills/skills-lock.json"
-fi
-
-if [ -e "$HOME/.claude-work/CLAUDE.md" ] && [ ! -L "$HOME/.claude-work/CLAUDE.md" ]; then
-    echo "Skipping $HOME/.claude-work/CLAUDE.md (exists, not a symlink)"
-else
-    ln -sfn "$HOME/.dotfiles/claude/CLAUDE.md" "$HOME/.claude-work/CLAUDE.md"
-fi
+rm -rf "$HOME/.claude-work/skills"
+ln -sfn "$HOME/.agents/skills" "$HOME/.claude-work/skills"
+ln -sfn "$HOME/.dotfiles/AGENTS.md" "$HOME/.claude-work/CLAUDE.md"
 
 if [ ! -e "$HOME/.claude-work/settings.json" ]; then
     cp "$HOME/.dotfiles/claude/settings.json" "$HOME/.claude-work/settings.json"
@@ -100,21 +90,19 @@ ln -s $HOME/.dotfiles/opencode $HOME/.config/opencode
 ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.config/opencode/AGENTS.md
 
 # Skills lock file (managed by bunx skills)
-# Note: Run `bunx skills -g update` to sync skills from the lock file
+# Note: Run `bunx skills experimental_install` to restore ~/.agents/skills from the lock file
 echo 'Linking skills lock file...'
 mkdir -p $HOME/.agents
 if [ ! -e "$HOME/.agents/.skill-lock.json" ]; then
     echo '{}' > "$HOME/.agents/.skill-lock.json"
 fi
 ln -sfn "$HOME/.dotfiles/skills/skills-lock.json" "$HOME/.agents/.skill-lock.json"
+mkdir -p "$HOME/.agents/skills"
 
-# Claude skills symlink (points to work profile skills)
+# Claude skills
 echo 'Linking Claude skills...'
-if [ -e "$HOME/.dotfiles/claude/skills" ] && [ ! -L "$HOME/.dotfiles/claude/skills" ]; then
-    echo "Skipping $HOME/.dotfiles/claude/skills (exists, not a symlink)"
-else
-    ln -sfn "$HOME/.claude-work/skills" "$HOME/.dotfiles/claude/skills"
-fi
+rm -rf "$HOME/.dotfiles/claude/skills"
+ln -sfn "$HOME/.agents/skills" "$HOME/.dotfiles/claude/skills"
 
 # Tmux configuration
 echo 'Linking tmux configuration...'

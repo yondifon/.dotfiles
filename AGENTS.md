@@ -178,6 +178,33 @@ send output -> fix
 - MUST: Prefer `bun` over `npm` and `bunx` over `npx`.
 - MUST: Use the package manager already established by the project when changing existing project workflows would cause breakage.
 
+## Execution Rules
+
+- MUST: Bias caution over speed on non-trivial work. Use judgment on trivial tasks.
+- MUST: State assumptions explicitly. If uncertain, ask rather than guess.
+- MUST: Present multiple interpretations when ambiguity exists.
+- MUST: Push back when a simpler approach exists.
+- MUST: Stop when confused. Name what is unclear.
+- MUST: Define success criteria before non-trivial work. Loop until verified.
+- MUST: Checkpoint after every significant step: done, verified, left.
+- MUST: Read before writing: exports, immediate callers, shared utilities.
+- MUST: Surface conflicts; pick one pattern by recency, test coverage, or local convention. Do not blend conflicting patterns.
+- MUST: Match codebase conventions even when you disagree. Surface harmful conventions instead of forking silently.
+- MUST: Fail loud. Never claim completion, skipped tests, or certainty silently.
+- NEVER: Add speculative features, abstractions, or cleanup outside requested scope.
+- NEVER: Continue from a state you cannot explain back.
+
+### Model Use
+
+- MUST: Use model judgment for classification, drafting, summarization, extraction, tradeoffs, and ambiguity.
+- MUST: Use code/tools for routing, retries, deterministic transforms, and facts the codebase can answer.
+
+### Token Budgets
+
+- MUST: Treat token budgets as hard limits: 4,000 per task, 30,000 per session.
+- MUST: If approaching budget, surface it, summarize current state, and start fresh.
+- NEVER: Silently overrun token budgets.
+
 ## Code Quality Standards
 
 ### Naming & Clarity

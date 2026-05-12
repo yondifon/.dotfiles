@@ -182,7 +182,7 @@ send output -> fix
 - MUST: Prefer specialized skills over generic reasoning or ad hoc implementation.
 - MUST: If multiple skills apply, choose most specific skill.
 - MUST: If no skill applies, proceed normally without forcing one.
-- MUST: Prefer `bun` over `npm` and `bunx` over `npx` unless project already uses another package manager.
+- MUST: Always use `bun` not `npm`, `yarn`, or `pnpm`. Always use `bunx` not `npx`.
 
 ## Workflow Efficiency
 

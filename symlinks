@@ -127,5 +127,9 @@ mkdir -p $HOME/.ssh
 rm -f $HOME/.ssh/config
 ln -s $HOME/.dotfiles/ssh/config $HOME/.ssh/config
 
+# Bun configuration
+echo 'Linking bunfig...'
+rm -f $HOME/.bunfig.toml
+ln -s $HOME/.dotfiles/bunfig.toml $HOME/.bunfig.toml
 
 echo 'All symlinks created successfully!'

@@ -216,6 +216,13 @@ send output -> fix
 - Use safe libraries for auth, crypto, parsing, and escaping.
 - Surface security-sensitive tradeoffs clearly.
 
+## Production Data
+
+- When building migrations, commands, backfills, or data fixes that may run in prod, do not infer prod safety from dev data.
+- Ask user to run exact read-only prod query needed to size risk, e.g. row counts, affected IDs, max timestamps, or index state.
+- Provide the exact query/command and why it matters; wait for prod values before deciding runtime, batching, locking, or deploy safety.
+- Never query prod directly unless user explicitly grants access and confirms target env.
+
 ## Git
 
 - NEVER push to remote without explicit user confirmation.

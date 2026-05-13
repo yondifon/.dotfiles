@@ -132,4 +132,9 @@ echo 'Linking bunfig...'
 rm -f $HOME/.bunfig.toml
 ln -s $HOME/.dotfiles/bunfig.toml $HOME/.bunfig.toml
 
+# NPM configuration
+echo 'Linking npmrc...'
+rm -f $HOME/.npmrc
+ln -s $HOME/.dotfiles/.npmrc $HOME/.npmrc
+
 echo 'All symlinks created successfully!'

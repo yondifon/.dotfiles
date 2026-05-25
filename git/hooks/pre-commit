@@ -15,18 +15,6 @@ fi
 
 FAIL=0
 
-# Run Rector if available
-if command -v rector >/dev/null 2>&1; then
-  echo "Running Rector..."
-  echo "$STAGED_FILES" | xargs -L1 -P$(sysctl -n hw.ncpu) rector process --dry-run
-  if [ $? -ne 0 ]; then
-    echo "Rector found issues in staged files."
-    FAIL=1
-  fi
-else
-  echo "Warning: Rector not found, skipping."
-fi
-
 # Run Pint if available
 if command -v pint >/dev/null 2>&1; then
   echo "Running Pint..."

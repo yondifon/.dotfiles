@@ -22,12 +22,17 @@ return {
 
                 indent = {
                     enable = true,
+                    disable = { "markdown", "markdown_inline", "mdx" },
                 },
 
                 highlight = {
                     -- `false` will disable the whole extension
                     enable = true,
                     disable = function(lang, buf)
+                        if lang == "markdown" or lang == "markdown_inline" or lang == "mdx" then
+                            return true
+                        end
+
                         if lang == "html" then
                             print("disabled")
                             return true
@@ -51,6 +56,19 @@ return {
                     -- Instead of true it can also be a list of languages
                     additional_vim_regex_highlighting = { "markdown" },
                 },
+            })
+
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "markdown", "rmd", "quarto", "mdx", "markdown.mdx" },
+                callback = function(event)
+                    pcall(vim.treesitter.stop, event.buf)
+
+                    vim.schedule(function()
+                        if vim.api.nvim_buf_is_valid(event.buf) then
+                            pcall(vim.treesitter.stop, event.buf)
+                        end
+                    end)
+                end,
             })
 
             local treesitter_parser_config = require("nvim-treesitter.parsers").get_parser_configs()
@@ -83,7 +101,11 @@ return {
                 -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
                 separator = nil,
                 zindex = 20, -- The Z-index of the context window
-                on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+                on_attach = function(buf)
+                    local filetype = vim.bo[buf].filetype
+
+                    return filetype ~= "markdown" and filetype ~= "rmd" and filetype ~= "quarto"
+                end, -- (fun(buf: integer): boolean) return false to disable attaching
             })
         end,
     },

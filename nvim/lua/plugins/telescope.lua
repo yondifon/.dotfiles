@@ -124,6 +124,7 @@ return {
             pickers = {
                 find_files = {
                     hidden = true,
+                    previewer = false,
                     sort_lastused = true,
                 },
                 buffers = {
@@ -132,11 +133,13 @@ return {
                 },
                 oldfiles = {
                     prompt_title = "History",
+                    previewer = false,
                     sort_lastused = true,
                     only_cwd = true,
                     initial_mode = "normal",
                 },
                 git_files = {
+                    previewer = false,
                     initial_mode = "normal",
                 },
                 lsp_references = {

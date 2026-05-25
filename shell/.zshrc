@@ -166,3 +166,6 @@ export PATH="$PATH:/Users/malico/.lmstudio/bin"
 # Herd injected PHP 7.4 configuration.
 export HERD_PHP_74_INI_SCAN_DIR="/Users/malico/Library/Application Support/Herd/config/php/74/"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# Added by Antigravity IDE
+export PATH="/Users/malico/.antigravity-ide/antigravity-ide/bin:$PATH"

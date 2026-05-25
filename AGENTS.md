@@ -183,6 +183,7 @@ send output -> fix
 - MUST: If multiple skills apply, choose most specific skill.
 - MUST: If no skill applies, proceed normally without forcing one.
 - MUST: Always use `bun` not `npm`, `yarn`, or `pnpm`. Always use `bunx` not `npx`.
+- MUST: Do not run `bun run dev` or `bun run build` by default; local dev servers are usually already running, so builds are often useless. Prefer targeted tests, linters, or type checks only when they verify the change.
 
 ## Workflow Efficiency
 
@@ -193,6 +194,7 @@ send output -> fix
 - MUST: Use subagents for clear, bounded work when delegation saves time or context.
 - MUST: Give subagents explicit scope, files, success criteria, and expected output.
 - NEVER: Delegate vague work, product judgment, or final responsibility.
+- MUST (planning): Before implementing, dispatch a quick subagent review of affected files. Use a fast, lower-reasoning subagent. Surface relevant context, change scope, and risks. Also load relevant language/framework skills or guides for the review. Integrate feedback before writing code.
 
 ## Code Quality
 
@@ -225,6 +227,7 @@ send output -> fix
 
 ## Git
 
+- NEVER commit, push, pull, or merge unless user explicitly asks.
 - NEVER push to remote without explicit user confirmation.
 - NEVER run destructive commands like `git reset --hard` or `git checkout --` unless explicitly requested or approved.
 - NEVER amend commits unless explicitly requested.

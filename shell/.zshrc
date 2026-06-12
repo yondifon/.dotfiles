@@ -142,9 +142,6 @@ export PATH="$ANDROID_HOME/platform-tools:$PATH"
 export PATH="$ANDROID_HOME/emulator:$PATH"
 export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 
-
-
-
 # # Only run in interactive shells
 # if [[ -o interactive ]]; then
 #   if command -v bun >/dev/null 2>&1; then
@@ -154,14 +151,11 @@ export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 #   fi
 # fi
 
-
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/malico/.lmstudio/bin"
 # End of LM Studio CLI section
 
-
 . "$HOME/.turso/env"
-
 
 # Herd injected PHP 7.4 configuration.
 export HERD_PHP_74_INI_SCAN_DIR="/Users/malico/Library/Application Support/Herd/config/php/74/"
@@ -169,3 +163,7 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # Added by Antigravity IDE
 export PATH="/Users/malico/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/malico/.local/bin:$PATH"

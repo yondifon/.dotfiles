@@ -120,7 +120,9 @@ alias resync="source ~/.dotfiles/symlinks"
 
 # Claude profiles
 alias claude-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" claude'
+alias claude-isern='CLAUDE_CONFIG_DIR="$HOME/.claude-isern" claude'
 alias continues-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" continues'
+alias continues-isern='CLAUDE_CONFIG_DIR="$HOME/.claude-isern" continues'
 
 # Calculator
 alias _='noglob _calc'

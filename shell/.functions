@@ -262,22 +262,81 @@ function symlinks() {
 
 # Tmux session management (beta)
 function sesh() {
-  local session_name=$(basename "$PWD")
-  
-  # Parse session name: convert .dotfiles to _dotfiles
-  session_name=${session_name//./_}
-  
+  local OPTIND=1 opt
+  local open_nvim=0
+  local open_commit=0
+  local open_agent=0
+
+  while getopts "ncadh" opt; do
+    case "$opt" in
+      n) open_nvim=1 ;;
+      c) open_commit=1 ;;
+      a) open_agent=1 ;;
+      d)
+        open_nvim=1
+        open_commit=1
+        ;;
+      h)
+        echo "Usage: sesh [-n] [-c] [-a] [-d]"
+        echo "  -n  open nvim window"
+        echo "  -c  open commit window with opencode --model big-pickel"
+        echo "  -a  open agent window with opencode"
+        echo "  -d  dev layout: nvim + commit"
+        return 0
+        ;;
+      *) return 1 ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
   if ! command -v tmux >/dev/null 2>&1; then
     echo "tmux is not installed"
     return 1
   fi
-  
-  if tmux has-session -t "$session_name" 2>/dev/null; then
+
+  local session_dir
+  session_dir=$(git rev-parse --show-toplevel 2>/dev/null) || session_dir="$PWD"
+
+  local session_base=$(basename "$session_dir")
+  local session_hash=$(printf '%s' "$session_dir" | cksum | cut -d ' ' -f 1)
+  local session_name="${session_base}-${session_hash[1,6]}"
+
+  # tmux session names cannot safely contain dots or colons.
+  session_name=${session_name//./_}
+  session_name=${session_name//:/_}
+
+  local created_session=0
+
+  if tmux has-session -t "=$session_name" 2>/dev/null; then
     echo "Attaching to existing session: $session_name"
-    tmux attach-session -t "$session_name"
   else
     echo "Creating new session: $session_name"
-    tmux new-session -s "$session_name"
+    tmux new-session -d -s "$session_name" -n shell -c "$session_dir"
+    created_session=1
+  fi
+
+  if [ "$open_nvim" -eq 1 ] && ! tmux list-windows -t "=$session_name" -F '#{window_name}' | grep -qx nvim; then
+    if [ "$created_session" -eq 1 ]; then
+      tmux rename-window -t "=$session_name:1" nvim
+      tmux send-keys -t "=$session_name:nvim" "nvim ." C-m
+    else
+      tmux new-window -t "=$session_name:" -n nvim -c "$session_dir" "nvim ."
+    fi
+  fi
+
+  if [ "$open_commit" -eq 1 ] && ! tmux list-windows -t "=$session_name" -F '#{window_name}' | grep -qx commit; then
+    tmux new-window -t "=$session_name:" -n commit -c "$session_dir" "opencode --model big-pickel"
+  fi
+
+  if [ "$open_agent" -eq 1 ] && ! tmux list-windows -t "=$session_name" -F '#{window_name}' | grep -qx agent; then
+    tmux new-window -t "=$session_name:" -n agent -c "$session_dir" "opencode"
+  fi
+
+  tmux select-window -t "=$session_name:1"
+  if [ -n "$TMUX" ]; then
+    tmux switch-client -t "=$session_name"
+  else
+    tmux attach-session -t "=$session_name"
   fi
 }
 

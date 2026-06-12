@@ -192,6 +192,9 @@ send output -> fix
 - MUST: Prefer reading 1-3 specific files over launching subagents for simple lookups.
 - MUST: Use Glob/Grep only when you do not know where something lives.
 - MUST: Use subagents for clear, bounded work when delegation saves time or context.
+- MUST: Use lower-reasoning models for subagents by default; reserve high reasoning for primary judgment, architecture, and final decisions.
+- MUST: Always remember to use a subagent with the **Haiku model** for large mechanical or repetitive changes — bulk find-and-replace, logging/format migrations, applying one well-defined pattern across many files, mass renames, and similar low-judgment high-volume edits. Reserve the main (higher-reasoning) model for design and judgment; push the rote churn to Haiku subagents.
+- MUST: When delegating such work, give the Haiku subagent the exact convention with worked before/after examples, the explicit file list, and the verification commands it must run and report (build, vet, gofmt/lint, tests). Review its output before accepting.
 - MUST: Give subagents explicit scope, files, success criteria, and expected output.
 - NEVER: Delegate vague work, product judgment, or final responsibility.
 - MUST (planning): Before implementing, dispatch a quick subagent review of affected files. Use a fast, lower-reasoning subagent. Surface relevant context, change scope, and risks. Also load relevant language/framework skills or guides for the review. Integrate feedback before writing code.

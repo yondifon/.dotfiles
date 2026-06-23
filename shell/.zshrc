@@ -167,3 +167,4 @@ export PATH="/Users/malico/.antigravity-ide/antigravity-ide/bin:$PATH"
 
 # Added by Antigravity CLI installer
 export PATH="/Users/malico/.local/bin:$PATH"
+

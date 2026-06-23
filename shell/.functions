@@ -14,8 +14,27 @@ art() {
     fi
 }
 
-# Your custom commit function
+# Generate commit message via opencode then commit
 commit() {
+  if [[ $# -eq 0 ]]; then
+    local staged
+    staged=$(git diff --cached --stat 2>/dev/null)
+    if [[ -z "$staged" ]]; then
+      echo "Nothing staged. Staging all..."
+      git add -A
+    fi
+
+    local result msg
+    result=$(opencode -m opencode/big-pickle run "Generate a conventional commit message from the staged changes (git diff --cached). Output ONLY the commit message text, nothing else." 2>/dev/null)
+    msg=$(printf '%s\n' "$result" | sed -n '/^> /d; /^[[:space:]]*$/d; p')
+    if [[ -z "$msg" ]]; then
+      echo "Failed to generate commit message."
+      return 1
+    fi
+    printf '%s\n' "$msg" | git commit -F -
+    return $?
+  fi
+
   local args=()
   local msg=""
   local author=""
@@ -34,7 +53,6 @@ commit() {
         msg="$1"
         ;;
       *)
-        # Build message from remaining words
         if [[ -z "$msg" ]]; then
           msg="$1"
         else
@@ -57,9 +75,55 @@ commit() {
   git commit "${args[@]}" -m "$msg"
 }
 
+# Generate commit message from staged diff via opencode (stdout or --copy)
+commit-message() {
+  local copy=0
+  local extra=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --copy)
+        copy=1
+        ;;
+      *)
+        if [[ -z "$extra" ]]; then
+          extra="$1"
+        else
+          extra="$extra $1"
+        fi
+        ;;
+    esac
+    shift
+  done
+
+  local prompt="Inspect the staged changes (git diff --cached). Generate a conventional commit message. Output ONLY the commit message text, nothing else."
+  [[ -n "$extra" ]] && prompt="$prompt Context: $extra"
+
+  local result msg
+  result=$(opencode -m opencode/big-pickle run "$prompt" 2>/dev/null)
+  msg=$(printf '%s\n' "$result" | sed -n '/^> /d; /^[[:space:]]*$/d; p')
+
+  if [[ -z "$msg" ]]; then
+    echo "Failed to generate commit message."
+    return 1
+  fi
+
+  if [[ $copy -eq 1 ]]; then
+    printf '%s\n' "$msg" | pbcopy
+    echo "Copied to clipboard"
+  else
+    printf '%s\n' "$msg"
+  fi
+}
+
 # Rename branch
 renamebranch() {
   git branch -m "$1" "$2"
+}
+
+# Switch branch using new git switch command
+gswitch() {
+  git switch "$@"
 }
 
 # Stage all and commit quickly
@@ -279,7 +343,7 @@ function sesh() {
       h)
         echo "Usage: sesh [-n] [-c] [-a] [-d]"
         echo "  -n  open nvim window"
-        echo "  -c  open commit window with opencode --model big-pickel"
+        echo "  -c  open commit window with opencode --model big-pickle"
         echo "  -a  open agent window with opencode"
         echo "  -d  dev layout: nvim + commit"
         return 0
@@ -325,7 +389,7 @@ function sesh() {
   fi
 
   if [ "$open_commit" -eq 1 ] && ! tmux list-windows -t "=$session_name" -F '#{window_name}' | grep -qx commit; then
-    tmux new-window -t "=$session_name:" -n commit -c "$session_dir" "opencode --model big-pickel"
+    tmux new-window -t "=$session_name:" -n commit -c "$session_dir" "opencode --model big-pickle"
   fi
 
   if [ "$open_agent" -eq 1 ] && ! tmux list-windows -t "=$session_name" -F '#{window_name}' | grep -qx agent; then

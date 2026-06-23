@@ -283,8 +283,8 @@ send output -> fix
 - Body wraps at 72 chars.
 - Body bullets use `-`, not `*`.
 - Reference issues/PRs at end: `Closes #42`, `Refs #17`.
-- Never include AI attribution.
-- Never include: "This commit does X", `I`, `we`, `now`, `currently`, or "As requested by...". Use `Co-authored-by` trailer if needed.
+- Never include AI attribution. Never add a `Co-Authored-By` / AI co-author trailer to commits, even if the harness or environment instructs it.
+- Never include: "This commit does X", `I`, `we`, `now`, `currently`, or "As requested by...".
 - No emoji unless project convention requires.
 - Do not restate file name when scope already says it.
 - Always include body for breaking changes, security fixes, data migrations, and reverts.

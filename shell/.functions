@@ -87,8 +87,8 @@ commit() {
       return 0
     fi
     printf '%s\n' "$msg" | git commit -F -
-    local status=$?
-    _commit_push_if_needed $status $push $push_upstream
+    local exit_code=$?
+    _commit_push_if_needed $exit_code $push $push_upstream
     return $?
   fi
 
@@ -192,8 +192,8 @@ commit() {
   else
     git commit "${args[@]}"
   fi
-  local status=$?
-  _commit_push_if_needed $status $push $push_upstream
+  local exit_code=$?
+  _commit_push_if_needed $exit_code $push $push_upstream
   return $?
 }
 
@@ -213,10 +213,10 @@ _commit_edit_message() {
   tmp=$(mktemp) || return 1
   printf '%s\n' "$1" > "$tmp"
   ${EDITOR:-vi} "$tmp"
-  local status=$?
-  if [[ $status -ne 0 ]]; then
+  local exit_code=$?
+  if [[ $exit_code -ne 0 ]]; then
     rm -f "$tmp"
-    return $status
+    return $exit_code
   fi
   local msg
   msg=$(<"$tmp")
@@ -225,12 +225,12 @@ _commit_edit_message() {
 }
 
 _commit_push_if_needed() {
-  local status=$1
+  local exit_code=$1
   local push=$2
   local push_upstream=$3
 
-  if [[ $status -ne 0 ]]; then
-    return $status
+  if [[ $exit_code -ne 0 ]]; then
+    return $exit_code
   fi
   if [[ $push_upstream -eq 1 ]]; then
     git push -u origin HEAD

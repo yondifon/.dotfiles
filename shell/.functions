@@ -14,8 +14,56 @@ art() {
     fi
 }
 
-# Generate commit message via opencode then commit
+# Commit helper
+#
+# Defaults:
+#   commit                  Generate Conventional Commit msg from staged diff.
+#                           If nothing is staged, stage all changes first.
+#   commit "fix thing"      Commit with provided msg.
+#
+# Options:
+#   -a, --all               Stage all changes before commit.
+#   -e, --edit              Open $EDITOR for generated/provided msg.
+#   -p, --push              Run `git push` after successful commit.
+#   -u, --push-upstream     Run `git push -u origin HEAD` after successful commit.
+#   --dry-run               Print msg/commit command; do not commit.
+#   --fixup <ref>           Create fixup commit for ref.
+#   --no-verify             Pass through to git commit.
+#   --author <author>       Pass through to git commit.
+#   --amend, -n, -S, --signoff
+#                           Pass through to git commit.
+#
+# Examples:
+#   commit -a -p "fix shell helper"
+#   commit -e
+#   commit --fixup HEAD~1 -p
 commit() {
+  local add_all=0
+  local dry_run=0
+  local edit_msg=0
+  local push=0
+  local push_upstream=0
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -a|--all) add_all=1 ;;
+      -e|--edit) edit_msg=1 ;;
+      -p|--push) push=1 ;;
+      -u|--push-upstream) push_upstream=1 ;;
+      --dry-run) dry_run=1 ;;
+      -h|--help)
+        _commit_usage
+        return 0
+        ;;
+      *) break ;;
+    esac
+    shift
+  done
+
+  if [[ $add_all -eq 1 ]]; then
+    git add -A || return $?
+  fi
+
   if [[ $# -eq 0 ]]; then
     local staged
     staged=$(git diff --cached --stat 2>/dev/null)
@@ -31,25 +79,74 @@ commit() {
       echo "Failed to generate commit message."
       return 1
     fi
+    if [[ $edit_msg -eq 1 ]]; then
+      msg=$(_commit_edit_message "$msg") || return $?
+    fi
+    if [[ $dry_run -eq 1 ]]; then
+      printf '%s\n' "$msg"
+      return 0
+    fi
     printf '%s\n' "$msg" | git commit -F -
+    local status=$?
+    _commit_push_if_needed $status $push $push_upstream
     return $?
   fi
 
   local args=()
   local msg=""
   local author=""
+  local has_git_message=0
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --amend|-n|-S|--signoff)
         args+=("$1")
         ;;
+      --no-verify)
+        args+=("$1")
+        ;;
+      --fixup)
+        shift
+        if [[ -z "$1" ]]; then
+          echo "No fixup target provided."
+          return 1
+        fi
+        args+=("--fixup=$1")
+        has_git_message=1
+        ;;
+      -p|--push)
+        push=1
+        ;;
+      -u|--push-upstream)
+        push_upstream=1
+        ;;
+      --dry-run)
+        dry_run=1
+        ;;
+      -e|--edit)
+        edit_msg=1
+        ;;
+      -a|--all)
+        git add -A || return $?
+        ;;
+      -h|--help)
+        _commit_usage
+        return 0
+        ;;
       --author)
         shift
+        if [[ -z "$1" ]]; then
+          echo "No author provided."
+          return 1
+        fi
         author="$1"
         ;;
       -m|--message)
         shift
+        if [[ -z "$1" ]]; then
+          echo "No commit message provided."
+          return 1
+        fi
         msg="$1"
         ;;
       *)
@@ -63,16 +160,87 @@ commit() {
     shift
   done
 
-  if [[ -z "$msg" ]]; then
-    echo "No commit message provided."
-    return 1
-  fi
-
   if [[ -n "$author" ]]; then
     args+=("--author=$author")
   fi
 
-  git commit "${args[@]}" -m "$msg"
+  if [[ -z "$msg" && $has_git_message -eq 0 ]]; then
+    local result
+    result=$(opencode -m opencode/big-pickle run "Generate a conventional commit message from the staged changes (git diff --cached). Output ONLY the raw commit message text. Do not wrap it in markdown or code fences." 2>/dev/null)
+    msg=$(_opencode_commit_message "$result")
+    if [[ -z "$msg" ]]; then
+      echo "Failed to generate commit message."
+      return 1
+    fi
+  fi
+
+  if [[ $edit_msg -eq 1 && -n "$msg" ]]; then
+    msg=$(_commit_edit_message "$msg") || return $?
+  fi
+
+  if [[ $dry_run -eq 1 ]]; then
+    if [[ -n "$msg" ]]; then
+      printf '%s\n' "$msg"
+    else
+      printf 'git commit %q\n' "${args[@]}"
+    fi
+    return 0
+  fi
+
+  if [[ -n "$msg" ]]; then
+    git commit "${args[@]}" -m "$msg"
+  else
+    git commit "${args[@]}"
+  fi
+  local status=$?
+  _commit_push_if_needed $status $push $push_upstream
+  return $?
+}
+
+_commit_usage() {
+  echo "Usage: commit [options] [message]"
+  echo "  -a, --all            stage all changes first"
+  echo "  -e, --edit           edit generated/provided message"
+  echo "  -p, --push           push after successful commit"
+  echo "  -u, --push-upstream  push HEAD with upstream after successful commit"
+  echo "      --dry-run        print message, do not commit"
+  echo "      --fixup <ref>    create fixup commit"
+  echo "      --no-verify      skip git hooks"
+}
+
+_commit_edit_message() {
+  local tmp
+  tmp=$(mktemp) || return 1
+  printf '%s\n' "$1" > "$tmp"
+  ${EDITOR:-vi} "$tmp"
+  local status=$?
+  if [[ $status -ne 0 ]]; then
+    rm -f "$tmp"
+    return $status
+  fi
+  local msg
+  msg=$(<"$tmp")
+  rm -f "$tmp"
+  printf '%s\n' "$msg"
+}
+
+_commit_push_if_needed() {
+  local status=$1
+  local push=$2
+  local push_upstream=$3
+
+  if [[ $status -ne 0 ]]; then
+    return $status
+  fi
+  if [[ $push_upstream -eq 1 ]]; then
+    git push -u origin HEAD
+    return $?
+  fi
+  if [[ $push -eq 1 ]]; then
+    git push
+    return $?
+  fi
+  return 0
 }
 
 # Generate commit message from staged diff via opencode (stdout or --copy)
@@ -246,7 +414,7 @@ function db {
 }
 
 function opendb () {
-   [ ! -f .env ] && { echo "No .env file found."; exit 1; }
+   [ ! -f .env ] && { echo "No .env file found."; return 1; }
 
    DB_CONNECTION=$(grep DB_CONNECTION .env | grep -v -e '^\s*#' | cut -d '=' -f 2-)
    DB_HOST=$(grep DB_HOST .env | grep -v -e '^\s*#' | cut -d '=' -f 2-)
@@ -258,7 +426,7 @@ function opendb () {
    DB_URL="${DB_CONNECTION}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}"
 
    echo "Opening ${DB_URL}"
-   open $DB_URL
+   open "$DB_URL"
 }
 
 function scheduler () {
@@ -514,7 +682,7 @@ function envoy() {
 
 # URL-encode a path for TablePlus (slashes become %2F)
 function _tp_encode_path() {
-  python3 -c "import urllib.parse; print(urllib.parse.quote('$1', safe=''))"
+  python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1], safe=""))' "$1"
 }
 
 # Open database in TablePlus
@@ -553,7 +721,12 @@ function tp() {
 
 function _tp_url_from_env() {
   local connection host port database username password
-  eval "$(bash -c 'set -a; source .env 2>/dev/null; echo "connection=$DB_CONNECTION"; echo "host=$DB_HOST"; echo "port=$DB_PORT"; echo "database=$DB_DATABASE"; echo "username=$DB_USERNAME"; echo "password=$DB_PASSWORD"')"
+  connection=$(_env_value DB_CONNECTION)
+  host=$(_env_value DB_HOST)
+  port=$(_env_value DB_PORT)
+  database=$(_env_value DB_DATABASE)
+  username=$(_env_value DB_USERNAME)
+  password=$(_env_value DB_PASSWORD)
 
   local auth="${username}"
   [[ -n "$password" ]] && auth="${username}:${password}"
@@ -580,6 +753,16 @@ function _tp_url_from_env() {
       return 1
       ;;
   esac
+}
+
+function _env_value() {
+  local value
+  value=$(grep -E "^[[:space:]]*$1=" .env | tail -n 1 | cut -d '=' -f 2-)
+  value=${value%\"}
+  value=${value#\"}
+  value=${value%\'}
+  value=${value#\'}
+  printf '%s\n' "$value"
 }
 
 function nah() {

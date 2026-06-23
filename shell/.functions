@@ -25,8 +25,8 @@ commit() {
     fi
 
     local result msg
-    result=$(opencode -m opencode/big-pickle run "Generate a conventional commit message from the staged changes (git diff --cached). Output ONLY the commit message text, nothing else." 2>/dev/null)
-    msg=$(printf '%s\n' "$result" | sed -n '/^> /d; /^[[:space:]]*$/d; p')
+    result=$(opencode -m opencode/big-pickle run "Generate a conventional commit message from the staged changes (git diff --cached). Output ONLY the raw commit message text. Do not wrap it in markdown or code fences." 2>/dev/null)
+    msg=$(_opencode_commit_message "$result")
     if [[ -z "$msg" ]]; then
       echo "Failed to generate commit message."
       return 1
@@ -96,12 +96,12 @@ commit-message() {
     shift
   done
 
-  local prompt="Inspect the staged changes (git diff --cached). Generate a conventional commit message. Output ONLY the commit message text, nothing else."
+  local prompt="Inspect the staged changes (git diff --cached). Generate a conventional commit message. Output ONLY the raw commit message text. Do not wrap it in markdown or code fences."
   [[ -n "$extra" ]] && prompt="$prompt Context: $extra"
 
   local result msg
   result=$(opencode -m opencode/big-pickle run "$prompt" 2>/dev/null)
-  msg=$(printf '%s\n' "$result" | sed -n '/^> /d; /^[[:space:]]*$/d; p')
+  msg=$(_opencode_commit_message "$result")
 
   if [[ -z "$msg" ]]; then
     echo "Failed to generate commit message."
@@ -114,6 +114,10 @@ commit-message() {
   else
     printf '%s\n' "$msg"
   fi
+}
+
+_opencode_commit_message() {
+  printf '%s\n' "$1" | sed -n '/^> /d; /^```/d; /^[[:space:]]*$/d; p'
 }
 
 # Rename branch

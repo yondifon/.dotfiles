@@ -332,7 +332,7 @@
       "skillPath": "solve-issue/SKILL.md",
       "skillFolderHash": "94e9de88e9d8f5712eb3404bf78b8aab22bcda78b0bb80e14c669df4afd04c6a",
       "installedAt": "2026-04-22T10:41:48.124Z",
-      "updatedAt": "2026-06-12T16:44:15.362Z"
+      "updatedAt": "2026-06-13T17:10:08.417Z"
     },
     "run-plan": {
       "source": "git@github.com:yondifon/skills",
@@ -341,7 +341,7 @@
       "skillPath": "run-plan/SKILL.md",
       "skillFolderHash": "8f47ed31ef29aafce3e252d1bdf7c6049892548a244963aee71d77cde3e09caa",
       "installedAt": "2026-04-22T10:41:48.126Z",
-      "updatedAt": "2026-06-12T16:44:15.362Z"
+      "updatedAt": "2026-06-13T17:10:08.416Z"
     },
     "optimize-docker": {
       "source": "git@github.com:yondifon/skills",
@@ -350,7 +350,7 @@
       "skillPath": "optimize-docker/SKILL.md",
       "skillFolderHash": "d504719267f8c5cd86afac79c80484d58e06be3975f60b598343b7c3143f6208",
       "installedAt": "2026-04-22T10:41:48.128Z",
-      "updatedAt": "2026-06-12T16:44:15.359Z"
+      "updatedAt": "2026-06-13T17:10:08.412Z"
     },
     "engineer-prompt": {
       "source": "git@github.com:yondifon/skills",
@@ -359,7 +359,7 @@
       "skillPath": "engineer-prompt/SKILL.md",
       "skillFolderHash": "19d6a478bb7269340c2150218dcb8f8ab2f0ae569951b01c415e1b1420bfb5c6",
       "installedAt": "2026-04-22T10:41:48.130Z",
-      "updatedAt": "2026-06-12T16:44:15.350Z"
+      "updatedAt": "2026-06-13T17:10:08.400Z"
     },
     "define-product": {
       "source": "git@github.com:yondifon/skills",
@@ -368,7 +368,7 @@
       "skillPath": "define-product/SKILL.md",
       "skillFolderHash": "1c0b285c5b53123b659c89266e395886f2aba5a887dc0742a7c6d1f3d80eee55",
       "installedAt": "2026-04-22T10:41:48.130Z",
-      "updatedAt": "2026-06-12T16:44:15.349Z"
+      "updatedAt": "2026-06-13T17:10:08.399Z"
     },
     "create-worktree": {
       "source": "git@github.com:yondifon/skills",
@@ -377,7 +377,7 @@
       "skillPath": "create-worktree/SKILL.md",
       "skillFolderHash": "31c608ebf9e41db97e8e7f5fa196972607f4cad510f5416a782cf8b98cd45532",
       "installedAt": "2026-04-22T10:41:48.131Z",
-      "updatedAt": "2026-06-12T16:44:15.349Z"
+      "updatedAt": "2026-06-13T17:10:08.397Z"
     },
     "build-ui": {
       "source": "git@github.com:yondifon/skills",
@@ -386,7 +386,7 @@
       "skillPath": "build-ui/SKILL.md",
       "skillFolderHash": "b8b611bf333f9e822b04290078477145694cde37d55668ed86c827534f9f5dc7",
       "installedAt": "2026-04-22T10:41:48.132Z",
-      "updatedAt": "2026-06-12T16:44:15.345Z"
+      "updatedAt": "2026-06-13T17:10:08.386Z"
     },
     "ux-write": {
       "source": "git@github.com:yondifon/skills",
@@ -395,7 +395,7 @@
       "skillPath": "ux-write/SKILL.md",
       "skillFolderHash": "91d4461e77288ca2050101a032b5276f73e2abb659e7e91a59c390b4dfbb02eb",
       "installedAt": "2026-04-22T10:49:58.269Z",
-      "updatedAt": "2026-06-12T16:44:15.364Z"
+      "updatedAt": "2026-06-13T17:10:08.420Z"
     },
     "feature-to-plan": {
       "source": "git@github.com:yondifon/skills",
@@ -404,7 +404,7 @@
       "skillPath": "feature-to-plan/SKILL.md",
       "skillFolderHash": "092ac11b417f72f2e10852e2c21a73a1c7777113a37dbb29e3144d486143306d",
       "installedAt": "2026-04-22T20:36:56.651Z",
-      "updatedAt": "2026-06-12T16:44:15.351Z"
+      "updatedAt": "2026-06-13T17:10:08.401Z"
     },
     "product-pipeline": {
       "source": "git@github.com:yondifon/skills",
@@ -413,7 +413,7 @@
       "skillPath": "product-pipeline/SKILL.md",
       "skillFolderHash": "17485e0f464709c53eb29776b5fa98f7b68b9eade4c73c41e2e21dbce26213b5",
       "installedAt": "2026-04-23T22:04:24.727Z",
-      "updatedAt": "2026-06-12T16:44:15.359Z"
+      "updatedAt": "2026-06-13T17:10:08.413Z"
     },
     "skill-creator": {
       "source": "anthropics/skills",
@@ -441,7 +441,7 @@
       "skillPath": "flux-ui/SKILL.md",
       "skillFolderHash": "ed6e74f3e11d904476a427b62cb62809737fae9a313644cf7713bc0a21161a7f",
       "installedAt": "2026-04-28T13:49:07.067Z",
-      "updatedAt": "2026-06-12T16:44:15.353Z"
+      "updatedAt": "2026-06-13T17:10:08.406Z"
     },
     "optimize-database": {
       "source": "git@github.com:yondifon/skills",
@@ -450,7 +450,7 @@
       "skillPath": "optimize-database/SKILL.md",
       "skillFolderHash": "d24a2eba488b1c10ed1c4a96eebc4376c20b4e4c5173f09c3900744259832c0b",
       "installedAt": "2026-04-28T13:49:07.067Z",
-      "updatedAt": "2026-06-12T16:44:15.357Z"
+      "updatedAt": "2026-06-13T17:10:08.411Z"
     },
     "logo-designer": {
       "source": "neonwatty/logo-designer-skill",
@@ -468,7 +468,7 @@
       "skillPath": "make-commit/SKILL.md",
       "skillFolderHash": "5425c5dcf2f79893a0c76ad4e1f1506c44e037fe68823eb8d04cfc3561f2f9fe",
       "installedAt": "2026-05-03T22:43:14.225Z",
-      "updatedAt": "2026-06-12T16:44:15.355Z"
+      "updatedAt": "2026-06-13T17:10:08.410Z"
     },
     "flutter-device-attest": {
       "source": "git@github.com:yondifon/skills",
@@ -477,7 +477,7 @@
       "skillPath": "flutter-device-attest/SKILL.md",
       "skillFolderHash": "e866fcacab499c30bdfc445b89d6ce7e4adf9c6fcd6d070185bdbf7e13b728f7",
       "installedAt": "2026-05-06T23:42:09.018Z",
-      "updatedAt": "2026-06-12T16:44:15.351Z"
+      "updatedAt": "2026-06-13T17:10:08.402Z"
     },
     "standardized-html": {
       "source": "git@github.com:yondifon/skills",
@@ -486,7 +486,7 @@
       "skillPath": "standardized-html/SKILL.md",
       "skillFolderHash": "6d5cfe78f2867f09b70fb30919c52b96ddc32f892a625da3486fd0c6f7728a99",
       "installedAt": "2026-05-21T13:46:37.232Z",
-      "updatedAt": "2026-06-12T16:44:15.363Z"
+      "updatedAt": "2026-06-13T17:10:08.419Z"
     },
     "refactor": {
       "source": "git@github.com:yondifon/skills",
@@ -495,7 +495,7 @@
       "skillPath": "refactor/SKILL.md",
       "skillFolderHash": "f089ba058b3d9786902b0a936ea386a91f5d45e51ba3f18a27d516b5eab64390",
       "installedAt": "2026-05-21T22:44:50.384Z",
-      "updatedAt": "2026-06-12T16:44:15.360Z"
+      "updatedAt": "2026-06-13T17:10:08.414Z"
     },
     "verify-this": {
       "source": "git@github.com:yondifon/skills",
@@ -504,7 +504,7 @@
       "skillPath": "verify-this/SKILL.md",
       "skillFolderHash": "1b40fae6061a8e1404c6c7012cd3bae67ca930e7da662d696b8e3173d8f57d66",
       "installedAt": "2026-05-21T22:44:50.387Z",
-      "updatedAt": "2026-06-12T16:44:15.364Z"
+      "updatedAt": "2026-06-13T17:10:08.420Z"
     },
     "livewire": {
       "source": "git@github.com:yondifon/skills",
@@ -513,7 +513,7 @@
       "skillPath": "livewire/SKILL.md",
       "skillFolderHash": "c663fd8e30d88c661f16a2d828e5509798421bd132542ed6938046aaefb44ddf",
       "installedAt": "2026-05-24T18:53:54.723Z",
-      "updatedAt": "2026-06-12T16:44:15.354Z"
+      "updatedAt": "2026-06-13T17:10:08.409Z"
     },
     "doc-coauthoring": {
       "source": "anthropics/skills",
@@ -539,9 +539,9 @@
       "sourceType": "git",
       "sourceUrl": "git@github.com:yondifon/skills",
       "skillPath": "co-author/SKILL.md",
-      "skillFolderHash": "f12aabc5a64d88beba6db72dda4d1e187c617e40d01a0e0892c59f940967ae38",
+      "skillFolderHash": "b467cc9819a32c1f5098e8d088e4d1f1f7b1aec6a7212d07977d924217d9dbf5",
       "installedAt": "2026-05-30T22:48:03.726Z",
-      "updatedAt": "2026-06-12T16:44:15.348Z"
+      "updatedAt": "2026-06-13T17:10:08.396Z"
     },
     "report": {
       "source": "git@github.com:yondifon/skills",
@@ -550,7 +550,7 @@
       "skillPath": "report/SKILL.md",
       "skillFolderHash": "eb443ce5e088359ef7046d45f892354553bc2c2c46aec340b568aec3297517a8",
       "installedAt": "2026-06-02T11:54:03.358Z",
-      "updatedAt": "2026-06-12T16:44:15.361Z"
+      "updatedAt": "2026-06-13T17:10:08.415Z"
     },
     "hallmark": {
       "source": "nutlope/hallmark",
@@ -568,7 +568,7 @@
       "skillPath": "launch-campaign/SKILL.md",
       "skillFolderHash": "fffea59bf2ccb862808c2471b6f15a33a99215103f5a7b54b2ace52435c1f166",
       "installedAt": "2026-06-04T23:31:16.921Z",
-      "updatedAt": "2026-06-12T16:44:15.354Z"
+      "updatedAt": "2026-06-13T17:10:08.407Z"
     }
   },
   "dismissed": {
@@ -591,4 +591,3 @@
     "claude-code"
   ]
 }
-

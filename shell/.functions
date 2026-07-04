@@ -330,6 +330,11 @@ _opencode_commit_message() {
   cleaned=$(printf '%s\n' "$cleaned" | awk 'BEGIN{n=0} {a[NR]=$0} END{while(n<NR && a[NR-n]=="") n++; for(i=1;i<=NR-n;i++) print a[i]}')
   # squeeze runs of 2+ blank lines down to a single blank line
   cleaned=$(printf '%s\n' "$cleaned" | awk 'NF{blank=0; print; next} {if(!blank) print; blank=1}')
+  # drop any leading commentary lines before the first Conventional Commits subject
+  cleaned=$(printf '%s\n' "$cleaned" | awk '
+    found { print; next }
+    /^(feat|fix|refactor|perf|docs|test|chore|build|ci|style|revert)(\([^)]*\))?: / { found=1; print }
+  ')
 
   [[ -z "$cleaned" ]] && return 1
   title=$(printf '%s\n' "$cleaned" | head -n 1)

@@ -43,7 +43,7 @@ commit() {
   local edit_msg=0
   local push=0
   local push_upstream=0
-  local model="opencode/big-pickle"
+  local model="openai/gpt-5.4"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -81,8 +81,11 @@ commit() {
       git add -A
     fi
 
-    local result msg
-    result=$(opencode --auto -m "$model" run "$(_commit_prompt)" 2>/dev/null)
+    local tmpfile result msg
+    tmpfile=$(mktemp)
+    opencode -m "$model" run "$(_commit_prompt)" </dev/null >"$tmpfile" 2>/dev/null
+    result=$(<"$tmpfile")
+    rm -f "$tmpfile"
     msg=$(_opencode_commit_message "$result")
     if [[ -z "$msg" ]]; then
       echo "Failed to generate commit message."
@@ -182,8 +185,11 @@ commit() {
   fi
 
   if [[ -z "$msg" && $has_git_message -eq 0 ]]; then
-    local result
-    result=$(opencode --auto -m "$model" run "$(_commit_prompt)" 2>/dev/null)
+    local tmpfile result
+    tmpfile=$(mktemp)
+    opencode -m "$model" run "$(_commit_prompt)" </dev/null >"$tmpfile" 2>/dev/null
+    result=$(<"$tmpfile")
+    rm -f "$tmpfile"
     msg=$(_opencode_commit_message "$result")
     if [[ -z "$msg" ]]; then
       echo "Failed to generate commit message."
@@ -265,7 +271,7 @@ _commit_push_if_needed() {
 commit-message() {
   local copy=0
   local extra=""
-  local model="opencode/big-pickle"
+  local model="openai/gpt-5.4"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -294,8 +300,11 @@ commit-message() {
   local prompt="$(_commit_prompt)"
   [[ -n "$extra" ]] && prompt="$prompt Context: $extra"
 
-  local result msg
-  result=$(opencode --auto -m "$model" run "$prompt" 2>/dev/null)
+  local tmpfile result msg
+  tmpfile=$(mktemp)
+  opencode -m "$model" run "$prompt" </dev/null >"$tmpfile" 2>/dev/null
+  result=$(<"$tmpfile")
+  rm -f "$tmpfile"
   msg=$(_opencode_commit_message "$result")
 
   if [[ -z "$msg" ]]; then

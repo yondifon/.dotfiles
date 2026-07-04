@@ -119,8 +119,12 @@ alias claude-update="cd ~/.dotfiles && git submodule update --remote --merge cla
 alias resync="source ~/.dotfiles/symlinks"
 
 # Claude profiles
+alias cl='claude --dangerously-skip-permissions'
+alias op='opencode --auto'
 alias claude-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" claude'
 alias claude-isern='CLAUDE_CONFIG_DIR="$HOME/.claude-isern" claude'
+alias cl-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" claude --dangerously-skip-permissions'
+alias cl-isern='CLAUDE_CONFIG_DIR="$HOME/.claude-isern" claude --dangerously-skip-permissions'
 alias continues-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" continues'
 alias continues-isern='CLAUDE_CONFIG_DIR="$HOME/.claude-isern" continues'
 

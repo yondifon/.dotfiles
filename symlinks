@@ -148,4 +148,10 @@ echo 'Linking npmrc...'
 rm -f $HOME/.npmrc
 ln -s $HOME/.dotfiles/.npmrc $HOME/.npmrc
 
+# Herdr configuration
+echo 'Linking herdr configuration...'
+mkdir -p $HOME/.config/herdr
+rm -f $HOME/.config/herdr/config.toml
+ln -s $HOME/.dotfiles/herdr/config.toml $HOME/.config/herdr/config.toml
+
 echo 'All symlinks created successfully!'

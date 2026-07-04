@@ -326,94 +326,94 @@
       "updatedAt": "2026-04-21T21:39:21.130Z"
     },
     "solve-issue": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "solve-issue/SKILL.md",
-      "skillFolderHash": "94e9de88e9d8f5712eb3404bf78b8aab22bcda78b0bb80e14c669df4afd04c6a",
+      "skillFolderHash": "8fa4f2eb2d979d7fd332279055d11b8f6e30e1c5daa0e345b704ff3ef05746b1",
       "installedAt": "2026-04-22T10:41:48.124Z",
-      "updatedAt": "2026-06-13T17:10:08.417Z"
+      "updatedAt": "2026-06-25T15:18:32.107Z"
     },
     "run-plan": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "run-plan/SKILL.md",
-      "skillFolderHash": "8f47ed31ef29aafce3e252d1bdf7c6049892548a244963aee71d77cde3e09caa",
+      "skillFolderHash": "15ba5bb945d1d5d7beed32bd7f87102722653c7d3b48ec8a16dd33fa3ba597ab",
       "installedAt": "2026-04-22T10:41:48.126Z",
-      "updatedAt": "2026-06-13T17:10:08.416Z"
+      "updatedAt": "2026-06-25T15:18:32.106Z"
     },
     "optimize-docker": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "optimize-docker/SKILL.md",
       "skillFolderHash": "d504719267f8c5cd86afac79c80484d58e06be3975f60b598343b7c3143f6208",
       "installedAt": "2026-04-22T10:41:48.128Z",
-      "updatedAt": "2026-06-13T17:10:08.412Z"
+      "updatedAt": "2026-06-25T15:18:32.104Z"
     },
     "engineer-prompt": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "engineer-prompt/SKILL.md",
       "skillFolderHash": "19d6a478bb7269340c2150218dcb8f8ab2f0ae569951b01c415e1b1420bfb5c6",
       "installedAt": "2026-04-22T10:41:48.130Z",
-      "updatedAt": "2026-06-13T17:10:08.400Z"
+      "updatedAt": "2026-06-25T15:18:32.096Z"
     },
     "define-product": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "define-product/SKILL.md",
-      "skillFolderHash": "1c0b285c5b53123b659c89266e395886f2aba5a887dc0742a7c6d1f3d80eee55",
+      "skillFolderHash": "97aa17630094fd164bf60dcedb9148998c7c49b615d92920d1136410dfa89891",
       "installedAt": "2026-04-22T10:41:48.130Z",
-      "updatedAt": "2026-06-13T17:10:08.399Z"
+      "updatedAt": "2026-06-25T15:18:32.096Z"
     },
     "create-worktree": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "create-worktree/SKILL.md",
-      "skillFolderHash": "31c608ebf9e41db97e8e7f5fa196972607f4cad510f5416a782cf8b98cd45532",
+      "skillFolderHash": "63ae615f0007095abeb7a510502aa748e1ccd319e51b5dfe9685329f7f7aa797",
       "installedAt": "2026-04-22T10:41:48.131Z",
-      "updatedAt": "2026-06-13T17:10:08.397Z"
+      "updatedAt": "2026-06-25T15:18:32.095Z"
     },
     "build-ui": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "build-ui/SKILL.md",
       "skillFolderHash": "b8b611bf333f9e822b04290078477145694cde37d55668ed86c827534f9f5dc7",
       "installedAt": "2026-04-22T10:41:48.132Z",
-      "updatedAt": "2026-06-13T17:10:08.386Z"
+      "updatedAt": "2026-06-25T15:18:32.094Z"
     },
     "ux-write": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "ux-write/SKILL.md",
       "skillFolderHash": "91d4461e77288ca2050101a032b5276f73e2abb659e7e91a59c390b4dfbb02eb",
       "installedAt": "2026-04-22T10:49:58.269Z",
-      "updatedAt": "2026-06-13T17:10:08.420Z"
+      "updatedAt": "2026-06-25T15:18:32.108Z"
     },
     "feature-to-plan": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "feature-to-plan/SKILL.md",
-      "skillFolderHash": "092ac11b417f72f2e10852e2c21a73a1c7777113a37dbb29e3144d486143306d",
+      "skillFolderHash": "5a5ba37899cdb3b1892dc563b5528e102969711faeb6b6ae7df82980f62db77f",
       "installedAt": "2026-04-22T20:36:56.651Z",
-      "updatedAt": "2026-06-13T17:10:08.401Z"
+      "updatedAt": "2026-06-25T15:18:32.097Z"
     },
     "product-pipeline": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "product-pipeline/SKILL.md",
-      "skillFolderHash": "17485e0f464709c53eb29776b5fa98f7b68b9eade4c73c41e2e21dbce26213b5",
+      "skillFolderHash": "1e77496d5ed6f002aeeed74d6a28d64b19be0ca78644ca74befbb619ef52c4d5",
       "installedAt": "2026-04-23T22:04:24.727Z",
-      "updatedAt": "2026-06-13T17:10:08.413Z"
+      "updatedAt": "2026-06-25T15:18:32.105Z"
     },
     "skill-creator": {
       "source": "anthropics/skills",
@@ -435,22 +435,22 @@
       "updatedAt": "2026-06-06T22:13:49.557Z"
     },
     "flux-ui": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "flux-ui/SKILL.md",
       "skillFolderHash": "ed6e74f3e11d904476a427b62cb62809737fae9a313644cf7713bc0a21161a7f",
       "installedAt": "2026-04-28T13:49:07.067Z",
-      "updatedAt": "2026-06-13T17:10:08.406Z"
+      "updatedAt": "2026-06-25T15:18:32.101Z"
     },
     "optimize-database": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "optimize-database/SKILL.md",
       "skillFolderHash": "d24a2eba488b1c10ed1c4a96eebc4376c20b4e4c5173f09c3900744259832c0b",
       "installedAt": "2026-04-28T13:49:07.067Z",
-      "updatedAt": "2026-06-13T17:10:08.411Z"
+      "updatedAt": "2026-06-25T15:18:32.104Z"
     },
     "logo-designer": {
       "source": "neonwatty/logo-designer-skill",
@@ -462,58 +462,58 @@
       "updatedAt": "2026-04-30T23:41:10.605Z"
     },
     "make-commit": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "make-commit/SKILL.md",
       "skillFolderHash": "5425c5dcf2f79893a0c76ad4e1f1506c44e037fe68823eb8d04cfc3561f2f9fe",
       "installedAt": "2026-05-03T22:43:14.225Z",
-      "updatedAt": "2026-06-13T17:10:08.410Z"
+      "updatedAt": "2026-06-25T15:18:32.103Z"
     },
     "flutter-device-attest": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "flutter-device-attest/SKILL.md",
       "skillFolderHash": "e866fcacab499c30bdfc445b89d6ce7e4adf9c6fcd6d070185bdbf7e13b728f7",
       "installedAt": "2026-05-06T23:42:09.018Z",
-      "updatedAt": "2026-06-13T17:10:08.402Z"
+      "updatedAt": "2026-06-25T15:18:32.097Z"
     },
     "standardized-html": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "standardized-html/SKILL.md",
       "skillFolderHash": "6d5cfe78f2867f09b70fb30919c52b96ddc32f892a625da3486fd0c6f7728a99",
       "installedAt": "2026-05-21T13:46:37.232Z",
-      "updatedAt": "2026-06-13T17:10:08.419Z"
+      "updatedAt": "2026-06-25T15:18:32.107Z"
     },
     "refactor": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "refactor/SKILL.md",
       "skillFolderHash": "f089ba058b3d9786902b0a936ea386a91f5d45e51ba3f18a27d516b5eab64390",
       "installedAt": "2026-05-21T22:44:50.384Z",
-      "updatedAt": "2026-06-13T17:10:08.414Z"
+      "updatedAt": "2026-06-25T15:18:32.105Z"
     },
     "verify-this": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "verify-this/SKILL.md",
       "skillFolderHash": "1b40fae6061a8e1404c6c7012cd3bae67ca930e7da662d696b8e3173d8f57d66",
       "installedAt": "2026-05-21T22:44:50.387Z",
-      "updatedAt": "2026-06-13T17:10:08.420Z"
+      "updatedAt": "2026-06-25T15:18:32.108Z"
     },
     "livewire": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "livewire/SKILL.md",
       "skillFolderHash": "c663fd8e30d88c661f16a2d828e5509798421bd132542ed6938046aaefb44ddf",
       "installedAt": "2026-05-24T18:53:54.723Z",
-      "updatedAt": "2026-06-13T17:10:08.409Z"
+      "updatedAt": "2026-06-25T15:18:32.103Z"
     },
     "doc-coauthoring": {
       "source": "anthropics/skills",
@@ -535,22 +535,22 @@
       "updatedAt": "2026-05-29T14:28:36.118Z"
     },
     "co-author": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "co-author/SKILL.md",
       "skillFolderHash": "b467cc9819a32c1f5098e8d088e4d1f1f7b1aec6a7212d07977d924217d9dbf5",
       "installedAt": "2026-05-30T22:48:03.726Z",
-      "updatedAt": "2026-06-13T17:10:08.396Z"
+      "updatedAt": "2026-06-25T15:18:32.095Z"
     },
     "report": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "report/SKILL.md",
       "skillFolderHash": "eb443ce5e088359ef7046d45f892354553bc2c2c46aec340b568aec3297517a8",
       "installedAt": "2026-06-02T11:54:03.358Z",
-      "updatedAt": "2026-06-13T17:10:08.415Z"
+      "updatedAt": "2026-06-25T15:18:32.106Z"
     },
     "hallmark": {
       "source": "nutlope/hallmark",
@@ -562,13 +562,40 @@
       "updatedAt": "2026-06-06T22:15:17.526Z"
     },
     "launch-campaign": {
-      "source": "git@github.com:yondifon/skills",
+      "source": "git@github.com:yondifon/skills.git",
       "sourceType": "git",
-      "sourceUrl": "git@github.com:yondifon/skills",
+      "sourceUrl": "git@github.com:yondifon/skills.git",
       "skillPath": "launch-campaign/SKILL.md",
       "skillFolderHash": "fffea59bf2ccb862808c2471b6f15a33a99215103f5a7b54b2ace52435c1f166",
       "installedAt": "2026-06-04T23:31:16.921Z",
-      "updatedAt": "2026-06-13T17:10:08.407Z"
+      "updatedAt": "2026-06-25T15:18:32.102Z"
+    },
+    "animation-vocabulary": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "skillPath": "skills/animation-vocabulary/SKILL.md",
+      "skillFolderHash": "e6dc24ca1ff1e70c9677df9a1d2d1c80415cbb3c",
+      "installedAt": "2026-07-01T22:14:46.319Z",
+      "updatedAt": "2026-07-01T22:14:46.319Z"
+    },
+    "emil-design-eng": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "skillPath": "skills/emil-design-eng/SKILL.md",
+      "skillFolderHash": "0e6f8d7223a0abe73f81e890b3ec76257029a834",
+      "installedAt": "2026-07-01T22:14:46.328Z",
+      "updatedAt": "2026-07-01T22:14:46.328Z"
+    },
+    "review-animations": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "skillPath": "skills/review-animations/SKILL.md",
+      "skillFolderHash": "babe81c1ca0ae3c735fc537486cb120cd6645198",
+      "installedAt": "2026-07-01T22:14:46.330Z",
+      "updatedAt": "2026-07-01T22:14:46.330Z"
     }
   },
   "dismissed": {

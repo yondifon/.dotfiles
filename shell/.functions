@@ -43,6 +43,7 @@ commit() {
   local edit_msg=0
   local push=0
   local push_upstream=0
+  local model="opencode/big-pickle"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -51,6 +52,14 @@ commit() {
       -p|--push) push=1 ;;
       -u|--push-upstream) push_upstream=1 ;;
       --dry-run) dry_run=1 ;;
+      -M|--model)
+        shift
+        if [[ -z "$1" ]]; then
+          echo "No model provided."
+          return 1
+        fi
+        model="$1"
+        ;;
       -h|--help)
         _commit_usage
         return 0
@@ -73,7 +82,7 @@ commit() {
     fi
 
     local result msg
-    result=$(opencode -m opencode/big-pickle run "Generate a conventional commit message from the staged changes (git diff --cached). Output ONLY the raw commit message text. Do not wrap it in markdown or code fences." 2>/dev/null)
+    result=$(opencode --auto -m "$model" run "$(_commit_prompt)" 2>/dev/null)
     msg=$(_opencode_commit_message "$result")
     if [[ -z "$msg" ]]; then
       echo "Failed to generate commit message."
@@ -141,6 +150,14 @@ commit() {
         fi
         author="$1"
         ;;
+      -M|--model)
+        shift
+        if [[ -z "$1" ]]; then
+          echo "No model provided."
+          return 1
+        fi
+        model="$1"
+        ;;
       -m|--message)
         shift
         if [[ -z "$1" ]]; then
@@ -166,7 +183,7 @@ commit() {
 
   if [[ -z "$msg" && $has_git_message -eq 0 ]]; then
     local result
-    result=$(opencode -m opencode/big-pickle run "Generate a conventional commit message from the staged changes (git diff --cached). Output ONLY the raw commit message text. Do not wrap it in markdown or code fences." 2>/dev/null)
+    result=$(opencode --auto -m "$model" run "$(_commit_prompt)" 2>/dev/null)
     msg=$(_opencode_commit_message "$result")
     if [[ -z "$msg" ]]; then
       echo "Failed to generate commit message."
@@ -203,6 +220,7 @@ _commit_usage() {
   echo "  -e, --edit           edit generated/provided message"
   echo "  -p, --push           push after successful commit"
   echo "  -u, --push-upstream  push HEAD with upstream after successful commit"
+  echo "  -M, --model <model>  model to use for generated message (e.g. opencode/big-pickle, openai/gpt-5)"
   echo "      --dry-run        print message, do not commit"
   echo "      --fixup <ref>    create fixup commit"
   echo "      --no-verify      skip git hooks"
@@ -247,11 +265,20 @@ _commit_push_if_needed() {
 commit-message() {
   local copy=0
   local extra=""
+  local model="opencode/big-pickle"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --copy)
         copy=1
+        ;;
+      -M|--model)
+        shift
+        if [[ -z "$1" ]]; then
+          echo "No model provided."
+          return 1
+        fi
+        model="$1"
         ;;
       *)
         if [[ -z "$extra" ]]; then
@@ -264,11 +291,11 @@ commit-message() {
     shift
   done
 
-  local prompt="Inspect the staged changes (git diff --cached). Generate a conventional commit message. Output ONLY the raw commit message text. Do not wrap it in markdown or code fences."
+  local prompt="$(_commit_prompt)"
   [[ -n "$extra" ]] && prompt="$prompt Context: $extra"
 
   local result msg
-  result=$(opencode -m opencode/big-pickle run "$prompt" 2>/dev/null)
+  result=$(opencode --auto -m "$model" run "$prompt" 2>/dev/null)
   msg=$(_opencode_commit_message "$result")
 
   if [[ -z "$msg" ]]; then
@@ -285,7 +312,49 @@ commit-message() {
 }
 
 _opencode_commit_message() {
-  printf '%s\n' "$1" | sed -n '/^> /d; /^```/d; /^[[:space:]]*$/d; p'
+  local cleaned title body
+  # strip fences/blockquote markers, keep blank lines (they separate sections)
+  cleaned=$(printf '%s\n' "$1" | sed '/^```/d; /^> /d')
+  # trim leading blank lines
+  cleaned=$(printf '%s\n' "$cleaned" | sed '/./,$!d')
+  # trim trailing blank lines
+  cleaned=$(printf '%s\n' "$cleaned" | awk 'BEGIN{n=0} {a[NR]=$0} END{while(n<NR && a[NR-n]=="") n++; for(i=1;i<=NR-n;i++) print a[i]}')
+  # squeeze runs of 2+ blank lines down to a single blank line
+  cleaned=$(printf '%s\n' "$cleaned" | awk 'NF{blank=0; print; next} {if(!blank) print; blank=1}')
+
+  [[ -z "$cleaned" ]] && return 1
+  title=$(printf '%s\n' "$cleaned" | head -n 1)
+  body=$(printf '%s\n' "$cleaned" | tail -n +2 | sed '/./,$!d')
+  if [[ -n "$body" ]]; then
+    printf '%s\n\n%s\n' "$title" "$body"
+  else
+    printf '%s\n' "$title"
+  fi
+}
+
+# Shared instructions: terse mitchellh/HashiCorp-style subject + plain prose body.
+_commit_prompt() {
+  cat <<'EOF'
+Inspect the staged changes (git diff --cached) and generate a commit message in the style Mitchell Hashimoto writes commits: terse, direct, technical, zero fluff.
+
+Follow this structure:
+
+Line 1: Subject in Conventional Commits form: <type>(<scope>): <imperative summary>. Types: feat, fix, refactor, perf, docs, test, chore, build, ci, style, revert. Scope is optional parens, e.g. "fix(cli): ..." or plain "feat: ...". <=50 characters. Imperative mood ("add", "fix", "remove" — never "added", "adds", "fixing"). No period at the end.
+Line 2: Blank.
+Line 3+: Body, wrapped at roughly 72 characters per line, in plain prose paragraphs (not labeled sections, not "what/why/change" headers). Explain why the change was made and any non-obvious context — assume the reader can already see the diff, so don't narrate line-by-line what changed. If the commit bundles several distinct, unrelated changes, list them as short "- " bullets instead of prose. Separate paragraphs/bullet groups with a single blank line. Keep the whole body as short as it can be while still carrying the reasoning.
+
+Example output (structure only, do not reuse this content):
+fix(core): fix ordering bug in graph walk
+
+Dependent resources could be visited before their dependencies
+finished applying when the graph had diamond-shaped edges. Walk
+now tracks completion per-edge instead of per-node.
+
+Hard rules:
+- Output ONLY the raw commit message text described above. No markdown, no code fences, no headers, no meta-commentary about the commit.
+- No filler phrases ("this commit", "in order to", "basically"). No corporate tone.
+- Base the body strictly on the actual staged diff. Do not invent context not evidenced by the diff.
+EOF
 }
 
 # Rename branch

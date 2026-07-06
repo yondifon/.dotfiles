@@ -14,7 +14,7 @@ vim.opt.smartcase = true
 vim.opt.wrap = false
 vim.opt.breakindent = true -- maintain indent when wrapping indented lines
 vim.opt.linebreak = true -- wrap at word boundaries
-vim.opt.list = true -- enable the below listchars
+vim.opt.list = false
 vim.opt.listchars = { tab = "▸ ", trail = "·", nbsp = "␣" }
 vim.opt.fillchars:append({ eob = " " }) -- remove the ~ from end of buffer
 vim.opt.mouse = "a" -- enable mouse for all modes
@@ -31,8 +31,11 @@ vim.opt.backupdir:remove(".") -- keep backups out of the current directory
 vim.opt.shortmess:append({ I = true }) -- disable the splash screen
 vim.opt.wildmode = "longest:full,full" -- complete the longest common match, and allow tabbing the results to fully complete them
 vim.opt.completeopt = "menuone,longest,preview"
-vim.opt.signcolumn = "yes:2"
+vim.opt.signcolumn = "no"
 vim.opt.showmode = false
+vim.opt.showcmd = false
+vim.opt.ruler = false
+vim.opt.laststatus = 0
 vim.opt.updatetime = 250 -- Decrease update time
 vim.opt.redrawtime = 10000 -- Allow more time for loading syntax on large files
 vim.opt.exrc = true
@@ -48,8 +51,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 200 })
 	end,
 })
-
-vim.o.statusline = "%{mode()} %l:%c"
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function(event)

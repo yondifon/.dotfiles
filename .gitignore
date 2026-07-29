@@ -18,3 +18,7 @@ Thumbs.db
 # Personal customizations (don't commit these)
 shell/.dotfiles-custom/
 .npmrc
+
+# Agent tool configs (symlinked at install, not tracked here)
+claude/
+opencode/

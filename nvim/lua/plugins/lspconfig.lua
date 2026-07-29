@@ -81,11 +81,14 @@ return {
 				filetypes = { "php", "blade" },
 				init_options = { licenceKey = get_license() },
 			})
-
 			vim.lsp.enable("intelephense")
 
-			-- vim.lsp.enable("phpactor")
-			-- vim.lsp.enable("phpactor")
+			vim.lsp.config("laravel_lsp", {
+				cmd = { "laravel-lsp" },
+				filetypes = { "php", "blade" },
+				root_markers = { "artisan", "composer.json", ".git" },
+			})
+			vim.lsp.enable("laravel_lsp")
 
 			-- Global restart keymap
 			vim.keymap.set("n", "<Leader>lr", ":LspRestart<CR>", { silent = true })

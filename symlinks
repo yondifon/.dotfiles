@@ -83,15 +83,15 @@ if [ ! -e "$HOME/.claude-work/settings.json" ]; then
     cp "$HOME/.dotfiles/claude/settings.json" "$HOME/.claude-work/settings.json"
 fi
 
-# Claude isern profile (separate state; shared skills/guidelines)
-echo 'Setting up Claude isern profile...'
-mkdir -p "$HOME/.claude-isern"
-rm -rf "$HOME/.claude-isern/skills"
-ln -sfn "$HOME/.agents/skills" "$HOME/.claude-isern/skills"
-ln -sfn "$HOME/.dotfiles/AGENTS.md" "$HOME/.claude-isern/CLAUDE.md"
+# Claude me profile (separate state; shared skills/guidelines)
+echo 'Setting up Claude me profile...'
+mkdir -p "$HOME/.claude-me"
+rm -rf "$HOME/.claude-me/skills"
+ln -sfn "$HOME/.agents/skills" "$HOME/.claude-me/skills"
+ln -sfn "$HOME/.dotfiles/AGENTS.md" "$HOME/.claude-me/CLAUDE.md"
 
-if [ ! -e "$HOME/.claude-isern/settings.json" ]; then
-    cp "$HOME/.dotfiles/claude/settings.json" "$HOME/.claude-isern/settings.json"
+if [ ! -e "$HOME/.claude-me/settings.json" ]; then
+    cp "$HOME/.dotfiles/claude/settings.json" "$HOME/.claude-me/settings.json"
 fi
 
 # Opencode configuration

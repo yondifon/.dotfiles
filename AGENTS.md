@@ -129,18 +129,17 @@ Keep here only what routing cannot carry: goal definition, architecture and prod
 - Confirm before every remote-changing command, including push and force-push.
 - Never run `git reset --hard`, `git checkout --`, or similar without explicit approval. Avoid interactive Git commands.
 
-## Specialized Outputs
+## Memory
 
-### Memory Compression
+Inter's memory tool is the store for durable project facts. Delegation ships a cwd's active memories to the worker automatically, so anything a worker needs to know belongs there and nowhere else.
 
-Applies when the user asks to compress a natural-language file (`.md`, `.txt`, extensionless). Never compress `FILE.original.md`.
+- Read memories for the cwd before starting work on a project, not after getting stuck. `list` first; `get` the keys that touch the task. Do this once per project per session, before the first file read.
+- Prefer a memory over re-deriving. When a memory conflicts with the code, the code wins — say so and fix the memory.
+- Store decisions, constraints, and conventions the repo does not already record. Never store secrets or transient task status.
+- Key per fact, scoped to its cwd. Read with `list` and `get` before writing; update the existing key instead of adding a near-duplicate. Remove facts that turn out to be wrong.
+- Pass `expectedVersion` on `set` so a concurrent worker write cannot be overwritten silently.
 
-- Back up to `<filename>.original.md` first. Compress prose only; leave code unchanged in mixed files.
-- Preserve headings, frontmatter, YAML, bullet hierarchy, lists, and table structure. Compress table cell text only.
-- Merge repeated rules, keep one example per pattern. If content might be code, leave it unchanged.
-- Validate that structure and required meaning survived. Retry at most twice, then restore the original, report the error, and leave the source unchanged.
-
-### Code Reviews
+## Code Reviews
 
 - Findings first, ordered by severity: bugs, risks, regressions, missing tests. No edits or linters unless asked.
 - One line per finding: `L<line>: <problem>. <fix>.` or `<file>:L<line>: <problem>. <fix>.` Add `Bug:`, `Risk:`, `Nit:`, or `Question:` when useful.

@@ -43,7 +43,7 @@ commit() {
   local edit_msg=0
   local push=0
   local push_upstream=0
-  local model="opencode/big-pickle"
+  local model="${OPENCODE_MODEL:-opencode/big-pickle}"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -226,7 +226,7 @@ _commit_usage() {
   echo "  -e, --edit           edit generated/provided message"
   echo "  -p, --push           push after successful commit"
   echo "  -u, --push-upstream  push HEAD with upstream after successful commit"
-  echo "  -M, --model <model>  model to use for generated message (e.g. opencode/big-pickle, openai/gpt-5)"
+  echo "  -M, --model <model>  model to use for generated message (default: \$OPENCODE_MODEL)"
   echo "      --dry-run        print message, do not commit"
   echo "      --fixup <ref>    create fixup commit"
   echo "      --no-verify      skip git hooks"
@@ -271,7 +271,7 @@ _commit_push_if_needed() {
 commit-message() {
   local copy=0
   local extra=""
-  local model="opencode/big-pickle"
+  local model="${OPENCODE_MODEL:-opencode/big-pickle}"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -598,7 +598,7 @@ function sesh() {
       h)
         echo "Usage: sesh [-n] [-c] [-a] [-d]"
         echo "  -n  open nvim window"
-        echo "  -c  open commit window with opencode --model big-pickle"
+        echo "  -c  open commit window with opencode --model \$OPENCODE_MODEL"
         echo "  -a  open agent window with opencode"
         echo "  -d  dev layout: nvim + commit"
         return 0
@@ -644,7 +644,7 @@ function sesh() {
   fi
 
   if [ "$open_commit" -eq 1 ] && ! tmux list-windows -t "=$session_name" -F '#{window_name}' | grep -qx commit; then
-    tmux new-window -t "=$session_name:" -n commit -c "$session_dir" "opencode --model big-pickle"
+    tmux new-window -t "=$session_name:" -n commit -c "$session_dir" "opencode --model ${OPENCODE_MODEL:-opencode/big-pickle}"
   fi
 
   if [ "$open_agent" -eq 1 ] && ! tmux list-windows -t "=$session_name" -F '#{window_name}' | grep -qx agent; then

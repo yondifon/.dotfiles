@@ -174,3 +174,6 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
+
+# Herd PHP 8.4 extension build tools (phpize/php-config for PIE)
+export PATH="$HOME/.herd-php-dev/bin:$PATH"

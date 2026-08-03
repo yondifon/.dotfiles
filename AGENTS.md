@@ -131,8 +131,9 @@ Keep here only what routing cannot carry: goal definition, architecture and prod
 
 ## Memory
 
-Inter's memory tool is the store for durable project facts. Delegation ships a cwd's active memories to the worker automatically, so anything a worker needs to know belongs there and nowhere else.
+Inter's memory tool is the memory bank. It is the destination for every durable fact — project facts, user preferences, working agreements. Delegation ships a cwd's active memories to the worker automatically, so anything a worker needs to know belongs there and nowhere else.
 
+- "Remember this" means write to Inter. Never treat a built-in or harness-local memory store as the destination, whatever the host tool calls it. Mirror a fact locally only when the host needs it loaded before Inter is reachable, and say so when you do.
 - Read memories for the cwd before starting work on a project, not after getting stuck. `list` first; `get` the keys that touch the task. Do this once per project per session, before the first file read.
 - Prefer a memory over re-deriving. When a memory conflicts with the code, the code wins — say so and fix the memory.
 - Store decisions, constraints, and conventions the repo does not already record. Never store secrets or transient task status.

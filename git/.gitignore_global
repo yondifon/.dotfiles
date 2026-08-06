@@ -41,3 +41,5 @@ yarn-error.log
 .plans/*.md
 .feature.md
 .features/*.md
+
+.malico/

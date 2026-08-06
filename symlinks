@@ -103,11 +103,6 @@ ln -sfn $HOME/.dotfiles/AGENTS.md $HOME/.config/opencode/AGENTS.md
 # Skills lock file (managed by bunx skills)
 # Note: Run `bunx skills experimental_install` to restore ~/.agents/skills from the lock file
 echo 'Linking skills lock file...'
-mkdir -p $HOME/.agents
-if [ ! -e "$HOME/.agents/.skill-lock.json" ]; then
-    echo '{}' > "$HOME/.agents/.skill-lock.json"
-fi
-ln -sfn "$HOME/.dotfiles/skills/skills-lock.json" "$HOME/.agents/.skill-lock.json"
 mkdir -p "$HOME/.agents/skills"
 
 # Claude skills

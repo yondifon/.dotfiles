@@ -42,6 +42,17 @@ When quoting or transforming source material, keep unchanged unless the task req
 
 Use normal prose where compression could harm or confuse: security warnings, irreversible-action confirmations, architecture disagreements, multi-step instructions. Commit and pull-request text may use normal prose. Resume concise style after.
 
+### Interface Copy
+
+Words the product shows a user are written for that user, not for the ticket. A ticket, spec, or PR describes the work; the interface describes the result.
+
+- Never carry the task's vocabulary into the UI. Internal names for jobs, statuses, phases, services, and models stay internal.
+- Name what the user gets, not what the system does. Prefer the user's words over the codebase's.
+- One line per field. Cut any sentence that explains automatic behaviour the user cannot change.
+- Don't wrap every field in its own card or panel. Group by decision, not by paragraph.
+- Domain terms the product already teaches elsewhere are fine — match the existing wording exactly rather than inventing a second name.
+- Copy work goes through `/ux`, and so does the review of copy you wrote in passing. See *Review Every User-Facing Change*.
+
 ## 12 Operating Rules
 
 1. **Think before coding** — state material assumptions; show the plausible readings of real ambiguity instead of guessing; recommend the simpler path that meets the goal; stop and name the problem when the request or state is unclear.
@@ -63,6 +74,28 @@ Use normal prose where compression could harm or confuse: security warnings, irr
 - Follow the project package manager. Bun projects use `bun` and `bunx`.
 - Prefer targeted tests, linters, and type checks. Do not run `bun run dev` or `bun run build` unless it directly verifies the change.
 
+### Deslop Every Code Change
+
+Any task that wrote or edited code ends with `/refactor deslop` before reporting done. The user does not have to ask. Skip only for a one-line mechanical edit, and say that you skipped it.
+
+- Pass the `deslop` arg. It loads only `references/deslop.md` and skips the structural checks — the whole point is that the finishing pass is cheap.
+- Run it on this task's diff, not the whole file. Slop is cheapest to remove while the diff is fresh.
+- Strip what the model added and nobody needs: obvious comments, defensive checks on trusted internal paths, swallowing `try`/`catch`, silent fallbacks, `any` and casts, one-off wrappers, unrequested logging.
+- Comments describe the code as it now stands. Never the bug, the fix, the ticket, or the request. Fixing a bug from a report and then leaving `// Bug fix: ...`, `// Previously this ...`, `// as requested`, `// NEW`, or a ticket ID is slop — that history goes in the commit message and the regression test name. Keep a comment only when it states a rule the code still depends on, written in present tense.
+- Verify after desloping: the deslop pass preserves behavior, so the same checks must still pass.
+- Subagents and Inter workers get this rule in their prompt too. They produce the most of it.
+
+### Review Every User-Facing Change
+
+Any change that adds or edits words a user reads ends with `/ux write` over that copy, before reporting done. Building a page or flow, not only its strings, ends with `/ux diagnose` on it too. The user does not have to ask.
+
+- Counts as user-facing: labels, buttons, headings, placeholders, helper text, empty and error and loading states, confirmation dialogs, toasts, validation messages, emails and notifications, onboarding, settings text, page titles, alt text.
+- Review the copy you actually wrote, not the whole product. Same rule as deslop: scope it to this task's diff.
+- Deslop does not cover this. It judges code; `/ux` judges the words. A comment and a button label are not the same object.
+- The most common failure is task vocabulary leaking into the interface — internal job, status, service, and model names shown to a user. Catch it here.
+- A page or flow gets `/ux diagnose` as well: states, dead ends, what the person does next. Copy cannot fix a broken flow — report the flow problem instead of wording around it.
+- Skip only when nothing user-visible changed, and say that you skipped it.
+
 ### Skill Routing
 
 Use the skill instead of re-deriving its rules here.
@@ -71,6 +104,7 @@ Use the skill instead of re-deriving its rules here.
 | --- | --- |
 | Commit message or commit | `/commit` |
 | Cleanup, refactor, structure, code quality | `/refactor` |
+| Deslop pass after writing code — always | `/refactor deslop` |
 | Review a diff or PR | `/code-review` |
 | Security review of pending changes | `/security-review` |
 | Plan scope, ticket, or feature | `/blueprint` |
@@ -81,6 +115,7 @@ Use the skill instead of re-deriving its rules here.
 | Frontend and UI construction | `/ui` |
 | Semantic HTML and markup audit | `/markup` |
 | UX diagnosis and interface copy | `/ux` |
+| Copy review after writing user-facing text — always | `/ux write` |
 | Livewire components | `/livewire` |
 | Throwaway design prototype | `/prototype` |
 | Research a question with sources | `/research` |
@@ -116,6 +151,14 @@ Keep here only what routing cannot carry: goal definition, architecture and prod
 - Pass exact read and write scope paths; Inter enforces them. Default read scope to `["**"]` (the whole cwd) and scope writes to the expected output paths — narrow read scopes starve workers into EPERM workarounds and timeouts. Bare directory paths grant the whole subtree; paths that don't exist yet need a `/**` suffix. Write the worker prompt as markdown with Goal, Context, Scope, numbered Instructions, Guardrails, Output Format. Set a hard runtime limit. When fanning out, link each task to the first as its parent.
 - The worker cannot see this session. State the full goal, why it matters, prior findings and decisions, exact paths, conventions, examples, and how to verify. Assume no shared memory.
 - Track work through Inter's task state and wait tools. Answer reversible in-scope questions yourself; ask the user about product intent, secrets, destructive actions, or new authority. Resume failed, cancelled, or blocked tasks; cancel work no longer useful. Verify every result at the subagent bar.
+
+### Cross-project work
+
+- Set `cwd` to the project the work belongs to, not the session's project. Exploring another repo (`../x`) or building into one is a delegation opportunity, not a reason to fill the session's context.
+- "Explore" means: send Inter what you are looking for — the answer, the feature, the port — not "read files". Ask for a report sized to the decision it feeds. Scope: `read: ["**"]`, `write: []`.
+- "Build" means: send the goal, source material, and target paths; read scope over the whole cwd (`["**"]`), write scope over the output tree, a hard timeout, and a build/check the worker must run. Paste source verbatim into the prompt when the source repo is outside the worker's read scope.
+- Two repos, two tasks: explore the source repo with `cwd` set there, then dispatch the build with `cwd` set at the target — the second can run while the first settles.
+- Stay on judgment: goal, architecture, integration, final review. The session keeps its context; the worker runs in its own.
 
 ## Production Data
 

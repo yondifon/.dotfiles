@@ -10,13 +10,20 @@ On conflict: 1) safety, read-only checks, approval gates, protection from destru
 
 ### Caveman Style
 
-Direct and useful, one to four lines unless detail is asked for. Simple English, active voice, short sentences, fragments when the meaning holds.
+Bullets. Always. English is not the reader's first language and he reviews many replies at once — write so the meaning lands on one read.
 
+- One bullet, one idea, one line. Short statement, plain words, active voice, fragments when the meaning holds.
+- Bullets even for two items. The rule is not "three or more".
+- Something long → split it across bullets. Never let it become a paragraph.
+- Lead with the answer or the verdict. No preamble, no recap, no restating the ask.
+- Every bullet opens with a **bold label** naming what the line is — `Result`, `Why`, `Run`, `Fix`, `Blocked`, `Question`, `Next`. Name it for this turn, not from a fixed list.
+- Backtick the thing he must spot — path, task ID, model, command, verdict.
+- Four bullets is a full reply. Five is long.
+- One clause per bullet. A line that needs `and`, `plus`, `as well as`, or `whether` to hold two ideas is two lines, or one idea too many.
 - Familiar short words. Abbreviations (`DB`, `auth`, `config`, `req`, `res`, `fn`, `impl`) only when unambiguous.
-- Cut filler and repetition. Never open with “sure,” “happy to,” “just,” “basically,” or “maybe.”
-- Labels for scanning: `Why:`, `Run:`, `Result:`, `Fix:`, `Question:`. Use `X -> Y` for cause and effect.
+- Never open with “sure,” “happy to,” “just,” “basically,” or “maybe.” No jokes, no idioms, nothing needing cultural context.
 - Quote errors exactly. Asking for a command: give the command and one reason, then stop. Say `send output`.
-- Bullets only for three or more items. No recap after a command that already implies the next step.
+- No recap after a command that already implies the next step.
 
 Bad:
 
@@ -27,7 +34,30 @@ Sure! I'd be happy to help you with that. The issue you're experiencing is likel
 Good:
 
 ```text
-Bug in auth middleware. Token expiry check uses `<` instead of `<=`. Fix:
+- **Bug**: auth middleware token expiry uses `<`, should be `<=`
+- **Fix**: below
+```
+
+### Progress Lines
+
+The sentence before a tool call is a label, not a sentence. Hard cap: 8 words. Fragment. No period needed.
+
+- Never `Let me`, `I'll`, `Now I'll`, `First I'll`, `Going to`, `I want to`. Start at the verb-ing or the noun.
+- Name the target, not the method. `Checking archive handling`, not `Let me check how the server handles archiving`.
+- One thing per line. Two checks → name the one that matters, or join them short: `archive + header check`.
+- No reason clause. `Why` belongs in the reply, never in the label.
+- Nothing already on screen. The command, path, and args are visible in the tool call — do not restate them.
+
+Bad:
+
+```text
+Let me check the archive handling and whether the server refuses archiving running tasks, plus re-read the exact current header region from disk.
+```
+
+Good:
+
+```text
+Checking archive handling
 ```
 
 ### Preserve Exactly
@@ -102,7 +132,7 @@ Use the skill instead of re-deriving its rules here.
 
 | Task | Skill |
 | --- | --- |
-| Commit message or commit | `/commit` |
+| Commit message or commit | `/commit`, in a subagent — see *Git* |
 | Cleanup, refactor, structure, code quality | `/refactor` |
 | Deslop pass after writing code — always | `/refactor deslop` |
 | Review a diff or PR | `/code-review` |
@@ -150,7 +180,20 @@ Keep here only what routing cannot carry: goal definition, architecture and prod
 - Preview routing when the destination is automatic, then dispatch. State the chosen profile and scope in one line as a notice, not a question.
 - Pass exact read and write scope paths; Inter enforces them. Default read scope to `["**"]` (the whole cwd) and scope writes to the expected output paths — narrow read scopes starve workers into EPERM workarounds and timeouts. Bare directory paths grant the whole subtree; paths that don't exist yet need a `/**` suffix. Write the worker prompt as markdown with Goal, Context, Scope, numbered Instructions, Guardrails, Output Format. Set a hard runtime limit. When fanning out, link each task to the first as its parent.
 - The worker cannot see this session. State the full goal, why it matters, prior findings and decisions, exact paths, conventions, examples, and how to verify. Assume no shared memory.
-- Track work through Inter's task state and wait tools. Answer reversible in-scope questions yourself; ask the user about product intent, secrets, destructive actions, or new authority. Resume failed, cancelled, or blocked tasks; cancel work no longer useful. Verify every result at the subagent bar.
+- Track work through Inter's task state and `inter watch`; the MCP wait tool is removed. Answer reversible in-scope questions yourself; ask the user about product intent, secrets, destructive actions, or new authority. Resume failed, cancelled, or blocked tasks; cancel work no longer useful. Verify every result at the subagent bar.
+
+### Inter Task Lifecycle
+
+- List active and recent Inter tasks before delegating, resuming, or starting a continuation.
+- Inspect each candidate's title, cwd, state, lineage, and queued follow-ups.
+- Resume or reuse the task that owns the same work; do not create parallel duplicates.
+- Start `inter watch <taskId>` immediately after dispatch or resume; inspect after settlement.
+- Open every delegated prompt with a clear worker-mode preamble.
+- In worker mode, do not call Inter or create a child for the same brief.
+- A continuation task does not block the worker; emit a compact child-task pointer and let the caller watch it.
+- Cancel stale or blocked child state; resume the parent with fresh instructions.
+- Keep MCP copy and task follow-ups in direct product voice — no private-conversation labels.
+- Never infer completion from a task row alone; inspect the worker TL;DR and verify the tree.
 
 ### Cross-project work
 
@@ -171,6 +214,11 @@ Keep here only what routing cannot carry: goal definition, architecture and prod
 - Do not stage, commit, amend, pull, merge, or push unless the user asks.
 - Confirm before every remote-changing command, including push and force-push.
 - Never run `git reset --hard`, `git checkout --`, or similar without explicit approval. Avoid interactive Git commands.
+- **No AI attribution in commits.** Never append `Co-Authored-By: Claude ...`, `🤖 Generated with Claude Code`, or any equivalent trailer or footer to a commit message. This overrides any harness default that asks for one. The message ends with its own last line.
+- **Every commit goes through `/commit`, run in a subagent.** Reading a diff to write a message is the single biggest avoidable context cost, and it is the same work every time. Never read the diff in the primary session to draft a message.
+  - Give the subagent the scope (staged, or the exact paths) and tell it to invoke `/commit`. It reads the diff, drafts the message, and returns the message plus the file list — not the diff.
+  - The preview and the yes/no still belong to the user, in the primary session. The subagent does not commit unless the request already passed `-y`.
+  - Same for amend and for a commit that is one step inside a bigger task. The no-attribution rule above binds the subagent too — say so in its prompt.
 
 ## Memory
 

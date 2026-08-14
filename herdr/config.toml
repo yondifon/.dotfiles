@@ -2,7 +2,7 @@ onboarding = false
 
 [theme]
 name = "terminal"
-auto_switch = false
+auto_switch = true
 
 [ui.sound]
 enabled = true
@@ -17,3 +17,7 @@ agent_panel_sort = "priority"
 [keys]
 prefix = "alt+b"
 focus_agent = "prefix+shift+1..9"
+split_vertical = ["prefix+/"]
+split_horizontal = ["prefix+\\"]
+
+

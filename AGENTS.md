@@ -44,8 +44,9 @@ Good:
 Every reply is rendered in Bionic Reading — the front of each word is bold so the eye fixates and skips the rest. This is an accessibility requirement, not a style choice. Shortness comes first: bionic marks a short line, it does not rescue a long one.
 
 - Bold the front of each word, the rest plain: `**Fro**nt`. Never bold a whole content word.
-- Length sets the prefix — 1–3 letters bold 1, 4–6 bold 2, 7+ bold 3. Round down when unsure.
-- Skip words of 1–2 letters entirely. `a`, `is`, `to`, `of` stay plain.
+- Every word gets a prefix. None is skipped — a small word with no fixation point is a word the eye slides past.
+- Length sets the prefix — 1 letter bolds the whole word, 2–3 letters bold 1, 4–6 bold 2, 7+ bold 3. Round down when unsure.
+- A word of 2 letters or more always keeps at least one plain letter: `**i**s`, `**t**o`, `**o**f`, `**a**n`. A 1-letter word is the only whole-word bold: `**a**`.
 - The bullet's **bold label** stays fully bold. Bionic starts after it.
 - Never touch anything inside backticks, a code fence, a URL, a path, or a quoted error. *Preserve Exactly* wins.
 - Never bionic a heading, a table cell, or a commit or pull-request message.
@@ -129,15 +130,25 @@ Words the product shows a user are written for that user, not for the ticket. A 
 - Follow the project package manager. Bun projects use `bun` and `bunx`.
 - Prefer targeted tests, linters, and type checks. Do not run `bun run dev` or `bun run build` unless it directly verifies the change.
 
+### Lint Before Every Commit
+
+Run the project's own linter on this task's changed files before the commit, not the whole tree. The user does not have to ask.
+
+- Find the command, never assume it. Read `package.json` scripts and `composer.json` scripts first; the config file at the root names the tool (`.oxlintrc.json` -> oxlint, `eslint.config.*` -> ESLint, `pint.json`/Laravel -> Pint, `biome.json` -> Biome, `ruff.toml` -> Ruff).
+- Use the script the project defines (`bun run lint`, `composer lint`) over calling the binary directly. It carries the flags the project expects.
+- Match the package manager: Bun projects use `bun run` and `bunx`, never `npm` or `npx`.
+- A repo may have more than one linter — one per language. Run each that covers a changed file.
+- A pre-commit hook running the same check is not a reason to skip it. Fix lint failures before the commit, not in a follow-up.
+- Lint failures block the commit. Report them; never commit past them silently.
+
 ### Deslop Every Code Change
 
-Any task that wrote or edited code ends with `/refactor deslop` before reporting done. The user does not have to ask. Skip only for a one-line mechanical edit, and say that you skipped it.
+Any task that wrote or edited code ends with `/refactor` before reporting done. The user does not have to ask. Skip only for a one-line mechanical edit, and say that you skipped it.
 
-- Pass the `deslop` arg. It loads only `references/deslop.md` and skips the structural checks — the whole point is that the finishing pass is cheap.
 - Run it on this task's diff, not the whole file. Slop is cheapest to remove while the diff is fresh.
 - Strip what the model added and nobody needs: obvious comments, defensive checks on trusted internal paths, swallowing `try`/`catch`, silent fallbacks, `any` and casts, one-off wrappers, unrequested logging.
 - Comments describe the code as it now stands. Never the bug, the fix, the ticket, or the request. Fixing a bug from a report and then leaving `// Bug fix: ...`, `// Previously this ...`, `// as requested`, `// NEW`, or a ticket ID is slop — that history goes in the commit message and the regression test name. Keep a comment only when it states a rule the code still depends on, written in present tense.
-- Verify after desloping: the deslop pass preserves behavior, so the same checks must still pass.
+- Also get the right proper naming and architecture
 - Subagents and Inter workers get this rule in their prompt too. They produce the most of it.
 
 ### Review Every User-Facing Change
@@ -183,7 +194,9 @@ Use the skill instead of re-deriving its rules here.
 
 ## Workflow Efficiency
 
-- Known path -> read one to three files. Glob or search only when the location is unknown.
+- Known path -> read one to three files.
+- Unknown location -> `inter query "<what you are looking for>"` first. It answers from the project's own index with a file and a symbol, fresher and cheaper than a grep sweep. Works for concepts, not just names: `inter query "auth verification"`.
+- Glob and grep are the fallback — when query returns nothing, the project is not indexed, or you need every match rather than the right one.
 - Delegate independent, non-trivial work: isolated implementation, codebase research, test diagnosis, mechanical changes, independent code or security review. Separate subagents for parallel work; keep coupled steps together.
 - Use delegation to keep large reads, exploratory output, and implementation detail out of the primary context.
 - Give every subagent minimum context plus exact scope, files, success criteria, expected output, conventions, examples, verification commands. Require a report of changed files, checks run, failures, and uncertainty.
@@ -198,6 +211,10 @@ Use the skill instead of re-deriving its rules here.
 Keep here only what routing cannot carry: goal definition, architecture and product decisions, integration, final review, final responsibility. Everything executable goes out.
 
 - Route by default, not on a trigger. Budget pressure and provider refusals are reasons to route sooner, not the conditions that unlock routing.
+- **Too small to brief stays here.** Rename a file, fix a typo, change one constant, add a config line, one read-only lookup. When writing the brief costs more than doing the work, do the work.
+- **The brief describes the investigation; it does not contain it.** Do not read the files, find the convention, or check the standard yourself and then paste the answer into a brief — that spends this session's tokens on the worker's first step. Write it as instruction: read these files, find the rules that apply, make every file fit. Pre-check only what was explicitly asked for, or what decides whether the task gets dispatched at all.
+- **Worktree tasks end in a commit and a PR.** Uncommitted work in a worktree gets forgotten. Require it in the brief: commit with a real message, push the branch, open the PR, return the PR link in the TL;DR.
+- **Dispatch unsandboxed.** The sandbox is off by default; turn it on only when the work genuinely needs isolation. It blocks real toolchains and workers waste runs improvising around it.
 - Subagents share this session's budget. Inter hands bounded work to a separate CLI account with its own budget and models.
 - Route around capability refusals. A refusal is one provider's policy line, not a verdict on the work. Legitimate authorized work — pentest, CTF, defensive security, vulnerability research on the user's own systems — goes to a profile whose policy covers it (e.g. Kimi) at comparable capability.
 - Watch budget against Rule 6. When it runs low, stop executing and spend what is left on judgment: fix the goal, exact paths, and success checks here, then hand execution to a worker.
@@ -205,6 +222,7 @@ Keep here only what routing cannot carry: goal definition, architecture and prod
 - Preview routing when the destination is automatic, then dispatch. State the chosen profile and scope in one line as a notice, not a question.
 - Pass exact read and write scope paths; Inter enforces them. Default read scope to `["**"]` (the whole cwd) and scope writes to the expected output paths — narrow read scopes starve workers into EPERM workarounds and timeouts. Bare directory paths grant the whole subtree; paths that don't exist yet need a `/**` suffix. Write the worker prompt as markdown with Goal, Context, Scope, numbered Instructions, Guardrails, Output Format. Set a hard runtime limit. When fanning out, link each task to the first as its parent.
 - The worker cannot see this session. State the full goal, why it matters, prior findings and decisions, exact paths, conventions, examples, and how to verify. Assume no shared memory.
+- **Every brief tells the worker to locate code with `inter query` first.** Query before glob or grep, phrased as what it is looking for. Fall back to search only when query returns nothing.
 - Track work through Inter's task state and `inter watch`; the MCP wait tool is removed. Answer reversible in-scope questions yourself; ask the user about product intent, secrets, destructive actions, or new authority. Resume failed, cancelled, or blocked tasks; cancel work no longer useful. Verify every result at the subagent bar.
 
 ### Inter Task Lifecycle
@@ -219,6 +237,19 @@ Keep here only what routing cannot carry: goal definition, architecture and prod
 - Cancel stale or blocked child state; resume the parent with fresh instructions.
 - Keep MCP copy and task follow-ups in direct product voice — no private-conversation labels.
 - Never infer completion from a task row alone; inspect the worker TL;DR and verify the tree.
+- Archive a task once its result is verified and the work is finished. Archiving removes the worktree — never remove a worktree by hand.
+- Archive only when done, not to tidy a list. A task that may need a follow-up gets resumed, not archived.
+
+### Worker Mode
+
+You were handed a brief — a Goal/Context/Scope/Instructions/Guardrails/Output Format prompt, a subagent task, or an Inter task. Then you are the worker, and the routing rules above do not apply to you.
+
+- Execute the brief yourself. Never call Inter, never create a child task for the work you were given.
+- Blocked means stop. Return `needs_input` naming the blocker and the one decision you need. Do not improvise a workaround, retry loop, account, or stub.
+- Return exactly the Output Format you were given. Nothing before it, nothing after it.
+- A continuation is still worker mode. Finishing one part does not promote you to coordinator.
+- Genuinely separate follow-up work may create a child task — return a one-line task pointer so the caller can watch it.
+- In a worktree: commit with a real message, push the branch, open the PR, and put the PR link in the TL;DR before reporting done.
 
 ### Cross-project work
 

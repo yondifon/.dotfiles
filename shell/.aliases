@@ -120,7 +120,6 @@ alias resync="source ~/.dotfiles/symlinks"
 
 # Claude profiles
 alias cl='claude --dangerously-skip-permissions'
-alias op='opencode --auto'
 alias claude-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" claude'
 alias claude-me='CLAUDE_CONFIG_DIR="$HOME/.claude-me" claude'
 alias cl-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" claude --dangerously-skip-permissions'

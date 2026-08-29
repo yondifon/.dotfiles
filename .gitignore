@@ -6,6 +6,8 @@ shell/.yarnrc
 # Generated git configuration (contains sensitive data)
 .gitconfig.local
 
+gh/hosts.yml
+
 # OS generated files
 .DS_Store
 .DS_Store?

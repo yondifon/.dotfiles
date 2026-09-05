@@ -88,7 +88,7 @@ alias nginx-log="open ~/Library/Application\ Support/Herd/logs/nginx.log"
 # Your personal Git aliases
 alias checkout='git checkout'
 alias push='git push'
-alias pull='git pull'
+alias pull='git stash && git pull && git stash pop'
 alias merge='git merge'
 alias gs='git status'
 alias gb='git branch'

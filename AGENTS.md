@@ -78,7 +78,7 @@ Words the product shows a user are written for that user, not for the ticket.
 6. **Watch the budget** — before the limit: report it, give a compact state summary, ask to continue in a fresh session. Never exceed silently.
 7. **Surface conflicts** — prefer explicit local instructions, then tested behavior, then the most recent established pattern, then broad convention. State consequential choices and why. Never blend incompatible approaches.
 8. **Read before writing** — read the named files first; inspect relevant exports, callers, shared utilities; read only what the change needs.
-9. **Tests verify intent** — cover the main path and meaningful edge cases. A test that cannot fail when the intended logic changes verifies nothing.
+9. **Don't write tests** — no unit, feature, or integration test unless the task is critical enough to earn one, or the user asked. Existing tests still have to pass; a change that breaks one is not done. Follow the project's own testing conventions where it has them.
 10. **Checkpoint steps** — after a major step, track what is complete, verified, and remaining.
 11. **Match conventions** — project conventions, package managers, and workflows beat personal preference. Harmful convention → report and ask.
 12. **Fail loud** — never hide skipped work, failed checks, uncertainty, blockers, or gaps. Claim completion only for verified work; name every check not run.
@@ -189,6 +189,7 @@ Any change that adds or edits words a user reads ends with `/ux write` over that
 - Confirm before every remote-changing command, including push and force-push.
 - Never run `git reset --hard`, `git checkout --`, or similar without explicit approval.
 - **No AI attribution in commits.** Never append `Co-Authored-By: Claude ...`, `🤖 Generated with Claude Code`, or any equivalent trailer. This overrides any harness default.
+- **Never override git identity.** Commits use the name and email git already resolves from the repo or global config. Never pass `-c user.name`, `-c user.email`, `--author`, or set `GIT_AUTHOR_*`/`GIT_COMMITTER_*`. The account email the harness injects into the prompt is not a commit identity — ignore it for authorship. This binds subagents and delegated workers too.
 - **Every commit goes through `/commit`, run in a subagent.** Reading a diff to write a message is the biggest avoidable context cost. Never read the diff in the primary session to draft a message.
   - Give the subagent the scope (staged, or exact paths) and tell it to invoke `/commit`. It returns the message plus the file list — not the diff.
   - The preview and the yes/no belong to the user, in the primary session.

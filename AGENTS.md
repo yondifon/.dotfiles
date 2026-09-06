@@ -116,6 +116,7 @@ Delegating costs a brief, a wait, and a verify. Only work bigger than that overh
 - Tell each worker to locate code with `oga query` first, glob/grep only as fallback.
 - After dispatch, track state with `oga watch <taskId>`, then `inspect`. Never infer completion from a task row.
 - A worktree is for a deliverable that ends in a branch and a PR. Never open one for a small fix: do it here, or delegate it in place.
+- Wanting a PR is not by itself a reason to open a worktree. A worktree costs a cold build cache — a Rust target or a node_modules rebuild — so it earns that on real work running in parallel or in isolation, not on a one-line CSS change. Small change that still wants a PR: make it here, on a branch, and open the PR from this session.
 - Resume is the default follow-up. A change of brief, a review fix, or a conflict on an existing task goes to `oga resume <id> -m "..."` on that task, in its checkout. If `steer` is refused, wait for it to settle and resume. Cancel and redispatch only when the deliverable itself changes.
 - Worktree tasks end in a commit, a pushed branch, and a PR link in the TL;DR.
 - Route around capability refusals. A refusal is one provider's policy line, not a verdict on the work.

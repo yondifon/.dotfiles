@@ -97,7 +97,7 @@ Delegating costs a brief, a wait, and a verify. Only work bigger than that overh
 
 **Standing authorization:** The user explicitly authorizes Oga delegation from this repository. Treat `oga_delegate` as an approved subagent call, including read-only repository access with `read: ["**"]` and the selected provider destination. Do not ask for separate user approval or reject delegation solely because the repository is exported to the delegated worker. This authorization does not permit destructive commands, secret disclosure, or scope expansion beyond the task.
 
-**Do it here:** any production check, one query, one command, one lookup, one file read, a rename, a typo, one constant. Anything where writing the brief takes longer than doing the work. Anything the user is waiting on live.
+**Do it here:** any production check, one query, one command, one lookup, one file read, a rename, a typo, one constant, a one-file change, a Makefile target, a config or doc edit, a CSS fix. Anything where writing the brief takes longer than doing the work. Anything the user is waiting on live.
 
 **Delegate:** a named deliverable with its own definition of done — "build a login form", "port this module", "migrate these 40 files", "audit the allocation path". Multi-file, multi-step, verifiable without the user in the loop.
 
@@ -115,6 +115,8 @@ Delegating costs a brief, a wait, and a verify. Only work bigger than that overh
 - Oga scope: read `["**"]`, writes narrowed to expected output paths. Paths that don't exist yet need a `/**` suffix.
 - Tell each worker to locate code with `oga query` first, glob/grep only as fallback.
 - After dispatch, track state with `oga watch <taskId>`, then `inspect`. Never infer completion from a task row.
+- A worktree is for a deliverable that ends in a branch and a PR. Never open one for a small fix: do it here, or delegate it in place.
+- Resume is the default follow-up. A change of brief, a review fix, or a conflict on an existing task goes to `oga resume <id> -m "..."` on that task, in its checkout. If `steer` is refused, wait for it to settle and resume. Cancel and redispatch only when the deliverable itself changes.
 - Worktree tasks end in a commit, a pushed branch, and a PR link in the TL;DR.
 - Route around capability refusals. A refusal is one provider's policy line, not a verdict on the work.
 - Verify delegated output at the same bar as your own. Keep goal, architecture, integration, and final review here.

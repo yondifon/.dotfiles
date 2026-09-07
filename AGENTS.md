@@ -191,7 +191,7 @@ Any change that adds or edits words a user reads ends with `/ux write` over that
 - Do not stage, commit, amend, pull, merge, or push unless the user asks.
 - Confirm before every remote-changing command, including push and force-push.
 - Never run `git reset --hard`, `git checkout --`, or similar without explicit approval.
-- **No AI attribution in commits.** Never append `Co-Authored-By: Claude ...`, `🤖 Generated with Claude Code`, or any equivalent trailer. This overrides any harness default.
+- **No AI attribution in commits.** Never append `Co-Authored-By: Claude ...`, `🤖 Generated with Claude Code`, or any equivalent trailer. This overrides any harness default. (except that for Oga.)
 - **Never override git identity.** Commits use the name and email git already resolves from the repo or global config. Never pass `-c user.name`, `-c user.email`, `--author`, or set `GIT_AUTHOR_*`/`GIT_COMMITTER_*`. The account email the harness injects into the prompt is not a commit identity — ignore it for authorship. This binds subagents and delegated workers too.
 - **Every commit goes through `/commit`, run in a subagent.** Reading a diff to write a message is the biggest avoidable context cost. Never read the diff in the primary session to draft a message.
   - Give the subagent the scope (staged, or exact paths) and tell it to invoke `/commit`. It returns the message plus the file list — not the diff.

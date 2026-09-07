@@ -865,3 +865,59 @@ function nah() {
 function _calc() {
     python3 -c "from math import *; print($*)"
 }
+
+# Find files/dirs, case-insensitive, skipping vendor/node_modules/.git
+#
+#   f *.db                every sqlite file under .
+#   f config              names containing "config"
+#   f config src          ... under src
+#   f -d migrations       directories only
+#   f -c "TODO" src       grep contents instead of names
+#
+# Aliased with `noglob` so glob patterns reach find untouched.
+alias f='noglob _f'
+
+_f() {
+  local type_arg=() grep_mode=0
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -f|--files) type_arg=(-type f) ;;
+      -d|--dirs) type_arg=(-type d) ;;
+      -c|--content) grep_mode=1 ;;
+      -h|--help)
+        echo "Usage: f [-f|-d] [-c] <pattern> [path]"
+        echo "  -f, --files    files only"
+        echo "  -d, --dirs     directories only"
+        echo "  -c, --content  search file contents instead of names"
+        return 0
+        ;;
+      *) break ;;
+    esac
+    shift
+  done
+
+  if [[ -z "$1" ]]; then
+    echo "Usage: f [-f|-d] [-c] <pattern> [path]"
+    return 1
+  fi
+
+  local pattern="$1"
+  local target="${2:-.}"
+
+  if [[ $grep_mode -eq 1 ]]; then
+    grep -rIin --exclude-dir={.git,node_modules,vendor,dist,build,.next,storage} "$pattern" "$target"
+    return $?
+  fi
+
+  local name="$pattern"
+  case "$pattern" in
+    *\**|*\?*) ;;
+    .*) name="*$pattern" ;;
+    *) name="*$pattern*" ;;
+  esac
+
+  find "$target" \
+    \( -name .git -o -name node_modules -o -name vendor -o -name dist -o -name build -o -name .next \) -prune -o \
+    -iname "$name" "${type_arg[@]}" -print
+}

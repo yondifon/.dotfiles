@@ -43,3 +43,6 @@ yarn-error.log
 .features/*.md
 
 .malico/
+
+.oga.yml
+.oga.yaml

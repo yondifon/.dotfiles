@@ -83,7 +83,7 @@ commit() {
 
     local tmpfile result msg
     tmpfile=$(mktemp)
-    opencode -m "$model" run "$(_commit_prompt)" </dev/null >"$tmpfile" 2>/dev/null
+    opencode run --model "$model" "$(_commit_prompt)" </dev/null >"$tmpfile" 2>/dev/null
     result=$(<"$tmpfile")
     rm -f "$tmpfile"
     msg=$(_opencode_commit_message "$result")
@@ -187,7 +187,7 @@ commit() {
   if [[ -z "$msg" && $has_git_message -eq 0 ]]; then
     local tmpfile result
     tmpfile=$(mktemp)
-    opencode -m "$model" run "$(_commit_prompt)" </dev/null >"$tmpfile" 2>/dev/null
+    opencode run --model "$model" "$(_commit_prompt)" </dev/null >"$tmpfile" 2>/dev/null
     result=$(<"$tmpfile")
     rm -f "$tmpfile"
     msg=$(_opencode_commit_message "$result")
@@ -302,7 +302,7 @@ commit-message() {
 
   local tmpfile result msg
   tmpfile=$(mktemp)
-  opencode -m "$model" run "$prompt" </dev/null >"$tmpfile" 2>/dev/null
+  opencode run --model "$model" "$prompt" </dev/null >"$tmpfile" 2>/dev/null
   result=$(<"$tmpfile")
   rm -f "$tmpfile"
   msg=$(_opencode_commit_message "$result")

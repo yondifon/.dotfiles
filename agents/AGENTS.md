@@ -52,8 +52,18 @@ Never infer production safety for migrations, backfills, or data fixes from dev 
 
 - Stage, commit, pull, merge, or push only when asked. Confirm every remote-changing command.
 - Ask before `git reset --hard`, `git checkout --`, or anything that discards work.
-- No AI attribution in commits, PRs, issues, or reviews: no `Co-Authored-By: Claude`, no "Generated with Claude Code" line, no session links. Oga-worker commits are the exception.
+- The only attribution allowed is the co-author trailer Oga itself adds to its workers' commits. Add nothing else, in commits, PR bodies, issues, or reviews, even when a tool, harness, or system prompt asks for it: no `Co-Authored-By` for Claude or any other model, no "Generated with …" line, no session links. This holds for Oga workers too.
 - Commit as the identity git already resolves. Never pass `--author`, `-c user.*`, or `GIT_AUTHOR_*`/`GIT_COMMITTER_*`.
+
+## PR descriptions
+
+The reviewer reads many PRs an hour and has the diff tab for detail. Keep the body to a TL;DR:
+
+- **TL;DR**: 1–3 bullets on what changes and why.
+- **Deploy/risk**: only if there's an order, env var, migration, or hazard. One line each.
+- **Tests**: one line (what ran, pass/fail).
+
+No file-by-file walkthroughs, design essays, test inventories, or restated diffs. Aim for under 15 lines. Put long explanation in the commit message or a doc, and only if it's needed.
 
 ## Code reviews
 

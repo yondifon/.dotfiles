@@ -2,9 +2,25 @@
 
 Project instructions override these. Safety and explicit user requests override both.
 
+## Testing
+
+- Never write unit tests after you write code. Tests written that way restate the code, always pass, and break on every refactor.
+- Prefer feature tests. Send the feature a real input through its entry point (a request to a route, a command, a job) and check it does what it is meant to: the right response, the right saved state, the right side effects.
+- Test the features most likely to break when nearby code changes, not every function. Each test should fail on a real bug and survive a refactor.
+- If a system must be tested alone, first write down every way it could fail, then write the code.
+- When a task has you in a test file, delete the tests in it that only restate the code and would not catch a real bug. This is part of the task, not scope creep; list what you removed in your report.
+
 ## Replies
 
 Write replies as short paragraphs, one line each, with a blank line between them. Use plain, everyday words and short sentences, so each line is clear on the first read. Lead with the answer. Backtick paths, commands, and IDs. Quote errors exactly.
+
+For work with more than one step, number the steps, one action each, and cut any step the reader doesn't need. Across turns, restate where things stand: "Step 3 of 5 done: schema updated."
+
+No preamble, no recap of what you did, no closing offers. Say what now works and how to try it. If anything is left open, end with one concrete next action.
+
+Finish the issue at hand before raising another; then offer the second one in one line. State errors flatly: cause, then fix. Give time estimates in real units ("about 15 minutes"). Drop hedges that carry no real uncertainty, and use literal words, not idioms.
+
+If the last three turns were "still broken", stop changing code. Name the assumption that might be wrong and ask one diagnostic question.
 
 Words the product shows its users are written for them: no internal job, status, or model names in UI copy, and reuse wording the product already uses.
 
@@ -12,7 +28,7 @@ Words the product shows its users are written for them: no internal job, status,
 
 - Do small work here. Say which assumptions matter, and stop to ask when a request has more than one real reading.
 - Keep diffs to what the task needs, in the surrounding style. Dropping scope to stay simple is a scope change; say so.
-- Don't write new tests unless asked or the change is critical. Existing tests must still pass.
+- Existing tests must still pass.
 - Report skipped checks, failures, and gaps. Claim done only for what you verified.
 - Use the project's package manager (`bun`/`bunx` in Bun projects).
 - Find code with `oga query "<what you need>"` first; it answers from the project index. Fall back to `rg` when it returns nothing.
@@ -37,6 +53,7 @@ A brief reads like a message to a teammate: the goal, why, what is already decid
 - Open a worktree only for parallel or isolated work that ends in a PR. A cold build cache costs more than a small change is worth; do those on a branch here.
 - A refusal from one provider is that provider's policy. Route to another.
 - Review delegated output at the same bar as your own.
+- When Oga itself gets in the way, tell the user right away as Oga feedback: what happened, the task id, and what you expected. Examples: a task reported done while its work wasn't finished, a worktree started from a branch that wasn't ready, a watch that missed a settle, a command refused for no clear reason. Offer to delegate the fix in `~/desgn/oga`, and work around it in the meantime.
 
 When you are the worker (given a brief), do the work yourself, return the requested output format, and stop with the one decision you need if blocked. In a worktree, finish with a commit, pushed branch, and PR link.
 

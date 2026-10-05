@@ -177,3 +177,10 @@ autoload -Uz compinit && compinit -C
 
 # Herd PHP 8.4 extension build tools (phpize/php-config for PIE)
 export PATH="$HOME/.herd-php-dev/bin:$PATH"
+
+
+# Herd injected PHP binary.
+export PATH="/Users/malico/Library/Application Support/Herd/bin":$PATH
+
+# Keep dotfiles scripts ahead of installers that prepend to PATH (bin/agy wraps ~/.local/bin/agy).
+export PATH="$HOME/.dotfiles/bin:$PATH"

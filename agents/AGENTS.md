@@ -8,6 +8,14 @@ Project instructions override these. Safety and explicit user requests override 
 - Prefer feature tests. Send the feature a real input through its entry point (a request to a route, a command, a job) and check it does what it is meant to: the right response, the right saved state, the right side effects.
 - Test the features most likely to break when nearby code changes, not every function. Each test should fail on a real bug and survive a refactor.
 - If a system must be tested alone, first write down every way it could fail, then write the code.
+- Before writing a test, name the bug it would catch. If you can only describe it as "the code changed", don't write it.
+- These tests restate the code, so don't write them:
+  - A link has a given `href`.
+  - A label, heading or button renders.
+  - A mock was called with the arguments the code passes it.
+  - A prop shows up in the markup.
+  - A constant, config value or type has its value.
+- A test earns its place when it checks behavior across steps or state, the kind a refactor or a nearby change could break: switch away and back and land where you were, a stale save refused, a guard that blocks a bad write.
 - When a task has you in a test file, delete the tests in it that only restate the code and would not catch a real bug. This is part of the task, not scope creep; list what you removed in your report.
 
 ## Replies
@@ -24,6 +32,8 @@ If the last three turns were "still broken", stop changing code. Name the assump
 
 Words the product shows its users are written for them: no internal job, status, or model names in UI copy, and reuse wording the product already uses.
 
+Client docs (API docs, help pages, webhook guides) follow the same rule. Say what the client sends, what they get back, what they can rely on, and what they should do. Leave out how we do it: our runs, phones, retries, confirmation re-checks, sessions, queues, exit codes, settle delays, and the reasons behind them. If a behaviour matters to the client, describe its effect in their terms ("follows are spread over several days"), not its mechanism ("each follow counts three app sessions"). Do state the numbers clients plan around, in their units: "up to 10 new follows per account per day", the retry window, a rate limit.
+
 ## Working
 
 - Do small work here. Say which assumptions matter, and stop to ask when a request has more than one real reading.
@@ -32,6 +42,8 @@ Words the product shows its users are written for them: no internal job, status,
 - Report skipped checks, failures, and gaps. Claim done only for what you verified.
 - Use the project's package manager (`bun`/`bunx` in Bun projects).
 - Find code with `oga query "<what you need>"` first; it answers from the project index. Fall back to `rg` when it returns nothing.
+- Never run Playwright or any headless browser; this machine doesn't have the RAM.
+- Never start a Next.js server yourself (`next dev`, `next start`, `bun run dev`, `preview`); one can use over 4 GB and crash the machine. Ask the user to start it, then visit the URL they give you. If you're a worker, return `needs_input` asking for it.
 
 Before a commit, run the project's own lint script on the changed files. After writing code, run `/refactor` on the diff. After changing user-facing copy, run `/ux write` on it; after building a page or flow, also `/ux diagnose`.
 
@@ -47,15 +59,19 @@ Delegate a named deliverable that is multi-file and verifiable without the user 
 
 A brief reads like a message to a teammate: the goal, why, what is already decided, and what done looks like. The worker cannot see this session and does its own discovery, so don't pre-read files for it. Narrow write scope to the expected paths (`/**` for new ones).
 
+Settle open questions with the user before delegating. Once the user confirms, the brief is final: the worker reads the code and does the work without coming back for decisions the user already made.
+
+Pick one model able to do the whole job and give it all of it. A review that should lead to fixes is one task: the worker reviews, fixes what it finds, tests, and commits. Don't chain a small model's review, your check of that review, and a bigger model's fix. Each hop re-reads the same code and loses context.
+
 - Split big work into one task per area, chained with `dependsOn` in the same checkout, since parallel tasks on one tree overwrite each other. Alternate providers along the chain so one account's limit doesn't stall it.
 - Each task commits on the working branch. The session writes the changelog line once at the end.
 - Follow up with `oga resume <id> -m "..."`. Track with `oga watch <taskId>` then `inspect`; a task row alone doesn't mean it finished.
-- Open a worktree only for parallel or isolated work that ends in a PR. A cold build cache costs more than a small change is worth; do those on a branch here.
+- Don't open worktrees unless the user explicitly asks for one. Work on a local branch in the existing checkout and chain tasks with `dependsOn` there. Each worktree installs its own dependencies and fills the disk.
 - A refusal from one provider is that provider's policy. Route to another.
 - Review delegated output at the same bar as your own.
 - When Oga itself gets in the way, tell the user right away as Oga feedback: what happened, the task id, and what you expected. Examples: a task reported done while its work wasn't finished, a worktree started from a branch that wasn't ready, a watch that missed a settle, a command refused for no clear reason. Offer to delegate the fix in `~/desgn/oga`, and work around it in the meantime.
 
-When you are the worker (given a brief), do the work yourself, return the requested output format, and stop with the one decision you need if blocked. In a worktree, finish with a commit, pushed branch, and PR link.
+When you are the worker (given a brief), do the work yourself: review your own diff at the house bar and fix what you find before reporting. Return the requested output format, and stop with the one decision you need only if the brief leaves it open. Finish with a commit on the working branch; push and open a PR only when the brief says so.
 
 ## Memory
 

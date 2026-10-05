@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+# agy - Run Antigravity CLI, optionally under a separate profile
+#
+# With AGY_PROFILE unset, this runs the real agy unchanged.
+# With AGY_PROFILE=<name>, agy runs with HOME=~/.agy-<name>. That folder
+# mirrors the real home through symlinks, except .gemini and
+# Library/Keychains. agy keeps its login in the login keychain, so hiding the
+# keychain gives the profile its own sign-in, stored in a profile keychain
+# with an empty password so it never prompts. gh keeps its token there too, so
+# that token is passed through GH_TOKEN instead.
+
+# Resolve the account's home from the user database, not $HOME, so a nested
+# run inside a profile still finds the real home.
+eval "real_home=~$(id -un)"
+real_agy="${AGY_BIN:-$real_home/.local/bin/agy}"
+
+if [ -z "$AGY_PROFILE" ]; then
+    exec "$real_agy" "$@"
+fi
+
+profile_home="$real_home/.agy-$AGY_PROFILE"
+
+link_missing() {
+    [ -e "$2" ] || [ -L "$2" ] || ln -s "$1" "$2"
+}
+
+[ -L "$profile_home/Library" ] && rm "$profile_home/Library"
+mkdir -p "$profile_home/.gemini" "$profile_home/Library"
+
+shopt -s dotglob nullglob
+for entry in "$real_home"/*; do
+    name="${entry##*/}"
+    case "$name" in
+        .gemini | .agy-* | Library) continue ;;
+    esac
+    link_missing "$entry" "$profile_home/$name"
+done
+for entry in "$real_home"/Library/*; do
+    [ "${entry##*/}" = Keychains ] && continue
+    link_missing "$entry" "$profile_home/Library/${entry##*/}"
+done
+
+profile_keychain="$profile_home/Library/Keychains/login.keychain-db"
+if [ ! -e "$profile_keychain" ]; then
+    mkdir -p "${profile_keychain%/*}"
+    HOME="$profile_home" security create-keychain -p "" "$profile_keychain"
+fi
+security unlock-keychain -p "" "$profile_keychain"
+security set-keychain-settings "$profile_keychain"
+
+if [ -z "$GH_TOKEN" ] && command -v gh >/dev/null; then
+    GH_TOKEN="$(gh auth token 2>/dev/null)" && export GH_TOKEN
+fi
+
+HOME="$profile_home" exec "$real_agy" "$@"

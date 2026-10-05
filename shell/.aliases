@@ -127,5 +127,8 @@ alias cl-me='CLAUDE_CONFIG_DIR="$HOME/.claude-me" claude --dangerously-skip-perm
 alias continues-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" continues'
 alias continues-me='CLAUDE_CONFIG_DIR="$HOME/.claude-me" continues'
 
+# Antigravity profiles (plain agy stays on the default account)
+alias agy-ps='AGY_PROFILE=ps agy'
+
 # Calculator
 alias _='noglob _calc'

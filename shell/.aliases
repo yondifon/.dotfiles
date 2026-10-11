@@ -122,10 +122,13 @@ alias resync="source ~/.dotfiles/symlinks"
 alias cl='claude --dangerously-skip-permissions'
 alias claude-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" claude'
 alias claude-me='CLAUDE_CONFIG_DIR="$HOME/.claude-me" claude'
+alias claude-ds='CLAUDE_CONFIG_DIR="$HOME/.claude-ds" claude'
 alias cl-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" claude --dangerously-skip-permissions'
 alias cl-me='CLAUDE_CONFIG_DIR="$HOME/.claude-me" claude --dangerously-skip-permissions'
+alias cl-ds='CLAUDE_CONFIG_DIR="$HOME/.claude-ds" claude --dangerously-skip-permissions'
 alias continues-ps='CLAUDE_CONFIG_DIR="$HOME/.claude-work" continues'
 alias continues-me='CLAUDE_CONFIG_DIR="$HOME/.claude-me" continues'
+alias continues-ds='CLAUDE_CONFIG_DIR="$HOME/.claude-ds" continues'
 
 # Antigravity profiles (plain agy stays on the default account)
 alias agy-ps='AGY_PROFILE=ps agy'

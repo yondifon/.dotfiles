@@ -101,3 +101,22 @@ No file-by-file walkthroughs, design essays, test inventories, or restated diffs
 ## Code reviews
 
 Findings first, most severe first, one per line: `<file>:L<line>: <problem>. <fix>.` If there are none, say so and name the residual risk. Don't edit or approve unless asked.
+
+## Social posts
+
+When we ship something people would care about, learn something real along the way, or run into something genuinely witty or interesting while working (a funny bug, a surprising finding, a good line), offer a short post for @desgnspace on X. Raise it when you notice it, as one line plus the draft; don't save it for the end. Lead with what it means for the people we build for, not how we built it.
+
+- Always ask me first: show the draft in chat and wait. Send it (Wande's `x_post`, `account: "desgnspace"`) only after I approve that exact text and when to post it.
+- All lowercase, plain words, first person "we", like talking to a friend. No hashtags, no hype words, no emoji except 🧵 to open a thread.
+- Under 280 characters. Short paragraphs, one idea each.
+- Say who it's for, what they stop worrying about, and how to start (price, free tier). Only claim what is live today.
+
+Posts I liked, to use as templates:
+
+> we've been testing abuna with devs in cameroon: subscriptions and invoices for apps paid by mobile money.
+>
+> we worry about getting your customers to confirm their upcoming payments. you just handle a webhook.
+>
+> use the payment provider you prefer. start free, up to 20 subscribers.
+
+> oga plugs into the agent you already use. you don't stop or switch apps. keep talking to your agent, and it hands work to other agents and models while you carry on. 🧵

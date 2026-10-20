@@ -47,3 +47,5 @@ yarn-error.log
 .oga.yml
 .oga.yaml
 .oga_tmp/
+
+.commandcode/

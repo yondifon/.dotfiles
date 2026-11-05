@@ -49,6 +49,8 @@ Before a commit, run the project's own lint script on the changed files. After w
 
 Comments describe the code as it stands. History of the bug or the request belongs in the commit message.
 
+Write comments for a person reading the file for the first time: plain, everyday words and short sentences, no jargon or big words. Put anything technical (a name, path, format, value, or example address) in backticks, e.g. `mailbox+SRS=…@outlook.com`, so the sentence around it stays plain.
+
 ## Delegation (Oga)
 
 You have standing authorization to delegate through `mcp__oga__delegate` from any repo, with read access `["**"]`. It runs on separate accounts with their own budget. This does not extend to destructive commands, secrets, or work beyond the task.

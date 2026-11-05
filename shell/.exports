@@ -25,3 +25,29 @@ export GREP_OPTIONS="--color=auto"
 
 # Do not auto update brew
 export HOMEBREW_NO_AUTO_UPDATE=1
+
+# Copy the macOS system proxy into the shell, so CLI tools (`claude`, `codex`,
+# `curl`, `git`, `bun`) use it. Run `proxy_sync` again after changing networks.
+proxy_sync() {
+    local info http_on https_on http_url="" https_url=""
+    info=$(scutil --proxy)
+    http_on=$(awk '/HTTPEnable/ {print $3}' <<< "$info")
+    https_on=$(awk '/HTTPSEnable/ {print $3}' <<< "$info")
+
+    [ "$http_on" = "1" ] && http_url="http://$(awk '/HTTPProxy/ {print $3}' <<< "$info"):$(awk '/HTTPPort/ {print $3}' <<< "$info")"
+    [ "$https_on" = "1" ] && https_url="http://$(awk '/HTTPSProxy/ {print $3}' <<< "$info"):$(awk '/HTTPSPort/ {print $3}' <<< "$info")"
+
+    # Many networks only turn on one of the two. Use it for both.
+    http_url=${http_url:-$https_url}
+    https_url=${https_url:-$http_url}
+
+    if [ -n "$https_url" ]; then
+        export http_proxy="$http_url" HTTP_PROXY="$http_url"
+        export https_proxy="$https_url" HTTPS_PROXY="$https_url"
+        export no_proxy="localhost,127.0.0.1,::1,.local,169.254.0.0/16"
+        export NO_PROXY="$no_proxy"
+    else
+        unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY no_proxy NO_PROXY
+    fi
+}
+proxy_sync

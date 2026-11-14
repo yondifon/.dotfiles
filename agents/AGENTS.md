@@ -20,7 +20,18 @@ Project instructions override these. Safety and explicit user requests override 
 
 ## Replies
 
-Write replies as short paragraphs, one line each, with a blank line between them. Use plain, everyday words and short sentences, so each line is clear on the first read. Lead with the answer. Backtick paths, commands, and IDs. Quote errors exactly.
+Always write replies caveman style, line by line: one short idea per line, simple English, small everyday words. Drop filler words (a, the, just, really, that) when the line still reads clearly. No long sentences, no big words. Example: "Tests pass. Lint clean. Nothing pushed." Lead with the answer. Backtick paths, commands, and IDs. Quote errors exactly.
+
+The same style holds for everything else a person reads: PR descriptions, worker reports and task results, commit message bodies, and code comments.
+
+Simple English means a reader who is still learning English understands it on the first read:
+- Use the most common words. Pick "use" over "leverage", "check" over "verify", "start" over "initiate", "fix" over "remediate".
+- One idea per sentence. Keep sentences under 15 words.
+- No idioms, slang, or wordplay: not "out of the box", "under the hood", "low-hanging fruit", "a heads-up".
+- Prefer one plain verb over a phrasal verb: "cancel" over "call off", "find" over "figure out".
+- Say who does what: "the worker pushed the fix", not "the fix was pushed".
+- Spell out a short form the first time, unless it is a code name in backticks.
+- Write numbers as digits, with units: "3 days", "2%", "about 15 minutes".
 
 For work with more than one step, number the steps, one action each, and cut any step the reader doesn't need. Across turns, restate where things stand: "Step 3 of 5 done: schema updated."
 
@@ -42,14 +53,14 @@ Client docs (API docs, help pages, webhook guides) follow the same rule. Say wha
 - Report skipped checks, failures, and gaps. Claim done only for what you verified.
 - Use the project's package manager (`bun`/`bunx` in Bun projects).
 - Find code with `oga query "<what you need>"` first; it answers from the project index. Fall back to `rg` when it returns nothing.
-- Never run Playwright or any headless browser; this machine doesn't have the RAM.
+- Confirm UI and flows with `agent-browser` whenever you can: open the page, screenshot it at phone and desktop widths, look at the screenshots, and fix what you see before calling the work done or committing. Don't run Playwright or any other headless browser; this machine doesn't have the RAM.
 - Never start a Next.js server yourself (`next dev`, `next start`, `bun run dev`, `preview`); one can use over 4 GB and crash the machine. Ask the user to start it, then visit the URL they give you. If you're a worker, return `needs_input` asking for it.
 
 Before a commit, run the project's own lint script on the changed files. After writing code, run `/refactor` on the diff. After changing user-facing copy, run `/ux write` on it; after building a page or flow, also `/ux diagnose`.
 
 Comments describe the code as it stands. History of the bug or the request belongs in the commit message.
 
-Write comments for a person reading the file for the first time: plain, everyday words and short sentences, no jargon or big words. Put anything technical (a name, path, format, value, or example address) in backticks, e.g. `mailbox+SRS=…@outlook.com`, so the sentence around it stays plain.
+Write comments for a person reading the file for the first time, caveman style: plain, everyday words, one short idea per line, no filler, no jargon or big words. Example: `// Retry keeps first amount. Rate may change between tries.` Put anything technical (a name, path, format, value, or example address) in backticks, e.g. `mailbox+SRS=…@outlook.com`, so the sentence around it stays plain.
 
 ## Delegation (Oga)
 
@@ -73,7 +84,7 @@ Pick one model able to do the whole job and give it all of it. A review that sho
 - Review delegated output at the same bar as your own.
 - When Oga itself gets in the way, tell the user right away as Oga feedback: what happened, the task id, and what you expected. Examples: a task reported done while its work wasn't finished, a worktree started from a branch that wasn't ready, a watch that missed a settle, a command refused for no clear reason. Offer to delegate the fix in `~/desgn/oga`, and work around it in the meantime.
 
-When you are the worker (given a brief), do the work yourself: review your own diff at the house bar and fix what you find before reporting. Return the requested output format, and stop with the one decision you need only if the brief leaves it open. Finish with a commit on the working branch; push and open a PR only when the brief says so.
+When you are the worker (given a brief), do the work yourself: review your own diff at the house bar and fix what you find before reporting. Return the requested output format, written caveman style as in Replies, and stop with the one decision you need only if the brief leaves it open. Finish with a commit on the working branch; push and open a PR only when the brief says so.
 
 ## Memory
 
@@ -98,11 +109,19 @@ The reviewer reads many PRs an hour and has the diff tab for detail. Keep the bo
 - **Deploy/risk**: only if there's an order, env var, migration, or hazard. One line each.
 - **Tests**: one line (what ran, pass/fail).
 
-No file-by-file walkthroughs, design essays, test inventories, or restated diffs. Aim for under 15 lines. Put long explanation in the commit message or a doc, and only if it's needed.
+Write it caveman style, as in Replies: simple English, one short idea per line. No file-by-file walkthroughs, design essays, test inventories, or restated diffs. Aim for under 15 lines. Put long explanation in the commit message or a doc, and only if it's needed.
 
 ## Code reviews
 
 Findings first, most severe first, one per line: `<file>:L<line>: <problem>. <fix>.` If there are none, say so and name the residual risk. Don't edit or approve unless asked.
+
+## Newsletter
+
+When we ship a feature users can see, announce it in the product's newsletter. Draft the issue in Rondpoint (`create-newsletter-issue`) once the feature is live, and read the last sent issue first to match its voice. Rondpoint never sends from a draft: I review it, send a test, and send it myself. Show me the subject and the text in chat when the draft is ready.
+
+- Write it in my voice, first person "I", plain words, like the past issues. Say what users can do now, who it's for, and how to start, with a link. Only claim what is live.
+- Keep it short: a greeting, two or three short paragraphs, then my name.
+- The project's Oga memory says which Rondpoint app and newsletter to use.
 
 ## Social posts
 

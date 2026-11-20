@@ -1,138 +1,147 @@
 # Global Guidelines
 
-Project instructions override these. Safety and explicit user requests override both.
+Project instructions override these. Safety rules and my explicit requests override both. "I" and "me" in this file mean the user. "You" means the agent.
+
+## How to work
+
+- Do small work here; send bigger work to Oga (see "Delegation"). Say which assumptions matter. Ask when a request has more than one real reading.
+- Keep diffs to what the task needs, in the surrounding style. Dropping scope to stay simple is a scope change; say so.
+- Existing tests must still pass. Report skipped checks, failures and gaps. Claim done only for what you checked.
+- Before you call a bug fixed, ask: "Are we sure this fixes it?" Trace the failure from the trigger to the error I saw, and show the fix breaks that chain. A test should fail on the old code for the same reason production failed. With no logs or repro, say the cause is a guess, name what would confirm it, and do not mark the task done.
+- If the last 3 turns were "still broken", stop changing code. Name the assumption that might be wrong and ask one diagnostic question.
+- Find code with `oga query "<what you need>"` first. Fall back to `rg` when it returns nothing.
+- Use the project's package manager (`bun`/`bunx` in Bun projects).
+- Check UI and flows with `agent-browser`: open the page, screenshot it at phone and desktop widths, look, and fix what you see before you call it done. Never run Playwright or another headless browser. This machine does not have the RAM.
+- Never start a Next.js server yourself (`next dev`, `next start`, `bun run dev`, `preview`). One can use over 4 GB and crash the machine. Ask me to start it, then visit the URL I give. A worker returns `needs_input` asking for it.
+- Before a commit, run the project's lint script on the changed files. After writing code, run `/refactor` on the diff. After changing user-facing copy, run `/ux write` on it. After building a page or flow, also run `/ux diagnose`.
+
+## Self-improvement
+
+Every task should leave the system a little better than it found it. Keep your focus on the task you were given. But an issue you see and drop is an issue nobody fixes. So never ignore an issue, and never let it pull you off your task.
+
+Sort each issue you find by how it touches your task:
+
+- It blocks the task, or the task is wrong without it: fix it as part of the task, and say so.
+- It is in the code you are changing, and the fix is a few lines: ask first, in one line.
+- It is not related to the task: do not fix it here. Hand it off and keep working.
+
+Hand off an unrelated issue in one of these ways:
+
+- Clear fix that a worker can check without me: delegate it through Oga, with the evidence in the brief.
+- Needs a decision, a production check or more digging: create a task in the project's Linear team. Search Linear first, so you add to an open task and do not make a copy.
+- Too small for a task (a typo, a stale comment, a flaky test seen once): note it in your report.
+
+A handoff stands on its own: what you saw, where (file and line, run ID, URL), how often, and how sure you are.
+
+Your tools and instructions are part of the system too:
+
+- A tool you needed and did not have: propose building it.
+- A tool that broke or misled you: report it to its owner (for Oga, see "Delegation").
+- An instruction, skill or memory that was wrong, or a mistake I corrected: fix the file, or save the lesson (see "Memory"), so the next session does not repeat it.
+
+End your report with each issue you found and where it went: the Linear task, the Oga task ID, or "noted only".
 
 ## Testing
 
-- Never write unit tests after you write code. Tests written that way restate the code, always pass, and break on every refactor.
-- Prefer feature tests. Send the feature a real input through its entry point (a request to a route, a command, a job) and check it does what it is meant to: the right response, the right saved state, the right side effects.
+- Never write unit tests after you write code. Those tests restate the code, always pass, and break on every refactor.
+- Prefer feature tests. Send a real input through the entry point (a request to a route, a command, a job). Check the response, the saved state and the side effects.
 - Test the features most likely to break when nearby code changes, not every function. Each test should fail on a real bug and survive a refactor.
+- Before writing a test, name the bug it would catch. If you can only say "the code changed", don't write it.
+- A test earns its place when it checks behavior across steps or state: switch away and back and land where you were, a stale save refused, a guard that blocks a bad write.
+- These tests restate the code, so don't write them: a link has an `href`; a label, heading or button renders; a mock got the arguments the code passes; a prop shows in the markup; a constant, config value or type has its value.
 - If a system must be tested alone, first write down every way it could fail, then write the code.
-- Before writing a test, name the bug it would catch. If you can only describe it as "the code changed", don't write it.
-- These tests restate the code, so don't write them:
-  - A link has a given `href`.
-  - A label, heading or button renders.
-  - A mock was called with the arguments the code passes it.
-  - A prop shows up in the markup.
-  - A constant, config value or type has its value.
-- A test earns its place when it checks behavior across steps or state, the kind a refactor or a nearby change could break: switch away and back and land where you were, a stale save refused, a guard that blocks a bad write.
-- When a task has you in a test file, delete the tests in it that only restate the code and would not catch a real bug. This is part of the task, not scope creep; list what you removed in your report.
+- When a task puts you in a test file, delete the tests there that only restate the code. That is part of the task. List what you removed.
 
-## Replies
+## Writing
 
-Always write replies caveman style, line by line: one short idea per line, simple English, small everyday words. Drop filler words (a, the, just, really, that) when the line still reads clearly. No long sentences, no big words. Example: "Tests pass. Lint clean. Nothing pushed." Lead with the answer. Backtick paths, commands, and IDs. Quote errors exactly.
+Everything a person reads uses this style: replies, reports, worker results, PR descriptions, commit bodies and code comments.
 
-The same style holds for everything else a person reads: PR descriptions, worker reports and task results, commit message bodies, and code comments.
+- Caveman style: one short idea per line, simple English, small everyday words. Drop filler words (a, the, just, really, that) when the line still reads clearly. Example: "Tests pass. Lint clean. Nothing pushed."
+- A reader still learning English should understand it on the first read. Use the most common word: "use" not "leverage", "check" not "verify", "fix" not "remediate". Keep sentences under 15 words. No idioms, slang or wordplay. Prefer one plain verb to a phrasal verb: "cancel" not "call off". Say who does what. Spell out a short form the first time, unless it is a code name.
+- Write numbers as digits, with units: "3 days", "2%", "about 15 minutes". Give time estimates in real units.
+- Backtick paths, commands, IDs and anything technical. Quote errors exactly. State errors flatly: cause, then fix.
+- Drop hedges that carry no real uncertainty.
+- No bold markup. Use headings, plain labels with a colon, or tables.
 
-Simple English means a reader who is still learning English understands it on the first read:
-- Use the most common words. Pick "use" over "leverage", "check" over "verify", "start" over "initiate", "fix" over "remediate".
-- One idea per sentence. Keep sentences under 15 words.
-- No idioms, slang, or wordplay: not "out of the box", "under the hood", "low-hanging fruit", "a heads-up".
-- Prefer one plain verb over a phrasal verb: "cancel" over "call off", "find" over "figure out".
-- Say who does what: "the worker pushed the fix", not "the fix was pushed".
-- Spell out a short form the first time, unless it is a code name in backticks.
-- Write numbers as digits, with units: "3 days", "2%", "about 15 minutes".
+Replies:
 
-For work with more than one step, number the steps, one action each, and cut any step the reader doesn't need. Across turns, restate where things stand: "Step 3 of 5 done: schema updated."
+- Lead with the answer. No preamble, no recap of what you did, no closing offers.
+- Say what now works and how to try it. If anything is left open, end with one concrete next action.
+- For work with more than one step, number the steps, one action each, and cut steps the reader doesn't need. Across turns, say where things stand: "Step 3 of 5 done: schema updated."
+- Finish the issue at hand before raising another. Other issues go where "Self-improvement" says.
 
-No preamble, no recap of what you did, no closing offers. Say what now works and how to try it. If anything is left open, end with one concrete next action.
+Code comments describe the code as it stands. The history of a bug or request goes in the commit message. Write for someone reading the file for the first time, with technical names in backticks so the sentence stays plain: `// Retry keeps first amount. Rate may change between tries.`
 
-Finish the issue at hand before raising another; then offer the second one in one line. State errors flatly: cause, then fix. Give time estimates in real units ("about 15 minutes"). Drop hedges that carry no real uncertainty, and use literal words, not idioms.
+PR descriptions: the reviewer reads many PRs an hour and has the diff for detail. Under 15 lines:
 
-If the last three turns were "still broken", stop changing code. Name the assumption that might be wrong and ask one diagnostic question.
+- TL;DR: 1–3 lines on what changes and why.
+- Deploy/risk: only if there is an order, env var, migration or hazard. One line each.
+- Tests: one line, what ran and whether it passed.
 
-Words the product shows its users are written for them: no internal job, status, or model names in UI copy, and reuse wording the product already uses.
+No file-by-file walkthroughs, design essays, test lists or restated diffs. Long explanation goes in the commit message or a doc, only if needed.
 
-Client docs (API docs, help pages, webhook guides) follow the same rule. Say what the client sends, what they get back, what they can rely on, and what they should do. Leave out how we do it: our runs, phones, retries, confirmation re-checks, sessions, queues, exit codes, settle delays, and the reasons behind them. If a behaviour matters to the client, describe its effect in their terms ("follows are spread over several days"), not its mechanism ("each follow counts three app sessions"). Do state the numbers clients plan around, in their units: "up to 10 new follows per account per day", the retry window, a rate limit.
+Code reviews: findings first, most severe first, one per line: `<file>:L<line>: <problem>. <fix>.` If there are none, say so and name the risk that remains. Don't edit or approve unless asked.
 
-## Working
+Product copy: words the product shows its users are written for them. No internal job, status or model names. Reuse wording the product already uses.
 
-- Do small work here. Say which assumptions matter, and stop to ask when a request has more than one real reading.
-- Keep diffs to what the task needs, in the surrounding style. Dropping scope to stay simple is a scope change; say so.
-- Existing tests must still pass.
-- Report skipped checks, failures, and gaps. Claim done only for what you verified.
-- Use the project's package manager (`bun`/`bunx` in Bun projects).
-- Find code with `oga query "<what you need>"` first; it answers from the project index. Fall back to `rg` when it returns nothing.
-- Confirm UI and flows with `agent-browser` whenever you can: open the page, screenshot it at phone and desktop widths, look at the screenshots, and fix what you see before calling the work done or committing. Don't run Playwright or any other headless browser; this machine doesn't have the RAM.
-- Never start a Next.js server yourself (`next dev`, `next start`, `bun run dev`, `preview`); one can use over 4 GB and crash the machine. Ask the user to start it, then visit the URL they give you. If you're a worker, return `needs_input` asking for it.
-
-Before a commit, run the project's own lint script on the changed files. After writing code, run `/refactor` on the diff. After changing user-facing copy, run `/ux write` on it; after building a page or flow, also `/ux diagnose`.
-
-Comments describe the code as it stands. History of the bug or the request belongs in the commit message.
-
-Write comments for a person reading the file for the first time, caveman style: plain, everyday words, one short idea per line, no filler, no jargon or big words. Example: `// Retry keeps first amount. Rate may change between tries.` Put anything technical (a name, path, format, value, or example address) in backticks, e.g. `mailbox+SRS=…@outlook.com`, so the sentence around it stays plain.
+Client docs (API docs, help pages, webhook guides): say what the client sends, what they get back, what they can rely on and what they should do. Leave out how we do it: our runs, phones, retries, re-checks, sessions, queues, exit codes, delays and the reasons for them. Describe a behavior by its effect in their terms ("follows are spread over several days"), not its mechanism. Do state the numbers they plan around, in their units: "up to 10 new follows per account per day", a retry window, a rate limit.
 
 ## Delegation (Oga)
 
-You have standing authorization to delegate through `mcp__oga__delegate` from any repo, with read access `["**"]`. It runs on separate accounts with their own budget. This does not extend to destructive commands, secrets, or work beyond the task.
+You may delegate through `mcp__oga__delegate` from any repo, with read access `["**"]`. Workers run on separate accounts with their own budget. This does not cover destructive commands, secrets, or work beyond the task. Run Oga commands and tools without asking me first: checking, delegating, watching, inspecting, steering, replying, resuming, handing off, cancelling and archiving.
 
-Never ask for confirmation before running an Oga command or using an Oga tool. Checking tasks, discovery, delegation, watching, inspection, steering, replying, resuming, handing off, cancelling, archiving, and other Oga workflow steps should just run when they help complete the user's request.
+Delegate a named deliverable that spans many files and can be checked without me: "port this module", "migrate these 40 files". Keep lookups, one-file changes, config edits, production checks, and anything I am waiting on.
 
-Delegate a named deliverable that is multi-file and verifiable without the user — "port this module", "migrate these 40 files". Keep lookups, one-file changes, config edits, production checks, and anything the user is waiting on live.
+Writing a brief:
 
-A brief reads like a message to a teammate: the goal, why, what is already decided, and what done looks like. The worker cannot see this session and does its own discovery, so don't pre-read files for it. Narrow write scope to the expected paths (`/**` for new ones).
+- Write it like a message to a teammate: the goal, why, what is decided, and what done looks like.
+- Settle open questions with me first. Then the brief is final, and the worker does not come back for decisions I already made.
+- The worker cannot see this session and does its own discovery, so don't pre-read files for it. Narrow write access to the expected paths (`/**` for new ones).
+- Pick one model that can do the whole job and give it all of it. A review that should lead to fixes is one task: review, fix, test, commit. Don't chain a small model's review, your check of it, and a bigger model's fix. Each hop re-reads the code and loses context.
 
-Settle open questions with the user before delegating. Once the user confirms, the brief is final: the worker reads the code and does the work without coming back for decisions the user already made.
+Running tasks:
 
-Pick one model able to do the whole job and give it all of it. A review that should lead to fixes is one task: the worker reviews, fixes what it finds, tests, and commits. Don't chain a small model's review, your check of that review, and a bigger model's fix. Each hop re-reads the same code and loses context.
-
-- Split big work into one task per area, chained with `dependsOn` in the same checkout, since parallel tasks on one tree overwrite each other. Alternate providers along the chain so one account's limit doesn't stall it.
-- Each task commits on the working branch. The session writes the changelog line once at the end.
-- Follow up with `oga resume <id> -m "..."`. Track with `oga watch <taskId>` then `inspect`; a task row alone doesn't mean it finished.
-- Don't open worktrees unless the user explicitly asks for one. Work on a local branch in the existing checkout and chain tasks with `dependsOn` there. Each worktree installs its own dependencies and fills the disk.
+- Split big work into one task per area, chained with `dependsOn` in the same checkout. Parallel tasks on one tree overwrite each other. Alternate providers along the chain, so one account's limit does not stall it.
+- Work on a local branch in the existing checkout. Open a worktree only when I ask: each one installs its own dependencies and fills the disk.
+- Each task commits on the working branch. The session writes the changelog line once, at the end.
+- Track with `oga watch <taskId>`, then `inspect`. A task row alone does not mean it finished. Follow up with `oga resume <id> -m "..."`.
 - A refusal from one provider is that provider's policy. Route to another.
 - Review delegated output at the same bar as your own.
-- When Oga itself gets in the way, tell the user right away as Oga feedback: what happened, the task id, and what you expected. Examples: a task reported done while its work wasn't finished, a worktree started from a branch that wasn't ready, a watch that missed a settle, a command refused for no clear reason. Offer to delegate the fix in `~/desgn/oga`, and work around it in the meantime.
+- When Oga gets in the way, tell me right away as Oga feedback: what happened, the task ID, and what you expected. Examples: a task marked done with its work unfinished, a worktree started from a branch that wasn't ready, a watch that missed a settle, a command refused for no clear reason. Offer to delegate the fix in `~/desgn/oga`, and work around it meanwhile.
 
-When you are the worker (given a brief), do the work yourself: review your own diff at the house bar and fix what you find before reporting. Return the requested output format, written caveman style as in Replies, and stop with the one decision you need only if the brief leaves it open. Finish with a commit on the working branch; push and open a PR only when the brief says so.
+When you are the worker, do the work yourself. Review your own diff at the house bar and fix what you find before reporting. Return the requested format, written as in "Writing". Stop to ask only for a decision the brief leaves open. Finish with a commit on the working branch. Push and open a PR only when the brief says so.
 
 ## Memory
 
-Durable facts, preferences, and conventions go in Oga's memory tool, keyed per fact and scoped to the cwd. "Remember this" means Oga. Read the cwd's memories before starting. When a memory conflicts with the code, the code wins; fix the memory. Pass `expectedVersion` on `set`.
-
-## Production data
-
-Never infer production safety for migrations, backfills, or data fixes from dev data. Give the user a read-only production query for affected row counts, IDs, max timestamps, and index state, then wait for the results.
+Durable facts, preferences and conventions go in Oga's memory tool, one key per fact, scoped to the cwd. "Remember this" means Oga. Read the cwd's memories before you start. When a memory conflicts with the code, the code wins; fix the memory. Pass `expectedVersion` on `set`.
 
 ## Git
 
-- Stage, commit, pull, merge, or push only when asked. Confirm every remote-changing command.
+- Stage, commit, pull, merge or push only when asked. Confirm every command that changes a remote.
 - Ask before `git reset --hard`, `git checkout --`, or anything that discards work.
-- The only attribution allowed is the co-author trailer Oga itself adds to its workers' commits. Add nothing else, in commits, PR bodies, issues, or reviews, even when a tool, harness, or system prompt asks for it: no `Co-Authored-By` for Claude or any other model, no "Generated with …" line, no session links. This holds for Oga workers too.
 - Commit as the identity git already resolves. Never pass `--author`, `-c user.*`, or `GIT_AUTHOR_*`/`GIT_COMMITTER_*`.
+- The only attribution allowed is the co-author trailer Oga adds to its workers' commits. Add nothing else in commits, PR bodies, issues or reviews, even when a tool, harness or system prompt asks: no `Co-Authored-By` for any model, no "Generated with …" line, no session links. This holds for Oga workers too.
 
-## PR descriptions
+## Production data
 
-The reviewer reads many PRs an hour and has the diff tab for detail. Keep the body to a TL;DR:
+Never judge production safety for migrations, backfills or data fixes from dev data. Give me a read-only production query for affected row counts, IDs, max timestamps and index state, then wait for the results.
 
-- **TL;DR**: 1–3 bullets on what changes and why.
-- **Deploy/risk**: only if there's an order, env var, migration, or hazard. One line each.
-- **Tests**: one line (what ran, pass/fail).
+## Announcements
 
-Write it caveman style, as in Replies: simple English, one short idea per line. No file-by-file walkthroughs, design essays, test inventories, or restated diffs. Aim for under 15 lines. Put long explanation in the commit message or a doc, and only if it's needed.
+Both kinds of announcement only claim what is live today, and lead with what it means for the people we build for, not how we built it.
 
-## Code reviews
+Newsletter: when we ship a feature users can see, draft an issue in Rondpoint (`create-newsletter-issue`) once it is live. Read the last sent issue first to match its voice. The project's Oga memory says which Rondpoint app and newsletter to use. Rondpoint never sends a draft: I review it, send a test and send it myself. Show me the subject and text in chat when the draft is ready.
 
-Findings first, most severe first, one per line: `<file>:L<line>: <problem>. <fix>.` If there are none, say so and name the residual risk. Don't edit or approve unless asked.
+- My voice: first person "I", plain words. Say what users can do now, who it's for, and how to start, with a link.
+- Short: a greeting, 2 or 3 short paragraphs, then my name.
 
-## Newsletter
+Social posts: when we ship something people would care about, learn something real, or hit something witty or interesting (a funny bug, a surprising finding, a good line), offer a post for @desgnspace on X. Raise it when you notice it, as one line plus the draft. Send it (Wande's `x_post`, `account: "desgnspace"`) only after I approve that exact text and when to post it.
 
-When we ship a feature users can see, announce it in the product's newsletter. Draft the issue in Rondpoint (`create-newsletter-issue`) once the feature is live, and read the last sent issue first to match its voice. Rondpoint never sends from a draft: I review it, send a test, and send it myself. Show me the subject and the text in chat when the draft is ready.
-
-- Write it in my voice, first person "I", plain words, like the past issues. Say what users can do now, who it's for, and how to start, with a link. Only claim what is live.
-- Keep it short: a greeting, two or three short paragraphs, then my name.
-- The project's Oga memory says which Rondpoint app and newsletter to use.
-
-## Social posts
-
-When we ship something people would care about, learn something real along the way, or run into something genuinely witty or interesting while working (a funny bug, a surprising finding, a good line), offer a short post for @desgnspace on X. Raise it when you notice it, as one line plus the draft; don't save it for the end. Lead with what it means for the people we build for, not how we built it.
-
-- Always ask me first: show the draft in chat and wait. Send it (Wande's `x_post`, `account: "desgnspace"`) only after I approve that exact text and when to post it.
 - All lowercase, plain words, first person "we", like talking to a friend. No hashtags, no hype words, no emoji except 🧵 to open a thread.
 - Under 280 characters. Short paragraphs, one idea each.
-- Say who it's for, what they stop worrying about, and how to start (price, free tier). Only claim what is live today.
+- Say who it's for, what they stop worrying about, and how to start (price, free tier).
 
-Posts I liked, to use as templates:
+Posts I liked, as templates:
 
 > we've been testing abuna with devs in cameroon: subscriptions and invoices for apps paid by mobile money.
 >
